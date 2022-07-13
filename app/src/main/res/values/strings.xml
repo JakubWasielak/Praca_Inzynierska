@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Praca_Inzynierska</string>
+
+    <string name="class_selection">Wybierz klase</string>
+
+    <string-array name="Departure_airport_shortcut">
+        <item>WAW</item>
+        <item>PRG</item>
+        <item>CDG</item>
+        <item>ATH</item>
+        <item>MAD</item>
+    </string-array>
+    <string-array name="Departure_city">
+        <item>Warszawa</item>
+        <item>Praga</item>
+        <item>Paryż</item>
+        <item>Ateny</item>
+        <item>Madryt</item>
+    </string-array>
+
+    <string-array name="Arrival_airport_shortcut">
+        <item>ZRH</item>
+        <item>AMS</item>
+        <item>NRT</item>
+        <item>YOW</item>
+        <item>OSL</item>
+    </string-array>
+    <string-array name="Arrival_city">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Duration_of_flight">
+        <item>2:30m</item>
+        <item>1:10m</item>
+        <item>4:05m</item>
+        <item>1:04m</item>
+        <item>2:15m</item>
+    </string-array>
+    <string-array name="Flight_date">
+        <item>25 maja, </item>
+        <item>14 marca, </item>
+        <item>23 grudnia, </item>
+        <item>01 maja, </item>
+        <item>11 listopada, </item>
+    </string-array>
+    <string-array name="Flight_time">
+        <item>18:17</item>
+        <item>19:30</item>
+        <item>20:23</item>
+        <item>23:44</item>
+        <item>01:15</item>
+    </string-array>
+    <string-array name="Flight_number">
+        <item>BH123</item>
+        <item>NWM213</item>
+        <item>GNR211</item>
+        <item>LOL231</item>
+        <item>WDB211</item>
+    </string-array>
+
+
+    <string-array name="days_of_the_week">
+        <item>Pon</item>
+        <item>Wto</item>
+        <item>Śro</item>
+        <item>Czw</item>
+        <item>Pią</item>
+        <item>Sob</item>
+        <item>Nie</item>
+    </string-array>
+    <string-array name="days_of_the_week_number">
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+
+</resources>
