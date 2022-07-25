@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchResultsActivity">
+    tools:context=".SearchResultsActivity"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imageView"
@@ -19,7 +20,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="150dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/bg_add_ticked"
+        app:srcCompat="@drawable/bg_mainactivity"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
@@ -264,7 +265,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/go_to_search_results_btn"
+        android:id="@+id/go_to_choice_seat_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

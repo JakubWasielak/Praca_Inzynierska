@@ -16,7 +16,8 @@ import java.util.Objects;
 
 public class SearchResultsActivity extends AppCompatActivity {
     TextView Lot_tab;
-    ImageButton Imagebutton_return;
+    ImageButton Imagebutton_return, Imagebutton_go_to_choice_seat ;
+
 
     RecyclerView Weekly_calendar, Flights_found;
     String[] Day_name;
@@ -66,6 +67,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         Imagebutton_return = findViewById(R.id.back_to_Lot_ImageButton);
         Lot_tab = findViewById(R.id.back_to_Lot_TextView);
+        Imagebutton_go_to_choice_seat = findViewById(R.id.go_to_choice_seat_btn);
 
         Imagebutton_return.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +82,20 @@ public class SearchResultsActivity extends AppCompatActivity {
                 backAddingTicketActivity();
             }
         });
-
+        Imagebutton_go_to_choice_seat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToChoiceOfSeatActivity();
+            }
+        });
 
     }
     public void backAddingTicketActivity() {
         Intent intent = new Intent(this, AddingTicketActivity.class);
+        startActivity(intent);
+    }
+    public void goToChoiceOfSeatActivity() {
+        Intent intent = new Intent(this, ChoiceOfSeatActivity.class);
         startActivity(intent);
     }
 }
