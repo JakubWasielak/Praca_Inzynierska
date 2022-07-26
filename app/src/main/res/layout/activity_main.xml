@@ -94,7 +94,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/btn_add_ticked"
+        android:background="@drawable/custom_background_buttton_add_ticket"
         tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
