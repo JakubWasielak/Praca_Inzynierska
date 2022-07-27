@@ -26,11 +26,11 @@
         <item>OSL</item>
     </string-array>
     <string-array name="Arrival_city">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>ZRH</item>
+        <item>AMS</item>
+        <item>NRT</item>
+        <item>YOW</item>
+        <item>OSL</item>
     </string-array>
 
     <string-array name="Duration_of_flight">
@@ -60,26 +60,6 @@
         <item>GNR211</item>
         <item>LOL231</item>
         <item>WDB211</item>
-    </string-array>
-
-
-    <string-array name="days_of_the_week">
-        <item>Pon</item>
-        <item>Wto</item>
-        <item>Śro</item>
-        <item>Czw</item>
-        <item>Pią</item>
-        <item>Sob</item>
-        <item>Nie</item>
-    </string-array>
-    <string-array name="days_of_the_week_number">
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
-        <item>18</item>
     </string-array>
 
 </resources>

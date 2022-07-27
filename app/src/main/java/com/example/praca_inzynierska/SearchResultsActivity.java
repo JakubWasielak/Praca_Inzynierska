@@ -1,10 +1,14 @@
 package com.example.praca_inzynierska;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,16 +16,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Objects;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class SearchResultsActivity extends AppCompatActivity {
     TextView Lot_tab;
     ImageButton Imagebutton_return, Imagebutton_go_to_choice_seat ;
-
-
     RecyclerView Weekly_calendar, Flights_found;
-    String[] Day_name;
-    String[] Day_number;
+
     String[] Departure_airport_shortcut;
     String[] Departure_city;
     String[] Arrival_airport_shortcut;
@@ -30,6 +35,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     String[] Flight_date;
     String[] Flight_time;
     String[] Flight_number;
+
+    LocalDate selectedDate = LocalDate.of(2022,8,03);
+    ArrayList<String> NumberOfdays = new ArrayList<>();
+    ArrayList<String> NameOfdays = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +50,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         //Przykładowe dane do czasu przejscia na baze danych
 // ------------------------------------------------------------------------------------------------------
         Weekly_calendar = findViewById(R.id.Weekly_calendar_RecyclerView);
-        Day_name = getResources().getStringArray(R.array.days_of_the_week);
-        Day_number = getResources().getStringArray(R.array.days_of_the_week_number);
+        ArrayList<String> dayNumberView = numberDayToView(selectedDate);
+        ArrayList<String> dayNameView = nameDayToView(selectedDate);
 
         Flights_found = findViewById(R.id.Found_flights_RecyclerView);
         Departure_airport_shortcut = getResources().getStringArray(R.array.Departure_airport_shortcut);
@@ -55,7 +64,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Flight_number = getResources().getStringArray(R.array.Flight_number);
 //------------------------------------------------------------------------------------------------------
 
-        ShowWeeklyCalendarAdapter search1 = new ShowWeeklyCalendarAdapter(this,Day_name,Day_number);
+        ShowWeeklyCalendarAdapter search1 = new ShowWeeklyCalendarAdapter(this,dayNameView,dayNumberView);
         Weekly_calendar.setAdapter(search1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(SearchResultsActivity.this,LinearLayoutManager.HORIZONTAL,false);
         Weekly_calendar.setLayoutManager(layoutManager);
@@ -94,8 +103,122 @@ public class SearchResultsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddingTicketActivity.class);
         startActivity(intent);
     }
+
     public void goToChoiceOfSeatActivity() {
         Intent intent = new Intent(this, ChoiceOfSeatActivity.class);
         startActivity(intent);
+    }
+
+    private static ArrayList<String> numberDayToView(LocalDate selecteddate)
+    {
+        ArrayList<String> NumberOfdays = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        int daysBetween = (int) DAYS.between(today, selecteddate);
+
+        if(!selecteddate.equals(today))
+        {
+            if(daysBetween<7)
+            {
+                int j =daysBetween-1;
+                for(int i=0;i<daysBetween;i++)
+                {
+
+                    NumberOfdays.add(String.valueOf(selecteddate.minusDays(j).getDayOfMonth()));
+                    j--;
+                }
+                for(int i=1;i<=7;i++)
+                {
+                    NumberOfdays.add(String.valueOf(selecteddate.plusDays(i).getDayOfMonth()));
+                }
+            }
+            else {
+                int j =6;
+                for(int i=0;i<7;i++)
+                {
+                    NumberOfdays.add(String.valueOf(selecteddate.minusDays(j).getDayOfMonth()));
+                    j--;
+                }
+                for(int i=1;i<=7;i++)
+                {
+                    NumberOfdays.add(String.valueOf(selecteddate.plusDays(i).getDayOfMonth()));
+                }
+            }
+        }
+        else
+        {
+            for(int i=0;i<=14;i++)
+            {
+                NumberOfdays.add(String.valueOf(selecteddate.plusDays(i).getDayOfMonth()));
+            }
+        }
+
+        return NumberOfdays;
+    }
+    private static ArrayList<String> nameDayToView(LocalDate selecteddate)
+    {
+        ArrayList<String> NameOfdays = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+        int daysBetween = (int) DAYS.between(today, selecteddate);
+
+        if(!selecteddate.equals(today))
+        {
+            if(daysBetween<7)
+            {
+                int j =daysBetween-1;
+                for(int i=0;i<daysBetween;i++)
+                {
+                    NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(j)));
+                    j--;
+                }
+                for(int i=1;i<=7;i++)
+                {
+                    NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(i)));
+                }
+            }
+            else {
+                int j =6;
+                for(int i=0;i<7;i++)
+                {
+                    NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(j)));
+                    j--;
+                }
+                for(int i=1;i<=7;i++)
+                {
+                    NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(i)));
+                }
+            }
+        }
+        else
+        {
+            for(int i=0;i<=14;i++)
+            {
+                NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(i)));
+            }
+        }
+
+        return NameOfdays;
+    }
+    private static String nameDayOfWeek(LocalDate selecteddate)
+    {
+        switch (String.valueOf(selecteddate.getDayOfWeek())) {
+            case "MONDAY":
+                return "Pon";
+            case "TUESDAY":
+                return "Wto";
+            case "WEDNESDAY":
+                return "Śro";
+            case "THURSDAY":
+                return "Czw";
+            case "FRIDAY":
+                return "Pią";
+            case "SATURDAY":
+                return "Sob";
+            case "SUNDAY":
+                return "Nie";
+            default:
+                System.out.println("Błąd!!");
+        }
+        return null;
     }
 }

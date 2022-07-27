@@ -8,15 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class ShowWeeklyCalendarAdapter extends RecyclerView.Adapter<ShowWeeklyCalendarAdapter.ShowWeeklyCalendarAdapterHolder>{
     Context context;
-    String[] Day;
-    String[] Number;
+    ArrayList<String> Day;
+    ArrayList<String> Number;
 
-    public ShowWeeklyCalendarAdapter(Context ct, String[] Day_of_week, String[] Number_of_day) {
+    public ShowWeeklyCalendarAdapter(Context ct, ArrayList<String> day, ArrayList<String> number) {
         context = ct;
-        Day = Day_of_week;
-        Number = Number_of_day;
+        Day=day;
+        Number = number;
     }
 
     @NonNull
@@ -24,21 +26,21 @@ public class ShowWeeklyCalendarAdapter extends RecyclerView.Adapter<ShowWeeklyCa
     public ShowWeeklyCalendarAdapter.ShowWeeklyCalendarAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.flip_calendar,parent,false);
-        return new ShowWeeklyCalendarAdapter.ShowWeeklyCalendarAdapterHolder(view);
+        return new ShowWeeklyCalendarAdapterHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ShowWeeklyCalendarAdapterHolder holder, int position) {
-        holder.Day_name.setText(Day[position]);
-        holder.Day_number.setText(Number[position]);
+        holder.Day_name.setText(Day.get(position));
+        holder.Day_number.setText(Number.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return Number.size();
     }
 
-    public class ShowWeeklyCalendarAdapterHolder extends RecyclerView.ViewHolder {
+    public static class ShowWeeklyCalendarAdapterHolder extends RecyclerView.ViewHolder {
 
         TextView Day_name, Day_number;
 

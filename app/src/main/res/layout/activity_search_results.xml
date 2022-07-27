@@ -167,27 +167,26 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/Calendary_scroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ticked_tabs"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="0dp">
-
+        android:layout_marginEnd="10dp"
+        android:scrollbars="horizontal">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Weekly_calendar_RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Weekly_calendar_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </HorizontalScrollView>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/Found_info_layout"
