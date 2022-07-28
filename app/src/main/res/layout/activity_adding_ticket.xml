@@ -23,7 +23,6 @@
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,9 +30,10 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="33dp"
         android:background="@drawable/btn_back"
+        android:onClick="goToPreviousActivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="UsingOnClickInXml" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -58,7 +58,7 @@
         android:fontFamily="@font/montserra_bold"
         android:text="Dodaj bilet"
         android:textColor="@color/mainColor"
-        android:textSize="25dp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,21 +70,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="180dp"
         android:orientation="horizontal">
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:text="Lot"
                 android:textColor="@color/white"
-                android:textSize="24dp" />
-
+                android:textSize="24sp" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,9 +93,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/Bilet_tab"
                 android:layout_width="wrap_content"
@@ -106,8 +102,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:text="Bilet"
                 android:textColor="#C4DFE6"
-                android:textSize="24dp" />
-
+                android:textSize="24sp" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,17 +115,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:text="Siedzenie"
                 android:textColor="#C4DFE6"
-                android:textSize="24dp" />
-
+                android:textSize="24sp" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,17 +136,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:text="Koszyk"
                 android:textColor="#C4DFE6"
-                android:textSize="24dp" />
-
+                android:textSize="24sp" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -162,7 +153,6 @@
                 android:background="@drawable/cheak_koszyk"
                 android:visibility="invisible" />
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -183,7 +173,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:text="W jedną strone"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,14 +186,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="20dp">
+            android:layout_marginStart="20dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
                 android:text="W obie strony"
                 android:textColor="#C4DFE6"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <ImageView
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
@@ -225,14 +215,11 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
         android:layout_marginBottom="20dp">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -245,7 +232,6 @@
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_takeoff"
                 app:startIconTint="@color/white">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
@@ -254,7 +240,7 @@
                     android:maxLength="15"
                     android:singleLine="true"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -270,7 +256,6 @@
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_land"
                 app:startIconTint="@color/white">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
@@ -279,7 +264,7 @@
                     android:maxLength="15"
                     android:singleLine="true"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="18sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -296,7 +281,6 @@
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_calendar"
                 app:startIconTint="@color/white">
-
                 <AutoCompleteTextView
                     android:id="@+id/dateFormat"
                     android:layout_width="match_parent"
@@ -305,8 +289,9 @@
                     android:textColor="@color/white"
                     android:textSize="18dp"
                     android:inputType="none"
-
-                    />
+                    android:clickable="false"
+                    android:focusable="false"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -322,16 +307,15 @@
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_passengers"
                 app:startIconTint="@color/white">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:fontFamily="@font/opensans_bold"
                     android:inputType="number"
-                    android:maxLength="15"
+                    android:maxLength="1"
                     android:singleLine="true"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -347,22 +331,21 @@
                 app:startIconDrawable="@drawable/ic_airline_seat"
                 app:startIconTint="@color/white"
                 app:boxBackgroundColor="@color/mainColor">
-
                 <AutoCompleteTextView
                     android:id="@+id/auto_complete_txt"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:fontFamily="@font/opensans_bold"
                     android:textColor="@color/white"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:inputType="none"
-                    />
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/go_to_search_results_btn"
+        android:id="@+id/goToNextActivity_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -370,6 +353,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/custom_background_button_open_next_activity"
-        tools:ignore="SpeakableTextPresentCheck" />
-
+        android:onClick="goToNextActivity"
+        tools:ignore="UsingOnClickInXml"/>
 </RelativeLayout>

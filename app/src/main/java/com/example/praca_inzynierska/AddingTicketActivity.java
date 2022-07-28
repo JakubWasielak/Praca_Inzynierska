@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,62 +16,74 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddingTicketActivity extends AppCompatActivity {
-
-    //data picker
     AutoCompleteTextView mDateFormat;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     TextView Bilet_tab;
+    ImageButton goToPreviousActivity;
+    ImageButton goToNextActivity;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_adding_ticket);
 
-        Bilet_tab = findViewById(R.id.Bilet_tab);
-        Bilet_tab.setOnClickListener(view -> openSearchResultsActivity());
+        initDatePicker();
+        initClassPicker();
 
-        ImageButton imagebutton = findViewById(R.id.back_btn);
-        imagebutton.setOnClickListener(view -> backMainActivity());
-
-        imagebutton = findViewById(R.id.go_to_search_results_btn);
-        imagebutton.setOnClickListener(view -> openSearchResultsActivity());
-
-
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    }
+    private void initDatePicker(){
+        Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         mDateFormat = findViewById(R.id.dateFormat);
         mDateFormat.setOnClickListener(v -> {
-
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     AddingTicketActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    onDateSetListener, day ,month, year);
+                    onDateSetListener, mYear, mMonth, mDay);
             datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             datePickerDialog.show();
         });
 
         onDateSetListener = (view, year1, month1, dayOfMonth) -> {
             month1 = month1 +1;
-            String date = dayOfMonth+"/"+ month1 +"/" + year1;
-            mDateFormat.setText(date);
+            String date = dayOfMonth+"-"+month1 +"-" + year1;
+            String date1 = dayOfMonth+"-"+"0"+month1 +"-" + year1;
+            if(mYear<=year1 && mMonth+1 <=month1 && mDay<=dayOfMonth)
+            {
+                if(month1>9)
+                {
+                    mDateFormat.setText(date);
+                }
+                else
+                {
+                    mDateFormat.setText(date1);
+                }
+            }
+            else{
+                mDateFormat.setText("");
+            }
         };
+    }
+
+    private void initClassPicker() {
+
         String[] items =  {"Ekonomiczna","Biznesowa","Pierwsza"};
         AutoCompleteTextView autoCompleteTxt;
         ArrayAdapter<String> adapterItems;
-
-
         autoCompleteTxt = findViewById(R.id.auto_complete_txt);
-
         adapterItems = new ArrayAdapter<>(this, R.layout.drop_down_menu_list_item, items);
         autoCompleteTxt.setAdapter(adapterItems);
 
@@ -78,17 +91,16 @@ public class AddingTicketActivity extends AppCompatActivity {
             String item = parent.getItemAtPosition(position).toString();
             Toast.makeText(getApplicationContext(),"Item: "+item,Toast.LENGTH_SHORT).show();
         });
-
     }
-    public void backMainActivity() {
+
+    public void goToPreviousActivity(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void openSearchResultsActivity() {
+    public void goToNextActivity(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
         startActivity(intent);
     }
-
 }
