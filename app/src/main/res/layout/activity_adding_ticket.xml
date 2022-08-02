@@ -279,7 +279,7 @@
                 app:boxStrokeWidth="2dp"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
-                app:startIconDrawable="@drawable/ic_calendar"
+                app:startIconDrawable="@drawable/ic_calendar_month"
                 app:startIconTint="@color/white">
                 <AutoCompleteTextView
                     android:id="@+id/dateFormat"
@@ -335,9 +335,9 @@
                     android:id="@+id/auto_complete_txt"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="@font/opensans_semibold"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:inputType="none"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -203,14 +203,14 @@
             android:id="@+id/Number_of_tickets_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semicondensed_semibold"
+            android:fontFamily="@font/opensans_semibold"
             android:text="3"
             android:textColor="@color/white"
             android:textSize="18sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semicondensed_semibold"
+            android:fontFamily="@font/opensans_semibold"
             android:text=" dostępne loty z "
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -218,14 +218,14 @@
             android:id="@+id/Searched_departure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semicondensed_semibold"
+            android:fontFamily="@font/opensans_semibold"
             android:text="WAW"
             android:textColor="@color/white"
             android:textSize="18sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semicondensed_semibold"
+            android:fontFamily="@font/opensans_semibold"
             android:text=" do "
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -233,7 +233,7 @@
             android:id="@+id/Searched_arrival"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semicondensed_semibold"
+            android:fontFamily="@font/opensans_semibold"
             android:text="ZHR"
             android:textColor="@color/white"
             android:textSize="18sp" />
