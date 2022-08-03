@@ -23,10 +23,7 @@ import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class SearchResultsActivity extends AppCompatActivity {
-    TextView Lot_tab;
-    ImageButton Imagebutton_return, Imagebutton_go_to_choice_seat ;
     RecyclerView Weekly_calendar, Flights_found;
-
     String[] Departure_airport_shortcut;
     String[] Departure_city;
     String[] Arrival_airport_shortcut;
@@ -35,10 +32,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     String[] Flight_date;
     String[] Flight_time;
     String[] Flight_number;
-
     LocalDate selectedDate = LocalDate.of(2022,8,03);
-    ArrayList<String> NumberOfdays = new ArrayList<>();
-    ArrayList<String> NameOfdays = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +43,11 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         //Przykładowe dane do czasu przejscia na baze danych
 // ------------------------------------------------------------------------------------------------------
-        Weekly_calendar = findViewById(R.id.Weekly_calendar_RecyclerView);
+        Weekly_calendar = findViewById(R.id.weeklyCalendar_RecyclerView);
         ArrayList<String> dayNumberView = numberDayToView(selectedDate);
         ArrayList<String> dayNameView = nameDayToView(selectedDate);
 
-        Flights_found = findViewById(R.id.Found_flights_RecyclerView);
+        Flights_found = findViewById(R.id.foundFlights_RecyclerView);
         Departure_airport_shortcut = getResources().getStringArray(R.array.Departure_airport_shortcut);
         Departure_city = getResources().getStringArray(R.array.Departure_city);
         Arrival_airport_shortcut = getResources().getStringArray(R.array.Arrival_airport_shortcut);
@@ -74,39 +68,6 @@ public class SearchResultsActivity extends AppCompatActivity {
         Flights_found.setAdapter(user1);
         Flights_found.setLayoutManager(new LinearLayoutManager(this));
 
-        Imagebutton_return = findViewById(R.id.back_to_Lot_ImageButton);
-        Lot_tab = findViewById(R.id.back_to_Lot_TextView);
-        Imagebutton_go_to_choice_seat = findViewById(R.id.go_to_choice_seat_btn);
-
-        Imagebutton_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backAddingTicketActivity();
-            }
-        });
-
-        Lot_tab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backAddingTicketActivity();
-            }
-        });
-        Imagebutton_go_to_choice_seat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToChoiceOfSeatActivity();
-            }
-        });
-
-    }
-    public void backAddingTicketActivity() {
-        Intent intent = new Intent(this, AddingTicketActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToChoiceOfSeatActivity() {
-        Intent intent = new Intent(this, ChoiceOfSeatActivity.class);
-        startActivity(intent);
     }
 
     private static ArrayList<String> numberDayToView(LocalDate selecteddate)
@@ -220,5 +181,15 @@ public class SearchResultsActivity extends AppCompatActivity {
                 System.out.println("Błąd!!");
         }
         return null;
+    }
+
+    public void backToSearchingForTicketAcitivity(View view) {
+        Intent intent = new Intent(this, SearchingForTicketActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToSeatingChoiceAcitivity(View view) {
+        Intent intent = new Intent(this, SeatingChoiceActivity.class);
+        startActivity(intent);
     }
 }

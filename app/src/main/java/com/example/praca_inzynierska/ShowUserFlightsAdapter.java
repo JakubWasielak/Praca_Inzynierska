@@ -38,7 +38,7 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
     @Override
     public ShowUserFlightsAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.air_ticket,parent,false);
+        View view = inflater.inflate(R.layout.user_tickets_item,parent,false);
         return new ShowUserFlightsAdapterHolder(view);
     }
 
@@ -65,14 +65,14 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
 
         public ShowUserFlightsAdapterHolder(@NonNull View itemView) {
             super(itemView);
-            Departure_airport_sc = itemView.findViewById(R.id.Departure_airport);
-            Departure_cy = itemView.findViewById(R.id.Departure_city);
-            Arrival_airport_sc = itemView.findViewById(R.id.Arrival_airport);
-            Arrival_cy = itemView.findViewById(R.id.Arrival_city);
-            Duration_flight = itemView.findViewById(R.id.Duration_of_flight);
-            Flight_d = itemView.findViewById(R.id.Flight_date);
-            Flight_t = itemView.findViewById(R.id.Flight_time);
-            Flight_num = itemView.findViewById(R.id.Flight_number);
+            Departure_airport_sc = itemView.findViewById(R.id.departureAirport_TextView);
+            Departure_cy = itemView.findViewById(R.id.departureCity_TextView);
+            Arrival_airport_sc = itemView.findViewById(R.id.arrivalAirport_TextView);
+            Arrival_cy = itemView.findViewById(R.id.arrivalCity_TextView);
+            Duration_flight = itemView.findViewById(R.id.durationOfFlight_TextView);
+            Flight_d = itemView.findViewById(R.id.flightDate_TextView);
+            Flight_t = itemView.findViewById(R.id.flightTime_TextView);
+            Flight_num = itemView.findViewById(R.id.flightNumber_TextView);
         }
     }
 }

@@ -18,9 +18,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton Imagebutton;
-    RecyclerView User_Flights;
-
     String[] Departure_airport_shortcut;
     String[] Departure_city;
     String[] Arrival_airport_shortcut;
@@ -38,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
 
-        User_Flights = findViewById(R.id.User_flights_RecyclerView);
-        Imagebutton = findViewById(R.id.addTicked_btn);
+        RecyclerView user_Flights = findViewById(R.id.UserFlights_RecyclerView);
+        ImageButton addNewTicket = findViewById(R.id.addNewTicked_ImageButton);
 
 //Przykładowe dane do czasu przejscia na baze danych
 // ------------------------------------------------------------------------------------------------------
@@ -55,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         ShowUserFlightsAdapter user1 = new ShowUserFlightsAdapter(this, Departure_airport_shortcut, Departure_city, Arrival_airport_shortcut,
                 Arrival_city, Duration_of_flight, Flight_date, Flight_time, Flight_number);
-        User_Flights.setAdapter(user1);
-        User_Flights.setLayoutManager(new LinearLayoutManager(this));
+        user_Flights.setAdapter(user1);
+        user_Flights.setLayoutManager(new LinearLayoutManager(this));
 
-        Imagebutton.setOnClickListener(new View.OnClickListener() {
+        addNewTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openAddingTicketActivity();
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void openAddingTicketActivity() {
-        Intent intent = new Intent(this, AddingTicketActivity.class);
+        Intent intent = new Intent(this, SearchingForTicketActivity.class);
         startActivity(intent);
     }
 }

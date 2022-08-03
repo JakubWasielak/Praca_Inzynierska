@@ -41,11 +41,11 @@
         <item>2:15m</item>
     </string-array>
     <string-array name="Flight_date">
-        <item>25 maja, </item>
-        <item>14 marca, </item>
-        <item>23 grudnia, </item>
-        <item>01 maja, </item>
-        <item>11 listopada, </item>
+        <item>25 maja</item>
+        <item>14 marca</item>
+        <item>23 grudnia</item>
+        <item>01 maja</item>
+        <item>11 listopada</item>
     </string-array>
     <string-array name="Flight_time">
         <item>18:17</item>

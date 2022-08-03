@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.praca_inzynierska.R;
@@ -32,8 +34,6 @@ public class OneWayFlightFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_one_way_flight,container,false);
         selectClassOfTravel = view.findViewById(R.id.selectClassOfTravel);
         mDepartureDateFormat = view.findViewById(R.id.departureDate_Format);
-
-
         initDepartureDatePicker();
         initClassPicker();
         return view;

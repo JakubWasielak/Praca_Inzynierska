@@ -9,7 +9,7 @@
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/background_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -19,11 +19,11 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="150dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/bg_mainactivity"
+        app:srcCompat="@drawable/main_background"
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/menu_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -35,7 +35,7 @@
         app:srcCompat="@drawable/btn_menu" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/userAvatar_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -57,44 +57,41 @@
         android:fontFamily="@font/montserra_bold"
         android:text="Twoje bilety"
         android:textColor="@color/mainColor"
-        android:textSize="25dp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView"
+        android:layout_alignTop="@+id/background_ImageView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
-
-
+        android:layout_marginBottom="30dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/User_flights_RecyclerView"
+                android:id="@+id/UserFlights_RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/addTicked_btn"
+        android:id="@+id/addNewTicked_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/custom_background_buttton_add_ticket"
+        android:background="@drawable/animation_button_add_new_ticket"
         tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
