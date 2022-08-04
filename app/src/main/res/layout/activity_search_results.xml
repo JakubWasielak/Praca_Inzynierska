@@ -23,7 +23,7 @@
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/back_to_Lot_ImageButton"
+        android:id="@+id/goToPreviousActivity_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,13 +31,13 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="33dp"
         android:background="@drawable/animation_button_previous_activity"
+        android:onClick="backToSearchingForTicketAcitivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="backToSearchingForTicketAcitivity"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/userAvatar_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

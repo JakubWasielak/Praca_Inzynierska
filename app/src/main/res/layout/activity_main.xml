@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/main_background"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/menu_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,8 @@
         android:layout_marginTop="33dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_menu" />
+        android:src="@drawable/animation_button_menu"
+        android:background="#ffff" />
 
     <ImageView
         android:id="@+id/userAvatar_ImageView"
