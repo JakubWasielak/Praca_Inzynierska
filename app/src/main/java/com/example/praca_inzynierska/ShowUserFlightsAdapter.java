@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlightsAdapter.ShowUserFlightsAdapterHolder> {
-
     Context context;
     String[] Departure_airport_sc, Departure_cy;
     String[] Arrival_airport_sc , Arrival_cy;
@@ -22,7 +21,7 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
     public ShowUserFlightsAdapter(Context ct,
                                   String[] Departure_airport_shortcut, String[] Departure_city,
                                   String[] Arrival_airport_shortcut, String[] Arrival_city,
-                                  String[] Duration_of_flight, String[] Flight_date, String[] Flight_time,String[] Flight_number  ) {
+                                  String[] Duration_of_flight, String[] Flight_date, String[] Flight_time,String[] Flight_number) {
         context=ct;
         Departure_airport_sc =Departure_airport_shortcut;
         Departure_cy= Departure_city;
@@ -59,8 +58,7 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
         return 5;
     }
 
-    public class ShowUserFlightsAdapterHolder extends RecyclerView.ViewHolder {
-
+    public static class ShowUserFlightsAdapterHolder extends RecyclerView.ViewHolder {
         TextView Departure_airport_sc, Departure_cy, Arrival_airport_sc , Arrival_cy, Duration_flight, Flight_d, Flight_t,  Flight_num;
 
         public ShowUserFlightsAdapterHolder(@NonNull View itemView) {

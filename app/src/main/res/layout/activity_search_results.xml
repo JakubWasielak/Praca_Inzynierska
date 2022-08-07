@@ -20,7 +20,7 @@
         android:layout_marginTop="150dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/main_background"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="ContentDescription,MissingConstraints" />
 
     <ImageButton
         android:id="@+id/goToPreviousActivity_ImageButton"
@@ -34,7 +34,7 @@
         android:onClick="backToSearchingForTicketAcitivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
 
     <ImageView
         android:id="@+id/userAvatar_ImageView"
@@ -46,7 +46,8 @@
         android:layout_marginEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_avatar" />
+        app:srcCompat="@drawable/image_avatar"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -174,6 +175,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/animation_button_next_activity"
         android:onClick="goToSeatingChoiceAcitivity"
+        android:visibility="invisible"
         tools:ignore="SpeakableTextPresentCheck,UsingOnClickInXml" />
 
 </RelativeLayout>

@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
 //Przykładowe dane do czasu przejscia na baze danych
 // ------------------------------------------------------------------------------------------------------
-        Departure_airport_shortcut = getResources().getStringArray(R.array.Departure_airport_shortcut);
-        Departure_city = getResources().getStringArray(R.array.Departure_city);
-        Arrival_airport_shortcut = getResources().getStringArray(R.array.Arrival_airport_shortcut);
-        Arrival_city = getResources().getStringArray(R.array.Arrival_city);
-        Duration_of_flight = getResources().getStringArray(R.array.Duration_of_flight);
-        Flight_date  = getResources().getStringArray(R.array.Flight_date);
-        Flight_time = getResources().getStringArray(R.array. Flight_time);
-        Flight_number = getResources().getStringArray(R.array.Flight_number);
+        Departure_airport_shortcut = getResources().getStringArray(R.array.Departure_Code);
+        Departure_city = getResources().getStringArray(R.array.Departure_City);
+        Arrival_airport_shortcut = getResources().getStringArray(R.array.Arrival_Code);
+        Arrival_city = getResources().getStringArray(R.array.Arrival_City);
+        Duration_of_flight = getResources().getStringArray(R.array.Duration_Flight);
+        Flight_date  = getResources().getStringArray(R.array.Flight_Date);
+        Flight_time = getResources().getStringArray(R.array. Flight_Date);
+        Flight_number = getResources().getStringArray(R.array.Flight_Number);
 //------------------------------------------------------------------------------------------------------
 
         ShowUserFlightsAdapter user1 = new ShowUserFlightsAdapter(this, Departure_airport_shortcut, Departure_city, Arrival_airport_shortcut,

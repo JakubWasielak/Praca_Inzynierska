@@ -3,14 +3,14 @@
 
     <string name="class_selection">Wybierz klase</string>
 
-    <string-array name="Departure_airport_shortcut">
+    <string-array name="Departure_Code">
         <item>WAW</item>
         <item>PRG</item>
         <item>CDG</item>
         <item>ATH</item>
         <item>MAD</item>
     </string-array>
-    <string-array name="Departure_city">
+    <string-array name="Departure_City">
         <item>Warszawa</item>
         <item>Praga</item>
         <item>Paryż</item>
@@ -18,48 +18,48 @@
         <item>Madryt</item>
     </string-array>
 
-    <string-array name="Arrival_airport_shortcut">
+    <string-array name="Arrival_Code">
         <item>ZRH</item>
         <item>AMS</item>
         <item>NRT</item>
         <item>YOW</item>
         <item>OSL</item>
     </string-array>
-    <string-array name="Arrival_city">
-        <item>ZRH</item>
-        <item>AMS</item>
-        <item>NRT</item>
-        <item>YOW</item>
-        <item>OSL</item>
+    <string-array name="Arrival_City">
+        <item>Zurych</item>
+        <item>Amsterdam</item>
+        <item>Tokio</item>
+        <item>Ottawa</item>
+        <item>Oslo</item>
     </string-array>
 
-    <string-array name="Duration_of_flight">
+    <string-array name="Duration_Flight">
         <item>2:30m</item>
         <item>1:10m</item>
         <item>4:05m</item>
         <item>1:04m</item>
         <item>2:15m</item>
     </string-array>
-    <string-array name="Flight_date">
-        <item>25 maja</item>
-        <item>14 marca</item>
-        <item>23 grudnia</item>
-        <item>01 maja</item>
-        <item>11 listopada</item>
+    <string-array name="Flight_Date">
+        <item>25 maja, 18:17</item>
+        <item>14 marca, 19:30</item>
+        <item>23 grudnia, 20:23</item>
+        <item>01 maja, 23:44</item>
+        <item>11 listopada, 01:15</item>
     </string-array>
-    <string-array name="Flight_time">
-        <item>18:17</item>
-        <item>19:30</item>
-        <item>20:23</item>
-        <item>23:44</item>
-        <item>01:15</item>
-    </string-array>
-    <string-array name="Flight_number">
+    <string-array name="Flight_Number">
         <item>BH123</item>
         <item>NWM213</item>
         <item>GNR211</item>
         <item>LOL231</item>
         <item>WDB211</item>
+    </string-array>
+    <string-array name="Ticket_Price">
+        <item>170.00 PLN</item>
+        <item>160.60 PLN</item>
+        <item>130.45 PLN</item>
+        <item>170.50 PLN</item>
+        <item>45.00 PLN</item>
     </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

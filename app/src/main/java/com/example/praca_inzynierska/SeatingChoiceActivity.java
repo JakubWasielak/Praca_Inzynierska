@@ -1,7 +1,10 @@
 package com.example.praca_inzynierska;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +30,31 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_seating_choice);
+
+        String departureAirportCode = getIntent().getStringExtra("departureAirportCode");
+        String departureAirportCityName = getIntent().getStringExtra("departureAirportCityName");
+        String arrivalAirportCode = getIntent().getStringExtra("arrivalAirportCode");
+        String arrivalAirportCityName = getIntent().getStringExtra("arrivalAirportCityName");
+        String flightDuration = getIntent().getStringExtra("flightDuration");
+        String departureDateAndTime = getIntent().getStringExtra("departureDateAndTime");
+        String flightNumber = getIntent().getStringExtra("flightNumber");
+
+        TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
+        TextView tvDepartureAirportName = findViewById(R.id.departureCityName_TextView);
+        TextView tvArrivalAirportCode = findViewById(R.id.arrivalAirportCode_TextView);
+        TextView tvArrivalAirportName = findViewById(R.id.arrivalAirportCityName_TextView);
+        TextView tvFlightDuration = findViewById(R.id.flightDuration_TextView);
+        TextView tvDepartureDateAndTime = findViewById(R.id.departureDateAndTime_TextView);
+        TextView tvFlightNumber = findViewById(R.id.flightNumber_TextView);
+
+        tvDepartureAirportCode.setText(departureAirportCode);
+        tvDepartureAirportName.setText(departureAirportCityName);
+        tvArrivalAirportCode.setText(arrivalAirportCode);
+        tvArrivalAirportName.setText(arrivalAirportCityName);
+        tvFlightDuration.setText(flightDuration);
+        tvDepartureDateAndTime.setText(departureDateAndTime);
+        tvFlightNumber.setText(flightNumber);
+
 
         showNumberOfSeats = findViewById(R.id.seatNumber_TextView);
         A1 = findViewById(R.id.seatA1_ImageButton);
@@ -351,5 +379,11 @@ public class SeatingChoiceActivity extends AppCompatActivity {
                 F4.setBackgroundResource(R.drawable.bg_seat_free);
                 break;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void backToSearchResultAcitivity(View view) {
+        Intent intent = new Intent(this, SearchResultsActivity.class);
+        startActivity(intent);
     }
 }

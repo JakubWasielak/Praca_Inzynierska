@@ -18,6 +18,8 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_add_new_ticket.xml" value="0.178" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_add_new_ticket_pressed.xml" value="0.2" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_add_new_ticket_unpressed.xml" value="0.2" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_background_found_ticket.xml" value="0.221" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_background_found_ticket_selected.xml" value="0.317" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_button_seat.xml" value="0.2005" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_pressed.xml" value="0.1415" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_unpressed.xml" value="0.1415" />
@@ -64,6 +66,7 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_seat_selection_description_free.xml" value="0.2205" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_seat_selection_description_occupied.xml" value="0.2205" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_seat_selection_description_selected.xml" value="0.2205" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_ticket_price.xml" value="0.221" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_ticket_separation_line.xml" value="0.286" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/main_background.xml" value="0.2205" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/text_field_background.xml" value="0.112" />
@@ -81,10 +84,12 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/class_selection_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/drop_down_menu_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/flip_calendar.xml" value="1.0" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/found_ticket_item.xml" value="0.67" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/found_ticket_item_selected.xml" value="0.30012825994014536" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/fragment_one_way_flight.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/fragment_round_trip_flight.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/textinpunt.xml" value="0.36666666666666664" />
-        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/user_tickets_item.xml" value="0.33" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/user_tickets_item.xml" value="0.5601131541725601" />
       </map>
     </option>
   </component>

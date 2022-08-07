@@ -33,6 +33,7 @@
         android:background="@drawable/animation_button_previous_activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:onClick="backToSearchResultAcitivity"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <ImageView
@@ -441,26 +442,11 @@
                 android:layout_gravity="center">
 
                 <TextView
+                    android:id="@+id/departureDateAndTime_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_bold"
-                    android:text="25 maja"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text=", "
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="18:15"
+                    android:text="25 maja, 18:15"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -514,7 +500,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/departureAirport_TextView"
+                android:id="@+id/departureAirportCode_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
@@ -522,7 +508,7 @@
                 android:textColor="@color/white"
                 android:textSize="40sp" />
             <TextView
-                android:id="@+id/departureCity_TextView"
+                android:id="@+id/departureCityName_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -550,36 +536,11 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/flightTimeHours_TextView"
+                    android:id="@+id/flightDuration_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_semibold"
-                    android:text="2"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="h "
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/flightTimeMinutes_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="35"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="m"
+                    android:text="2h 35m"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -591,7 +552,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/arrivalAirport_TextView"
+                android:id="@+id/arrivalAirportCode_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_bold"
@@ -599,7 +560,7 @@
                 android:textColor="@color/white"
                 android:textSize="40sp" />
             <TextView
-                android:id="@+id/Arrival_city_TextView"
+                android:id="@+id/arrivalAirportCityName_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
