@@ -22,6 +22,8 @@ public class RoundTripFlightFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener onDepartureDateSetListener, onReturnDateSetListener;
     private AutoCompleteTextView selectClassOfTravel;
     private final String[] items =  {"Ekonomiczna","Biznesowa","Pierwsza"};
+    private AutoCompleteTextView arrivalAirport_ACTv,departureAirport_ACTv;
+    private String[] airportNames;
     private final Calendar c = Calendar.getInstance();
     private final int mYear = c.get(Calendar.YEAR);
     private final int mMonth = c.get(Calendar.MONTH);
@@ -38,12 +40,26 @@ public class RoundTripFlightFragment extends Fragment {
         selectClassOfTravel = view.findViewById(R.id.selectClassOfTravel);
         mDepartureDateFormat = view.findViewById(R.id.departureDate_Format);
         mReturnDateFormat = view.findViewById(R.id.returnDate_Format);
-
+        airportNames = getResources().getStringArray(R.array.airport_names);
+        departureAirport_ACTv = view.findViewById(R.id.departureAirport_AutoCompleteTextView);
+        arrivalAirport_ACTv =view.findViewById(R.id.arrivalAirport_AutoCompleteTextView);
+        selectDepartureAirportSuggestion();
+        selectArrivalAirportSuggestion();
         initDepartureDatePicker();
         initBackDatePicker();
         initClassPicker();
 
         return view;
+    }
+
+    private void selectDepartureAirportSuggestion() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
+        departureAirport_ACTv.setAdapter(arrayAdapter);
+    }
+
+    private void selectArrivalAirportSuggestion() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
+        arrivalAirport_ACTv.setAdapter(arrayAdapter);
     }
 
     private void initBackDatePicker() {

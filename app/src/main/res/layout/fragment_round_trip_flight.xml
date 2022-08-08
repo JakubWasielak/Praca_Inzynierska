@@ -27,14 +27,16 @@
             app:hintTextColor="@color/white"
             app:startIconDrawable="@drawable/ic_flight_takeoff"
             app:startIconTint="@color/white">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/departureAirport_AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:maxLength="15"
                 android:singleLine="true"
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,14 +53,16 @@
             app:startIconDrawable="@drawable/ic_flight_land"
             app:startIconTint="@color/white">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/arrivalAirport_AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:maxLength="15"
                 android:singleLine="true"
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -169,6 +173,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/animation_button_search_for_tickets" />
+        android:background="@drawable/animation_button_search_for_tickets"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 </RelativeLayout>

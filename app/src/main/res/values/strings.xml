@@ -62,6 +62,19 @@
         <item>45.00 PLN</item>
     </string-array>
 
+    <string-array name="airport_names">
+        <item>Warszawa</item>
+        <item>Praga</item>
+        <item>Paryż</item>
+        <item>Ateny</item>
+        <item>Madryt</item>
+        <item>Zurych</item>
+        <item>Amsterdam</item>
+        <item>Tokio</item>
+        <item>Ottawa</item>
+        <item>Oslo</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

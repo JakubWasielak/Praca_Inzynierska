@@ -23,6 +23,8 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_button_seat.xml" value="0.2005" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_pressed.xml" value="0.1415" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_unpressed.xml" value="0.1415" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_dayofweek_calendary.xml" value="0.317" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_dayofweek_calendary_selected.xml" value="0.317" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_menu_pressed.xml" value="0.2205" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_menu_unpressed.xml" value="0.2205" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_next_activity_pressed.xml" value="0.2205" />
@@ -82,6 +84,7 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_starting.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/air_ticket.xml" value="0.25" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/class_selection_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/dayofweek_item.xml" value="0.67" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/drop_down_menu_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/flip_calendar.xml" value="1.0" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/found_ticket_item.xml" value="0.67" />

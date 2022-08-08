@@ -33,7 +33,6 @@ public class SearchingForTicketActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_searching_for_ticket);
         initTypeOfTravelView();
-
     }
 
     private void initTypeOfTravelView() {

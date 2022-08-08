@@ -27,18 +27,36 @@ public class OneWayFlightFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener onDepartureDateSetListener;
     private AutoCompleteTextView selectClassOfTravel;
     private final String[] items =  {"Ekonomiczna","Biznesowa","Pierwsza"};
+    private String[] airportNames;
+    private AutoCompleteTextView arrivalAirport_ACTv,departureAirport_ACTv;
+
+
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_way_flight,container,false);
+
+        airportNames = getResources().getStringArray(R.array.airport_names);
+        departureAirport_ACTv = view.findViewById(R.id.departureAirport_AutoCompleteTextView);
+        arrivalAirport_ACTv =view.findViewById(R.id.arrivalAirport_AutoCompleteTextView);
         selectClassOfTravel = view.findViewById(R.id.selectClassOfTravel);
         mDepartureDateFormat = view.findViewById(R.id.departureDate_Format);
+        selectDepartureAirportSuggestion();
+        selectArrivalAirportSuggestion();
         initDepartureDatePicker();
         initClassPicker();
         return view;
     }
+    private void selectDepartureAirportSuggestion() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
+        departureAirport_ACTv.setAdapter(arrayAdapter);
+    }
 
+    private void selectArrivalAirportSuggestion() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
+        arrivalAirport_ACTv.setAdapter(arrayAdapter);
+    }
     private void initClassPicker() {
         ArrayAdapter<String> adapterItems = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, items);
         selectClassOfTravel.setAdapter(adapterItems);

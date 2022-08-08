@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/mainColor">
+    android:layout_marginTop="15dp"
+    android:background="@color/none">
 
     <ImageView
         android:id="@+id/background_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/bg_background_found_ticket"
         tools:ignore="ContentDescription" />
 
@@ -181,8 +180,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/flightNumber_LinearLayout"
+        android:layout_alignEnd="@+id/background_ImageView"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
