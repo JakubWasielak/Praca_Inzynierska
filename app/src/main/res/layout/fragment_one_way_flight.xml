@@ -143,14 +143,4 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/animation_button_search_for_tickets" />
-
 </RelativeLayout>

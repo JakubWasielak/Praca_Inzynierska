@@ -46,7 +46,19 @@ public class OneWayFlightFragment extends Fragment {
         selectArrivalAirportSuggestion();
         initDepartureDatePicker();
         initClassPicker();
+
         return view;
+    }
+    public boolean validationDepartureAirport(){
+        String departureAirportInput = departureAirport_ACTv.getText().toString();
+        if(!departureAirportInput.isEmpty()){
+            for(int i = 0; i < airportNames.length; i++){
+                if(airportNames[i].equals(departureAirportInput)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     private void selectDepartureAirportSuggestion() {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);

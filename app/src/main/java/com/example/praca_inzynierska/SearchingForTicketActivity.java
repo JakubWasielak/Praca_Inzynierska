@@ -1,5 +1,6 @@
 package com.example.praca_inzynierska;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -7,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -69,6 +71,12 @@ public class SearchingForTicketActivity extends AppCompatActivity {
 
     public void closeSearchingForTicketActtivity(View view) {
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void goToSearchResultsActivity(View view) {
+        Intent intent = new Intent(this, SearchResultsActivity.class);
         startActivity(intent);
     }
 }

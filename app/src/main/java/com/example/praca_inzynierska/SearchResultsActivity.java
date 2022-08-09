@@ -21,7 +21,7 @@ import java.util.Objects;
 public class SearchResultsActivity extends AppCompatActivity implements RecyclerViewInterface{
     ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels = new ArrayList<>();
     RecyclerView Weekly_calendar;
-    LocalDate selectedDate = LocalDate.of(2022,8,03);
+    LocalDate selectedDate = LocalDate.of(2022,8,8);
     ImageButton goToNextActivity;
 
     @Override
@@ -112,7 +112,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         }
         else
         {
-            for(int i=0;i<=14;i++)
+            for(int i=0;i<=7;i++)
             {
                 NumberOfdays.add(String.valueOf(selecteddate.plusDays(i).getDayOfMonth()));
             }
@@ -159,7 +159,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         {
             for(int i=0;i<=14;i++)
             {
-                NameOfdays.add(nameDayOfWeek(selecteddate.minusDays(i)));
+                NameOfdays.add(nameDayOfWeek(selecteddate.plusDays(i)));
             }
         }
 

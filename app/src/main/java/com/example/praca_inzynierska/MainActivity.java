@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void openAddingTicketActivity() {
+
         Intent intent = new Intent(this, SearchingForTicketActivity.class);
         startActivity(intent);
     }
