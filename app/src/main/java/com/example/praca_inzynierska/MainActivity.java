@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     String[] Arrival_city;
     String[] Duration_of_flight;
     String[] Flight_date;
-    String[] Flight_time;
     String[] Flight_number;
 
 
@@ -46,12 +45,11 @@ public class MainActivity extends AppCompatActivity {
         Arrival_city = getResources().getStringArray(R.array.Arrival_City);
         Duration_of_flight = getResources().getStringArray(R.array.Duration_Flight);
         Flight_date  = getResources().getStringArray(R.array.Flight_Date);
-        Flight_time = getResources().getStringArray(R.array. Flight_Date);
         Flight_number = getResources().getStringArray(R.array.Flight_Number);
 //------------------------------------------------------------------------------------------------------
 
         ShowUserFlightsAdapter user1 = new ShowUserFlightsAdapter(this, Departure_airport_shortcut, Departure_city, Arrival_airport_shortcut,
-                Arrival_city, Duration_of_flight, Flight_date, Flight_time, Flight_number);
+                Arrival_city, Duration_of_flight, Flight_date, Flight_number);
         user_Flights.setAdapter(user1);
         user_Flights.setLayoutManager(new LinearLayoutManager(this));
 

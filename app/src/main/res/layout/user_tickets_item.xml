@@ -96,23 +96,6 @@
                 android:textColor="#C4DFE6"
                 android:textSize="12sp"
                 tools:ignore="SmallSp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:text=", "
-                android:textColor="#C4DFE6"
-                android:textSize="12sp"
-                tools:ignore="SmallSp" />
-            <TextView
-                android:id="@+id/flightTime_TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:text="18:25"
-                android:textColor="#C4DFE6"
-                android:textSize="12sp"
-                tools:ignore="SmallSp" />
         </LinearLayout>
     </LinearLayout>
 

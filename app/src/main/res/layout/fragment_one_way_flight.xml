@@ -7,14 +7,14 @@
     tools:context=".typeOfTravelFragments.OneWayFlightFragment"
     android:background="@color/mainColor">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -29,8 +29,8 @@
             app:startIconDrawable="@drawable/ic_flight_takeoff"
             app:startIconTint="@color/white">
 
-            <AutoCompleteTextView
-                android:id="@+id/departureAirport_AutoCompleteTextView"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/departureCode_TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:maxLength="15"
@@ -56,8 +56,8 @@
             app:startIconDrawable="@drawable/ic_flight_land"
             app:startIconTint="@color/white">
 
-            <AutoCompleteTextView
-                android:id="@+id/arrivalAirport_AutoCompleteTextView"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/arrivalCode_TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:maxLength="15"
@@ -82,7 +82,7 @@
             app:startIconDrawable="@drawable/ic_calendar_month"
             app:startIconTint="@color/white">
             <AutoCompleteTextView
-                android:id="@+id/departureDate_Format"
+                android:id="@+id/departureDate_AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:inputType="none"
@@ -108,6 +108,7 @@
             app:startIconDrawable="@drawable/ic_passengers"
             app:startIconTint="@color/white">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/numberOfPassengers_TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:maxLength="1"
@@ -132,7 +133,7 @@
             app:startIconTint="@color/white"
             app:boxBackgroundColor="@color/mainColor">
             <AutoCompleteTextView
-                android:id="@+id/selectClassOfTravel"
+                android:id="@+id/selectClassOfTravel_AutoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:fontFamily="@font/opensans_semibold"
@@ -141,6 +142,16 @@
                 android:inputType="none"
                 tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/searchForTickets_ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="0dp"
+            android:layout_gravity="end"
+            android:background="@drawable/animation_button_search_for_tickets"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
 </RelativeLayout>

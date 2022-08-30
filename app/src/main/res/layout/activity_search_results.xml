@@ -31,7 +31,6 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="33dp"
         android:background="@drawable/animation_button_previous_activity"
-        android:onClick="backToSearchingForTicketAcitivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
@@ -155,14 +154,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foundFlights_RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/foundFlights_RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <ImageButton
@@ -174,8 +170,8 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/animation_button_next_activity"
-        android:onClick="goToSeatingChoiceAcitivity"
         android:visibility="invisible"
-        tools:ignore="SpeakableTextPresentCheck,UsingOnClickInXml" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,UsingOnClickInXml"
+        />
 
 </RelativeLayout>

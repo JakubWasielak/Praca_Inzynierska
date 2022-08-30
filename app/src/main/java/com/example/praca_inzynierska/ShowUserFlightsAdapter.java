@@ -15,13 +15,12 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
     String[] Arrival_airport_sc , Arrival_cy;
     String[] Duration_flight;
     String[] Flight_d;
-    String[] Flight_t;
     String[] Flight_num;
 
     public ShowUserFlightsAdapter(Context ct,
                                   String[] Departure_airport_shortcut, String[] Departure_city,
                                   String[] Arrival_airport_shortcut, String[] Arrival_city,
-                                  String[] Duration_of_flight, String[] Flight_date, String[] Flight_time,String[] Flight_number) {
+                                  String[] Duration_of_flight, String[] Flight_date,String[] Flight_number) {
         context=ct;
         Departure_airport_sc =Departure_airport_shortcut;
         Departure_cy= Departure_city;
@@ -29,7 +28,6 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
         Arrival_cy = Arrival_city;
         Duration_flight = Duration_of_flight;
         Flight_d= Flight_date;
-        Flight_t = Flight_time;
         Flight_num = Flight_number;
     }
 
@@ -49,7 +47,6 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
         holder.Arrival_cy.setText(Arrival_cy[position]);
         holder.Duration_flight.setText(Duration_flight[position]);
         holder.Flight_d.setText(Flight_d[position]);
-        holder.Flight_t.setText(Flight_t[position]);
         holder.Flight_num.setText(Flight_num[position]);
     }
 
@@ -59,7 +56,7 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
     }
 
     public static class ShowUserFlightsAdapterHolder extends RecyclerView.ViewHolder {
-        TextView Departure_airport_sc, Departure_cy, Arrival_airport_sc , Arrival_cy, Duration_flight, Flight_d, Flight_t,  Flight_num;
+        TextView Departure_airport_sc, Departure_cy, Arrival_airport_sc , Arrival_cy, Duration_flight, Flight_d,Flight_num;
 
         public ShowUserFlightsAdapterHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,7 +66,6 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
             Arrival_cy = itemView.findViewById(R.id.arrivalCity_TextView);
             Duration_flight = itemView.findViewById(R.id.durationOfFlight_TextView);
             Flight_d = itemView.findViewById(R.id.flightDate_TextView);
-            Flight_t = itemView.findViewById(R.id.flightTime_TextView);
             Flight_num = itemView.findViewById(R.id.flightNumber_TextView);
         }
     }

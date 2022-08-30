@@ -73,10 +73,4 @@ public class SearchingForTicketActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void goToSearchResultsActivity(View view) {
-        Intent intent = new Intent(this, SearchResultsActivity.class);
-        startActivity(intent);
-    }
 }
