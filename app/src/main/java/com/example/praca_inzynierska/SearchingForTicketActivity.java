@@ -2,6 +2,7 @@ package com.example.praca_inzynierska;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.DatePickerDialog;

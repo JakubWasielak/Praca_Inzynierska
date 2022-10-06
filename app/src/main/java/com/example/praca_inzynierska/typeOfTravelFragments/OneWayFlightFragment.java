@@ -99,13 +99,25 @@ public class OneWayFlightFragment extends Fragment {
         btn_searchForTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                intent.putExtra("CodeDeparture",String.valueOf(departureCode_TextInputEditText.getText()));
-                intent.putExtra("CodeArrival",String.valueOf(arrivalCode_TextInputEditText.getText()));
-                intent.putExtra("SelectedDate",selectedDate);
-                intent.putExtra("NumberPassengers",String.valueOf(numberOfPassengers_TextInputEditText.getText()));
-                intent.putExtra("travelClass",String.valueOf(selectClassOfTravel_AutoCompleteTextView.getText()));
-                startActivity(intent);
+                if(departureCode_TextInputEditText.length()<3){
+                    Toast.makeText(getActivity(),"Podaj miejsce wylotu.",Toast.LENGTH_SHORT).show();
+                }else if(arrivalCode_TextInputEditText.length()<3){
+                    Toast.makeText(getActivity(),"Podaj miejsce przylotu.",Toast.LENGTH_SHORT).show();
+                }else if(departureDate_AutoCompleteTextView.length()==0){
+                    Toast.makeText(getActivity(),"Podaj date wylotu.",Toast.LENGTH_SHORT).show();
+                }else if(numberOfPassengers_TextInputEditText.length()<1){
+                    Toast.makeText(getActivity(),"Podaj ilość pasażerów.",Toast.LENGTH_SHORT).show();
+                }else if(selectClassOfTravel_AutoCompleteTextView.length()==0){
+                    Toast.makeText(getActivity(),"Wybierz klase podrózy.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+                    intent.putExtra("CodeDeparture",String.valueOf(departureCode_TextInputEditText.getText()));
+                    intent.putExtra("CodeArrival",String.valueOf(arrivalCode_TextInputEditText.getText()));
+                    intent.putExtra("SelectedDate",selectedDate);
+                    intent.putExtra("NumberPassengers",String.valueOf(numberOfPassengers_TextInputEditText.getText()));
+                    intent.putExtra("travelClass",String.valueOf(selectClassOfTravel_AutoCompleteTextView.getText()));
+                    startActivity(intent);
+                }
             }
         });
     }
