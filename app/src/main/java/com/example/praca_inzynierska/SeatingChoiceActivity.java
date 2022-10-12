@@ -2,32 +2,27 @@ package com.example.praca_inzynierska;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 import java.util.Random;
 
 public class SeatingChoiceActivity extends AppCompatActivity {
-    private static final int[] ImageButtonID={R.id.seatA1_ImageButton,R.id.seatA2_ImageButton,R.id.seatA3_ImageButton,R.id.seatA4_ImageButton,
-            R.id.seatB1_ImageButton,R.id.seatB2_ImageButton,R.id.seatB3_ImageButton,R.id.seatB4_ImageButton,
-            R.id.seatC1_ImageButton,R.id.seatC2_ImageButton,R.id.seatC3_ImageButton,R.id.seatC4_ImageButton,
-            R.id.seatD1_ImageButton,R.id.seatD2_ImageButton,R.id.seatD3_ImageButton,R.id.seatD4_ImageButton,
-            R.id.seatE1_ImageButton,R.id.seatE2_ImageButton,R.id.seatE3_ImageButton,R.id.seatE4_ImageButton,
-            R.id.seatF1_ImageButton,R.id.seatF2_ImageButton,R.id.seatF3_ImageButton,R.id.seatF4_ImageButton};
+    private int numberOfselectedSeats = 0;
 
-    private final ImageButton[] Seat_ImageButton = new ImageButton[ImageButtonID.length];
-
-    private TextView showNumberOfSeats;
-
-
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +38,10 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         String flightDuration = getIntent().getStringExtra("flightDuration");
         String departureDateAndTime = getIntent().getStringExtra("departureDateAndTime");
         String flightNumber = getIntent().getStringExtra("flightNumber");
-//        String numberPassengers = getIntent().getStringExtra("NumberPassengers");
-        String numberPassengers = "3";
+        String numberPassengers = getIntent().getStringExtra("NumberPassengers");
         String travelClass = getIntent().getStringExtra("travelClass");
 
+        //Set flight information
         TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
         TextView tvDepartureAirportName = findViewById(R.id.departureCityName_TextView);
         TextView tvArrivalAirportCode = findViewById(R.id.arrivalAirportCode_TextView);
@@ -65,44 +60,65 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         tvDepartureDateAndTime.setText(departureDateAndTime);
         tvFlightNumber.setText(flightNumber);
         tvNumberOfPassengers.setText(numberPassengers);
-        tvTravelClass.setText(travelClass);
+        tvTravelClass.setText("klasa "+travelClass);
 
-        showNumberOfSeats = findViewById(R.id.seatNumber_TextView);
-
-        for(int i=0; i<ImageButtonID.length; i++){
-            Seat_ImageButton[i] = findViewById(ImageButtonID[i]);
-        }
-
-        setOccupiedSeats();
-        selectionOfSeats(numberPassengers);
-
-
+        //Seat management
+        GridLayout glSeatMap = findViewById(R.id.seatMap_GridLayout);
+        int passengersCount = Integer.parseInt(numberPassengers);
+        setSeatReservation(glSeatMap, passengersCount);
+        setReservedSeats(glSeatMap);
 
     }
 
-    private void setOccupiedSeats(){
-        int[] a = new int[10];
+    private void setReservedSeats(GridLayout gridLayout) {
+        ImageButton imageButton;
+        int[] a = new int[8];
         Random random = new Random();
-        for(int i=0; i<a.length;i++){
-            a[i]=random.nextInt(24);
+        for (int i = 0; i < a.length; i++) {
+            a[i] = random.nextInt(gridLayout.getChildCount());
 
-            for(int j=0; j<i; j++){
-                if(a[i]==a[j]){
+            for (int j = 0; j < i; j++) {
+                if (a[i] == a[j]) {
                     i--;
                     break;
                 }
             }
         }
         for (int j : a) {
-            Seat_ImageButton[j].setBackgroundResource(R.drawable.bg_seat_occupied);
+            imageButton = (ImageButton) gridLayout.getChildAt(j);
+            imageButton.setBackgroundResource(R.drawable.bg_seat_occupied);
         }
     }
 
-    private void selectionOfSeats(String numberPassengers){
-        int passengersCount = Integer.parseInt(numberPassengers);
+    private void setSeatReservation(GridLayout gridLayout, int numberOfPassengers) {
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            ImageButton imageButton = (ImageButton) gridLayout.getChildAt(i);
 
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("UseCompatLoadingForDrawables")
+                @Override
+                public void onClick(View view) {
 
+                    if (numberOfselectedSeats < numberOfPassengers) {
+                        if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_free).getConstantState()) {
+                            imageButton.setBackgroundResource(R.drawable.bg_seat_selected);
+                            numberOfselectedSeats++;
+                        } else if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
+                            imageButton.setBackgroundResource(R.drawable.bg_seat_free);
+                            numberOfselectedSeats--;
+                        }
+                    } else if (numberOfselectedSeats == numberOfPassengers) {
+                        if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
+                            imageButton.setBackgroundResource(R.drawable.bg_seat_free);
+                            numberOfselectedSeats--;
+                        }
+                    }
+                }
+            });
+
+        }
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void backToSearchResultAcitivity(View view) {

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeatingChoiceActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".SeatingChoiceActivity">
 
     <ImageView
         android:id="@+id/background_ImageView"
@@ -28,13 +27,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/animation_button_previous_activity"
+        android:onClick="backToSearchResultAcitivity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="backToSearchResultAcitivity"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="ContentDescription,UsingOnClickInXml" />
 
     <ImageView
         android:id="@+id/userAvatar_ImageView"
@@ -42,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image_avatar"
@@ -55,8 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="90dp"
         android:fontFamily="@font/montserra_bold"
         android:text="Wybierz miejsce"
         android:textColor="@color/mainColor"
@@ -68,20 +67,23 @@
         android:id="@+id/description_LinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/background_ImageView"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_seat_selection_description_free"
                 tools:ignore="ContentDescription" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,11 +100,13 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_seat_selection_description_occupied"
                 tools:ignore="ContentDescription" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,11 +123,13 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_seat_selection_description_selected"
                 tools:ignore="ContentDescription" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,402 +142,346 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/aeroplaneSeatMap_ImageView"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description_LinearLayout"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/bg_aeroplane_seat_map"
-        tools:ignore="ContentDescription" />
+        android:baselineAligned="false">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/choiceSeat_ConstraintLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/aeroplaneSeatMap_ImageView"
-        android:layout_alignEnd="@+id/aeroplaneSeatMap_ImageView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/bg_aeroplane_seat_map"
+            tools:ignore="ContentDescription" />
 
-        <ScrollView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
+            android:layout_weight="1"
+            android:background="@color/mainColor"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatA1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatA2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatA3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatA4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatB1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatB2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatB3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatB4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatC1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatC2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatC3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatC4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatD1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatD2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatD3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatD4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatE1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatE2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatE3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatE4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="MissingConstraints">
-
-                        <ImageButton
-                            android:id="@+id/seatF1_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatF2_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatF3_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-
-                        <ImageButton
-                            android:id="@+id/seatF4_ImageButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/bg_seat_free"
-                            tools:ignore="ContentDescription" />
-                    </LinearLayout>
-                </LinearLayout>
-            </HorizontalScrollView>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dateAndTimeOfFlight_ConstraintLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/choiceSeat_ConstraintLayout"
-        android:layout_alignStart="@+id/choiceSeat_ConstraintLayout"
-        android:layout_alignEnd="@+id/choiceSeat_ConstraintLayout"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <TextView
-                    android:id="@+id/departureDateAndTime_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="25 maja, 18:15"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="Klasa "
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/travelClass_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="biznesowa"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ScrollView
-        android:id="@+id/Flight_information_ScrollView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description_LinearLayout"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="0dp"
+        android:baselineAligned="false">
 
         <LinearLayout
-            android:id="@+id/flightInformation_LinearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="vertical"
-            tools:ignore="RtlHardcoded">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
+            android:gravity="fill"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
+
+                <TextView
+                    android:id="@+id/departureDateAndTime_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:gravity="center"
+                    android:text="25 maja, 18:15"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/travelClass_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:gravity="center"
+                    android:text="Klasa biznesowa"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.7">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    tools:ignore="UselessParent">
+
+                    <GridLayout
+                        android:id="@+id/seatMap_GridLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="4"
+                        android:rowCount="6"
+                        tools:ignore="UselessParent">
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription,RtlHardcoded" />
+
+                        <ImageButton
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/bg_seat_free"
+                            tools:ignore="ContentDescription" />
+
+
+                    </GridLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <TextView
                     android:id="@+id/departureAirportCode_TextView"
@@ -541,62 +491,63 @@
                     android:fontFamily="@font/opensans_bold"
                     android:text="WAW"
                     android:textColor="@color/white"
-                    android:textSize="40sp" />
+                    android:textSize="40sp"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/departureCityName_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_semibold"
                     android:text="Warszawa"
                     android:textColor="#66A5AD"
-                    android:textSize="15sp"
-                    tools:ignore="RtlHardcoded" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables,UselessParent">
 
                 <ImageView
-                    android:layout_width="70dp"
+                    android:layout_width="75dp"
                     android:layout_height="50dp"
                     android:layout_gravity="right"
                     android:src="@drawable/ic_journey_time"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_gravity="end"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/flightDuration_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/opensans_semibold"
                         android:text="2h 35m"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
-
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/arrivalAirportCode_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_bold"
                     android:text="ZHR"
                     android:textColor="@color/white"
@@ -606,16 +557,15 @@
                     android:id="@+id/arrivalAirportCityName_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_semibold"
                     android:text="Zurych"
                     android:textColor="#66A5AD"
-                    android:textSize="15sp"
-                    tools:ignore="RtlHardcoded" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
@@ -623,7 +573,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_bold"
                     android:text="Numer lotu"
                     android:textColor="@color/white"
@@ -633,16 +583,15 @@
                     android:id="@+id/flightNumber_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_semibold"
                     android:text="BP217"
                     android:textColor="#66A5AD"
-                    android:textSize="15sp"
-                    tools:ignore="RtlHardcoded" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
@@ -650,7 +599,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_bold"
                     android:text="Pasażerowie"
                     android:textColor="@color/white"
@@ -660,53 +609,33 @@
                     android:id="@+id/numberOfPassengers_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/opensans_semibold"
                     android:text="1"
                     android:textColor="#66A5AD"
-                    android:textSize="15sp"
-                    tools:ignore="RtlHardcoded" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="right"
+                android:layout_marginBottom="20dp"
                 android:orientation="vertical">
 
-                <TextView
+                <ImageButton
+                    android:id="@+id/go_to_search_results_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text="Numer miejsca"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@drawable/animation_button_next_activity"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+            </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/seatNumber_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans_bold"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="40sp"
-                    tools:ignore="RtlHardcoded" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/go_to_search_results_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/animation_button_next_activity"
-                tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
 
-    </ScrollView>
-
-
+    </LinearLayout>
 
 </RelativeLayout>

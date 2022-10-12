@@ -12,9 +12,7 @@
         android:theme="@style/Theme.Praca_Inzynierska">
         <activity
             android:name=".SeatingChoiceActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".SearchingForTicketActivity"
             android:exported="false" />
@@ -29,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
