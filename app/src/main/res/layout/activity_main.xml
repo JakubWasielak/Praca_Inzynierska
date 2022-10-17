@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/background_ImageView"
@@ -20,7 +19,7 @@
         android:layout_marginTop="150dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/main_background"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="ContentDescription,MissingConstraints" />
 
     <ImageButton
         android:id="@+id/menu_ImageView"
@@ -30,22 +29,11 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="33dp"
+        android:background="#ffff"
+        android:src="@drawable/animation_button_menu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/animation_button_menu"
-        android:background="#ffff" />
-
-    <ImageView
-        android:id="@+id/userAvatar_ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_avatar" />
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -53,9 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="95dp"
+        android:layout_marginEnd="25dp"
         android:fontFamily="@font/montserra_bold"
+        android:gravity="center"
         android:text="Twoje bilety"
         android:textColor="@color/mainColor"
         android:textSize="25sp"
@@ -74,9 +65,11 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/UserFlights_RecyclerView"
                 android:layout_width="match_parent"
@@ -93,6 +86,6 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
         android:background="@drawable/animation_button_add_new_ticket"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 </RelativeLayout>

@@ -1,34 +1,21 @@
 package com.example.praca_inzynierska;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
+import com.example.praca_inzynierska.R;
+import com.example.praca_inzynierska.typeOfTravelViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Calendar;
 import java.util.Objects;
 
 public class SearchingForTicketActivity extends AppCompatActivity {
     TabLayout mTypeOfTravel_TabLayout;
     ViewPager2 mTypeOfTravel_ViewPager2;
-    typeOfTravelViewPagerAdapter typeOfTravelViewPagerAdapter;
+    com.example.praca_inzynierska.typeOfTravelViewPagerAdapter typeOfTravelViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +57,7 @@ public class SearchingForTicketActivity extends AppCompatActivity {
         });
     }
 
-    public void closeSearchingForTicketActtivity(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void closeActtivity(View view) {
+        finish();
     }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,8 @@ import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Calendar;
 
 public class OneWayFlightFragment extends Fragment {
@@ -38,14 +37,13 @@ public class OneWayFlightFragment extends Fragment {
     private AutoCompleteTextView departureDate_AutoCompleteTextView;
     private AutoCompleteTextView selectClassOfTravel_AutoCompleteTextView;
     private ImageButton btn_searchForTickets;
-
-    private final String[] items =  {"Ekonomiczna","Biznesowa","Pierwsza"};
+    private final String[] items = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
     private LocalDate selectedDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_one_way_flight,container,false);
+        View view = inflater.inflate(R.layout.fragment_one_way_flight, container, false);
 
         departureCode_TextInputEditText = view.findViewById(R.id.departureCode_TextInputEditText);
         arrivalCode_TextInputEditText = view.findViewById(R.id.arrivalCode_TextInputEditText);
@@ -56,8 +54,7 @@ public class OneWayFlightFragment extends Fragment {
 
         setDepartureDate();
         setClassPicker();
-        goToNextActivity();
-
+        goToSearchResultActivity();
         return view;
     }
 
@@ -67,7 +64,7 @@ public class OneWayFlightFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setDepartureDate(){
+    private void setDepartureDate() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -80,14 +77,14 @@ public class OneWayFlightFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        selectedDate = LocalDate.of(year,month+1,dayOfMonth);
+                        selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if(selectedDate.isAfter(todayDate) ||  selectedDate.isEqual(todayDate)) {
+                        if (selectedDate.isAfter(todayDate) || selectedDate.isEqual(todayDate)) {
                             String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                             departureDate_AutoCompleteTextView.setText(formattedDate);
                         }
                     }
-                },year,month,day);
+                }, year, month, day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();
             }
@@ -95,27 +92,27 @@ public class OneWayFlightFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void goToNextActivity() {
+    private void goToSearchResultActivity() {
         btn_searchForTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(departureCode_TextInputEditText.length()<3){
-                    Toast.makeText(getActivity(),"Podaj miejsce wylotu.",Toast.LENGTH_SHORT).show();
-                }else if(arrivalCode_TextInputEditText.length()<3){
-                    Toast.makeText(getActivity(),"Podaj miejsce przylotu.",Toast.LENGTH_SHORT).show();
-                }else if(departureDate_AutoCompleteTextView.length()==0){
-                    Toast.makeText(getActivity(),"Podaj date wylotu.",Toast.LENGTH_SHORT).show();
-                }else if(numberOfPassengers_TextInputEditText.length()<1){
-                    Toast.makeText(getActivity(),"Podaj ilość pasażerów.",Toast.LENGTH_SHORT).show();
-                }else if(selectClassOfTravel_AutoCompleteTextView.length()==0){
-                    Toast.makeText(getActivity(),"Wybierz klase podrózy.",Toast.LENGTH_SHORT).show();
-                }else {
+                if (departureCode_TextInputEditText.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (arrivalCode_TextInputEditText.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
+                } else if (departureDate_AutoCompleteTextView.length() == 0) {
+                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (numberOfPassengers_TextInputEditText.length() < 1) {
+                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
+                } else if (selectClassOfTravel_AutoCompleteTextView.length() == 0) {
+                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                    intent.putExtra("CodeDeparture",String.valueOf(departureCode_TextInputEditText.getText()));
-                    intent.putExtra("CodeArrival",String.valueOf(arrivalCode_TextInputEditText.getText()));
-                    intent.putExtra("SelectedDate",selectedDate);
-                    intent.putExtra("NumberPassengers",String.valueOf(numberOfPassengers_TextInputEditText.getText()));
-                    intent.putExtra("travelClass",String.valueOf(selectClassOfTravel_AutoCompleteTextView.getText()));
+                    intent.putExtra("CodeDeparture", String.valueOf(departureCode_TextInputEditText.getText()));
+                    intent.putExtra("CodeArrival", String.valueOf(arrivalCode_TextInputEditText.getText()));
+                    intent.putExtra("SelectedDate", selectedDate);
+                    intent.putExtra("NumberPassengers", String.valueOf(numberOfPassengers_TextInputEditText.getText()));
+                    intent.putExtra("travelClass", String.valueOf(selectClassOfTravel_AutoCompleteTextView.getText()));
                     startActivity(intent);
                 }
             }

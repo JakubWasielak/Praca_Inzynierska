@@ -35,18 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
 
-    <ImageView
-        android:id="@+id/userAvatar_ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_avatar"
-        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -54,8 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="95dp"
+        android:layout_marginEnd="25dp"
+        android:gravity="center"
         android:fontFamily="@font/montserra_bold"
         android:text="Wybierz bilet"
         android:textColor="@color/mainColor"
@@ -148,7 +139,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/goToNextActivity_ImageButton"
+        android:id="@+id/goToSeatingChoiceActivity_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

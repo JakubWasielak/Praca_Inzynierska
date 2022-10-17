@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".typeOfTravelFragments.OneWayFlightFragment"
-    android:background="@color/mainColor">
+    android:background="@color/mainColor"
+    tools:context=".typeOfTravelFragments.OneWayFlightFragment">
 
     <ScrollView
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:hint="Lotnisko wylotu"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
@@ -34,8 +35,7 @@
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_takeoff"
-                app:startIconTint="@color/white"
-                android:focusable="true">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/departureCode_TextInputEditText"
@@ -43,12 +43,12 @@
                     android:layout_height="56dp"
                     android:fontFamily="@font/opensans_semibold"
                     android:inputType="textCapCharacters"
+                    android:imeOptions="actionDone"
                     android:maxLength="3"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="15sp"
-                    tools:ignore="LabelFor"
-                    />
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:focusable="true"
                 android:hint="Lotnisko przylotu"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
@@ -64,14 +65,14 @@
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_land"
-                app:startIconTint="@color/white"
-                android:focusable="true">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/arrivalCode_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:fontFamily="@font/opensans_semibold"
+                    android:imeOptions="actionDone"
                     android:inputType="textCapCharacters"
                     android:maxLength="3"
                     android:singleLine="true"
@@ -86,14 +87,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:focusable="false"
                 android:hint="Data wylotu"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
                 app:boxStrokeWidth="2dp"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_calendar_month"
-                app:startIconTint="@color/white"
-                android:focusable="false">
+                app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
                     android:id="@+id/departureDate_AutoCompleteTextView"
@@ -113,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:focusable="true"
                 android:hint="Ilość pasażerów"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
@@ -120,14 +122,14 @@
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_passengers"
-                app:startIconTint="@color/white"
-                android:focusable="true">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/numberOfPassengers_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:fontFamily="@font/opensans_semibold"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="1"
                     android:singleLine="true"
@@ -140,6 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:focusable="false"
                 android:hint="Klasa podróży"
                 android:textColorHint="@color/white"
                 app:boxBackgroundColor="@color/mainColor"
@@ -147,8 +150,7 @@
                 app:boxStrokeWidth="2dp"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_airline_seat"
-                app:startIconTint="@color/white"
-                android:focusable="false">
+                app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
                     android:id="@+id/selectClassOfTravel_AutoCompleteTextView"

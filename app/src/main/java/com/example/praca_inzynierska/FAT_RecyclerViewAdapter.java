@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerViewAdapter.MyViewHolder> {
@@ -45,7 +46,9 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         holder.tvFlightDuration.setText(foundAirlineTicketsModels.get(position).getFlightDuration());
         holder.tvDepartureDateAndTime.setText(foundAirlineTicketsModels.get(position).getDepartureDateAndTime());
         holder.tvFlightNumber.setText(foundAirlineTicketsModels.get(position).getFlightNumber());
-        holder.tvTicketPrice.setText(foundAirlineTicketsModels.get(position).getTicketPrice());
+        DecimalFormat formatter = new DecimalFormat("#0.00");
+        String PriceTicket = formatter.format(foundAirlineTicketsModels.get(position).getTicketPrice())+" zł";
+        holder.tvTicketPrice.setText(PriceTicket);
 
         if(singleItem_selection_position == position)
         {

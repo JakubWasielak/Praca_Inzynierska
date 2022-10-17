@@ -16,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.praca_inzynierska.R;
+
 import java.util.Objects;
 import java.util.Random;
 
 public class SeatingChoiceActivity extends AppCompatActivity {
-    private int numberOfselectedSeats = 0;
+    private int selectedSeats = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,8 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seating_choice);
 
         //Reading the transmitted value
-        String departureAirportCode = getIntent().getStringExtra("departureAirportCode");
-        String departureAirportCityName = getIntent().getStringExtra("departureAirportCityName");
-        String arrivalAirportCode = getIntent().getStringExtra("arrivalAirportCode");
-        String arrivalAirportCityName = getIntent().getStringExtra("arrivalAirportCityName");
-        String flightDuration = getIntent().getStringExtra("flightDuration");
-        String departureDateAndTime = getIntent().getStringExtra("departureDateAndTime");
-        String flightNumber = getIntent().getStringExtra("flightNumber");
-        String numberPassengers = getIntent().getStringExtra("NumberPassengers");
-        String travelClass = getIntent().getStringExtra("travelClass");
+        Intent intent = getIntent();
+        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
 
         //Set flight information
         TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
@@ -52,22 +48,40 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         TextView tvNumberOfPassengers = findViewById(R.id.numberOfPassengers_TextView);
         TextView tvTravelClass = findViewById(R.id.travelClass_TextView);
 
-        tvDepartureAirportCode.setText(departureAirportCode);
-        tvDepartureAirportName.setText(departureAirportCityName);
-        tvArrivalAirportCode.setText(arrivalAirportCode);
-        tvArrivalAirportName.setText(arrivalAirportCityName);
-        tvFlightDuration.setText(flightDuration);
-        tvDepartureDateAndTime.setText(departureDateAndTime);
-        tvFlightNumber.setText(flightNumber);
-        tvNumberOfPassengers.setText(numberPassengers);
-        tvTravelClass.setText("klasa "+travelClass);
+        tvDepartureAirportCode.setText(foundAirlineTicketsModel.getDepartureAirportCode());
+        tvDepartureAirportName.setText(foundAirlineTicketsModel.getDepartureAirportCityName());
+        tvArrivalAirportCode.setText(foundAirlineTicketsModel.getArrivalAirportCode());
+        tvArrivalAirportName.setText(foundAirlineTicketsModel.getArrivalAirportCityName());
+        tvFlightDuration.setText(foundAirlineTicketsModel.getFlightDuration());
+        tvDepartureDateAndTime.setText(foundAirlineTicketsModel.getDepartureDateAndTime());
+        tvFlightNumber.setText(foundAirlineTicketsModel.getFlightNumber());
+        tvNumberOfPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
+        tvTravelClass.setText("klasa "+foundAirlineTicketsModel.getTravelClass());
 
         //Seat management
-        GridLayout glSeatMap = findViewById(R.id.seatMap_GridLayout);
-        int passengersCount = Integer.parseInt(numberPassengers);
-        setSeatReservation(glSeatMap, passengersCount);
-        setReservedSeats(glSeatMap);
+        GridLayout seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
+        setSeatReservation(seatMap_GridLayout, foundAirlineTicketsModel.getNumberPassengers());
+        setReservedSeats(seatMap_GridLayout);
 
+        //Next Activity
+        ImageButton goToPassengerDetailsActivity_ImageButton = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
+        goToPassengerDetailsActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
+                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
+                startActivity(intent);
+            }
+        });
+
+        //Previous Activity
+        ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
+        goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void setReservedSeats(GridLayout gridLayout) {
@@ -99,18 +113,18 @@ public class SeatingChoiceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    if (numberOfselectedSeats < numberOfPassengers) {
+                    if (selectedSeats < numberOfPassengers) {
                         if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_free).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_selected);
-                            numberOfselectedSeats++;
+                            selectedSeats++;
                         } else if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_free);
-                            numberOfselectedSeats--;
+                            selectedSeats--;
                         }
-                    } else if (numberOfselectedSeats == numberOfPassengers) {
+                    } else if (selectedSeats == numberOfPassengers) {
                         if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_free);
-                            numberOfselectedSeats--;
+                            selectedSeats--;
                         }
                     }
                 }
