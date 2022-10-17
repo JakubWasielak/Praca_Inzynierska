@@ -33,18 +33,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-    <ImageView
-        android:id="@+id/userAvatar_ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_avatar"
-        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -52,8 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="90dp"
+        android:layout_marginEnd="25dp"
+        android:gravity="center"
         android:fontFamily="@font/montserra_bold"
         android:text="Podaj dane podróżnych"
         android:textColor="@color/mainColor"
@@ -181,7 +172,8 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Mężczyzna"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/genderWoman_RadioButton"
@@ -231,7 +223,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/goTo_ImageButton"
+        android:id="@+id/goToNext_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -239,7 +231,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/animation_button_next_activity"
+        android:background="@drawable/animation_button_add_new_ticket"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 
