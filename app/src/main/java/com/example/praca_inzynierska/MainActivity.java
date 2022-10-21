@@ -14,13 +14,13 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] Departure_airport_shortcut;
-    String[] Departure_city;
-    String[] Arrival_airport_shortcut;
-    String[] Arrival_city;
-    String[] Duration_of_flight;
-    String[] Flight_date;
-    String[] Flight_number;
+    String Departure_airport_shortcut;
+    String Departure_city;
+    String Arrival_airport_shortcut;
+    String Arrival_city;
+    String Duration_of_flight;
+    String Flight_date;
+    String Flight_number;
 
 
     @Override
@@ -33,19 +33,22 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView user_Flights = findViewById(R.id.UserFlights_RecyclerView);
         ImageButton addNewTicket_ImageButton = findViewById(R.id.addNewTicked_ImageButton);
 
-//Przykładowe dane do czasu przejscia na baze danych
-// ------------------------------------------------------------------------------------------------------
-        Departure_airport_shortcut = getResources().getStringArray(R.array.Departure_Code);
-        Departure_city = getResources().getStringArray(R.array.Departure_City);
-        Arrival_airport_shortcut = getResources().getStringArray(R.array.Arrival_Code);
-        Arrival_city = getResources().getStringArray(R.array.Arrival_City);
-        Duration_of_flight = getResources().getStringArray(R.array.Duration_Flight);
-        Flight_date  = getResources().getStringArray(R.array.Flight_Date);
-        Flight_number = getResources().getStringArray(R.array.Flight_Number);
 
-        ShowUserFlightsAdapter user1 = new ShowUserFlightsAdapter(this, Departure_airport_shortcut, Departure_city, Arrival_airport_shortcut, Arrival_city, Duration_of_flight, Flight_date, Flight_number);
-        user_Flights.setAdapter(user1);
-        user_Flights.setLayoutManager(new LinearLayoutManager(this));
+        //Reading the transmitted value
+//        Intent intent = getIntent();
+//        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+//
+//        Departure_airport_shortcut = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Departure_city = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Arrival_airport_shortcut = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Arrival_city = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Duration_of_flight = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Flight_date = foundAirlineTicketsModel.getDepartureAirportCityName();
+//        Flight_number = foundAirlineTicketsModel.getDepartureAirportCityName();
+//
+//        ShowUserFlightsAdapter user1 = new ShowUserFlightsAdapter(this, Departure_airport_shortcut, Departure_city, Arrival_airport_shortcut, Arrival_city, Duration_of_flight, Flight_date, Flight_number);
+//        user_Flights.setAdapter(user1);
+//        user_Flights.setLayoutManager(new LinearLayoutManager(this));
 //------------------------------------------------------------------------------------------------------
 
         addNewTicket_ImageButton.setOnClickListener(new View.OnClickListener() {

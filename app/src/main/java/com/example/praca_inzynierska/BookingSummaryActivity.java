@@ -31,6 +31,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
         ArrayList<String> seatsNumber = (ArrayList<String>) intent.getSerializableExtra("seatsNumber");
+        ArrayList<PassengerModel> passengerList = (ArrayList<PassengerModel>) getIntent().getSerializableExtra("passengerList");
 
         ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
         goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +45,9 @@ public class BookingSummaryActivity extends AppCompatActivity {
         confirm_ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
+                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
+                startActivity(intent);
 
             }
         });
@@ -80,12 +84,12 @@ public class BookingSummaryActivity extends AppCompatActivity {
         tvNumberPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
         tvSeatNumber.setText(String.valueOf(seatsNumber));
         DecimalFormat formatter = new DecimalFormat("#0.00");
-        String PriceTicket = formatter.format(foundAirlineTicketsModel.getTicketPrice())+" zł";
+        String PriceTicket = formatter.format(foundAirlineTicketsModel.getTicketPrice()*foundAirlineTicketsModel.getNumberPassengers())+" zł";
         tvTicketPrice.setText(PriceTicket);
 
         //
         ListView passengerInformation_ListView = findViewById(R.id.passengerInformation_ListView);
-        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, (ArrayList<PassengerModel>) getIntent().getSerializableExtra("passengerList"));
+        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, passengerList);
         passengerInformation_ListView.setAdapter(adapter);
     }
 

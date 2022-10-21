@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlightsAdapter.ShowUserFlightsAdapterHolder> {
     Context context;
-    String[] Departure_airport_sc, Departure_cy;
-    String[] Arrival_airport_sc , Arrival_cy;
-    String[] Duration_flight;
-    String[] Flight_d;
-    String[] Flight_num;
+    String Departure_airport_sc, Departure_cy;
+    String Arrival_airport_sc , Arrival_cy;
+    String Duration_flight;
+    String Flight_d;
+    String Flight_num;
 
-    public ShowUserFlightsAdapter(Context ct,
-                                  String[] Departure_airport_shortcut, String[] Departure_city,
-                                  String[] Arrival_airport_shortcut, String[] Arrival_city,
-                                  String[] Duration_of_flight, String[] Flight_date,String[] Flight_number) {
+    public ShowUserFlightsAdapter(Context ct, String Departure_airport_shortcut, String Departure_city,
+                                  String Arrival_airport_shortcut, String Arrival_city,
+                                  String Duration_of_flight, String Flight_date,String Flight_number) {
         context=ct;
         Departure_airport_sc =Departure_airport_shortcut;
         Departure_cy= Departure_city;
@@ -41,13 +40,13 @@ public class ShowUserFlightsAdapter extends RecyclerView.Adapter<ShowUserFlights
 
     @Override
     public void onBindViewHolder(@NonNull ShowUserFlightsAdapterHolder holder, int position) {
-        holder.Departure_airport_sc.setText(Departure_airport_sc[position]);
-        holder.Departure_cy.setText(Departure_cy[position]);
-        holder.Arrival_airport_sc.setText(Arrival_airport_sc[position]);
-        holder.Arrival_cy.setText(Arrival_cy[position]);
-        holder.Duration_flight.setText(Duration_flight[position]);
-        holder.Flight_d.setText(Flight_d[position]);
-        holder.Flight_num.setText(Flight_num[position]);
+        holder.Departure_airport_sc.setText(Departure_airport_sc);
+        holder.Departure_cy.setText(Departure_cy);
+        holder.Arrival_airport_sc.setText(Arrival_airport_sc);
+        holder.Arrival_cy.setText(Arrival_cy);
+        holder.Duration_flight.setText(Duration_flight);
+        holder.Flight_d.setText(Flight_d);
+        holder.Flight_num.setText(Flight_num);
     }
 
     @Override
