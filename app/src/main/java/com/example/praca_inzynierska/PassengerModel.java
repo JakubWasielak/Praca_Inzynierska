@@ -1,6 +1,9 @@
 package com.example.praca_inzynierska;
 
-public class PassengerModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PassengerModel implements Parcelable {
     String name;
     String lastName;
     int age;
@@ -12,6 +15,25 @@ public class PassengerModel {
         this.age = age;
         this.gender = gender;
     }
+
+    protected PassengerModel(Parcel in) {
+        name = in.readString();
+        lastName = in.readString();
+        age = in.readInt();
+        gender = in.readString();
+    }
+
+    public static final Creator<PassengerModel> CREATOR = new Creator<PassengerModel>() {
+        @Override
+        public PassengerModel createFromParcel(Parcel in) {
+            return new PassengerModel(in);
+        }
+
+        @Override
+        public PassengerModel[] newArray(int size) {
+            return new PassengerModel[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -43,5 +65,18 @@ public class PassengerModel {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(lastName);
+        parcel.writeInt(age);
+        parcel.writeString(gender);
     }
 }

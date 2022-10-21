@@ -231,6 +231,7 @@
                         tools:ignore="UselessParent">
 
                         <ImageButton
+                            android:id="@+id/A1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -239,6 +240,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/A2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -247,6 +249,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/A3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -255,6 +258,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/A4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -263,6 +267,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/B1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -271,6 +276,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/B2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -279,6 +285,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/B3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -287,6 +294,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/B4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -295,6 +303,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/C1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -303,6 +312,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/C2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -311,6 +321,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/C3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -319,6 +330,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/C4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -327,6 +339,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/D1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -335,6 +348,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/D2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -343,6 +357,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/D3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -351,6 +366,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/D4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -359,6 +375,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/E1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -367,6 +384,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/E2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -375,6 +393,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/E3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -383,6 +402,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/E4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -391,6 +411,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/F1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -399,6 +420,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/F2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -407,6 +429,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/F3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -415,6 +438,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/F4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -423,6 +447,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/G1"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -431,6 +456,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/G2"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -439,6 +465,7 @@
                             tools:ignore="ContentDescription" />
 
                         <ImageButton
+                            android:id="@+id/G3"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"
@@ -447,6 +474,7 @@
                             tools:ignore="ContentDescription,RtlHardcoded" />
 
                         <ImageButton
+                            android:id="@+id/G4"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="fill"

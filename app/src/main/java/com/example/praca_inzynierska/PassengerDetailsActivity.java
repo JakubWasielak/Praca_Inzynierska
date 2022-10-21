@@ -29,8 +29,9 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_passenger_details);
 
         //Reading the transmitted value
-        //Intent intent = getIntent();
-        //FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+        Intent intent = getIntent();
+        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+
 
         //
         ListView passengerInfo_ListView = findViewById(R.id.passengerInformation_ListView);
@@ -45,24 +46,24 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         goToNext_ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(passengerName_TextInputEditText.length()==0){
-                    Toast.makeText(PassengerDetailsActivity.this,"Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
-                }else if(passengerLastName_TextInputEditText.length()==0){
-                    Toast.makeText(PassengerDetailsActivity.this,"Podaj Nazwisko pasażera.", Toast.LENGTH_SHORT).show();
-                }else if(passengerAge_TextInputEditText.length()==0){
-                    Toast.makeText(PassengerDetailsActivity.this,"Podaj Wiek pasażera.", Toast.LENGTH_SHORT).show();
-                }else{
-                    if (passengerList.size() < 3) {
+                if (passengerName_TextInputEditText.length() == 0) {
+                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
+                } else if (passengerLastName_TextInputEditText.length() == 0) {
+                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Nazwisko pasażera.", Toast.LENGTH_SHORT).show();
+                } else if (passengerAge_TextInputEditText.length() == 0) {
+                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Wiek pasażera.", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (passengerList.size() < foundAirlineTicketsModel.getNumberPassengers()) {
                         PassengerModel passengerModel = new PassengerModel(String.valueOf(passengerName_TextInputEditText.getText()), String.valueOf(passengerLastName_TextInputEditText.getText()), Integer.parseInt(String.valueOf(passengerAge_TextInputEditText.getText())), gender);
                         passengerList.add(passengerModel);
                         PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerDetailsActivity.this, R.layout.new_passenger_item, passengerList);
                         passengerInfo_ListView.setAdapter(adapter);
-                    } else if (passengerList.size() == 3) {
+                    } else if (passengerList.size() == foundAirlineTicketsModel.getNumberPassengers()) {
                         goToNext_ImageButton.setBackgroundResource(R.drawable.animation_button_next_activity);
-                        //Intent intent = new Intent(PassengerDetailsActivity.this, PassengerDetailsActivity.class);
-                        //intent.putExtra("passengerList",passengerList);
-                        //startActivity(intent);
-
+                        Intent intent = new Intent(PassengerDetailsActivity.this, BookingSummaryActivity.class);
+                        intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
+                        intent.putExtra("passengerList", passengerList);
+                        startActivity(intent);
                     }
                 }
             }

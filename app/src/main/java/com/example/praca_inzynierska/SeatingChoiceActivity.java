@@ -23,6 +23,7 @@ import java.util.Random;
 
 public class SeatingChoiceActivity extends AppCompatActivity {
     private int selectedSeats = 0;
+    private String[] seatID;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -68,9 +69,13 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         goToPassengerDetailsActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
-                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                startActivity(intent);
+                if (selectedSeats == foundAirlineTicketsModel.getNumberPassengers()){
+                    Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
+                    intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(SeatingChoiceActivity.this,"Wybierz miejsce w samolocie dla pasażera", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -105,14 +110,13 @@ public class SeatingChoiceActivity extends AppCompatActivity {
     }
 
     private void setSeatReservation(GridLayout gridLayout, int numberOfPassengers) {
+        seatID = new String[numberOfPassengers];
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
             ImageButton imageButton = (ImageButton) gridLayout.getChildAt(i);
-
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("UseCompatLoadingForDrawables")
                 @Override
                 public void onClick(View view) {
-
                     if (selectedSeats < numberOfPassengers) {
                         if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_free).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_selected);

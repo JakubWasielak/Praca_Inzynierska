@@ -223,6 +223,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);
                 intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModels.get(position));
+
                 startActivity(intent);
             }
         });

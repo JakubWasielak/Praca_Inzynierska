@@ -23,6 +23,7 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_button_seat.xml" value="0.2005" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_pressed.xml" value="0.1415" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_close_activity_unpressed.xml" value="0.1415" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_confirm_pressed.xml" value="0.2565" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_dayofweek_calendary.xml" value="0.317" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_dayofweek_calendary_selected.xml" value="0.317" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/bg_menu_pressed.xml" value="0.2205" />
@@ -58,6 +59,7 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.2195" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_baseline_check_box_outline_blank_24.xml" value="0.2195" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_calendar_month.xml" value="0.289" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_confirm.xml" value="0.2565" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_custom_tab_indicator.xml" value="0.1895" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_delete.xml" value="0.333" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/ic_flight_land.xml" value="0.289" />
@@ -78,6 +80,7 @@
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/text_field_style.xml" value="0.1" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/drawable/textinputcolors.xml" value="0.1525" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_adding_ticket.xml" value="0.23322683706070288" />
+        <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_booking_summary.xml" value="0.33" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_choice_of_seat.xml" value="0.33" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Praca_Inzynierska/app/src/main/res/layout/activity_main.xml" value="0.33" />
