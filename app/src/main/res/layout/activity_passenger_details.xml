@@ -89,9 +89,11 @@
                 android:singleLine="true"
                 android:imeOptions="actionDone"
                 android:fontFamily="@font/opensans_semibold"
+                app:endIconMode="clear_text"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -121,7 +123,8 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -172,8 +175,7 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Mężczyzna"
                 android:textColor="@color/white"
-                android:textSize="15sp"
-                android:checked="true"/>
+                android:textSize="15sp" />
 
             <RadioButton
                 android:id="@+id/genderWoman_RadioButton"

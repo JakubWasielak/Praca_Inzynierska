@@ -3,10 +3,12 @@ package com.example.praca_inzynierska;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -31,7 +33,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         //Reading the transmitted value
         Intent intent = getIntent();
         FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
-
+        ArrayList<String> seatsNumber = (ArrayList<String>) getIntent().getSerializableExtra("seatsNumber");
 
         //
         ListView passengerInfo_ListView = findViewById(R.id.passengerInformation_ListView);
@@ -46,26 +48,35 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         goToNext_ImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (passengerName_TextInputEditText.length() == 0) {
-                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
-                } else if (passengerLastName_TextInputEditText.length() == 0) {
-                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Nazwisko pasażera.", Toast.LENGTH_SHORT).show();
-                } else if (passengerAge_TextInputEditText.length() == 0) {
-                    Toast.makeText(PassengerDetailsActivity.this, "Podaj Wiek pasażera.", Toast.LENGTH_SHORT).show();
-                } else {
                     if (passengerList.size() < foundAirlineTicketsModel.getNumberPassengers()) {
-                        PassengerModel passengerModel = new PassengerModel(String.valueOf(passengerName_TextInputEditText.getText()), String.valueOf(passengerLastName_TextInputEditText.getText()), Integer.parseInt(String.valueOf(passengerAge_TextInputEditText.getText())), gender);
-                        passengerList.add(passengerModel);
-                        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerDetailsActivity.this, R.layout.new_passenger_item, passengerList);
-                        passengerInfo_ListView.setAdapter(adapter);
+                        if (passengerName_TextInputEditText.length() == 0) {
+                            Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
+                        } else if (passengerLastName_TextInputEditText.length() == 0) {
+                            Toast.makeText(PassengerDetailsActivity.this, "Podaj Nazwisko pasażera.", Toast.LENGTH_SHORT).show();
+                        } else if (passengerAge_TextInputEditText.length() == 0) {
+                            Toast.makeText(PassengerDetailsActivity.this, "Podaj Wiek pasażera.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            PassengerModel passengerModel = new PassengerModel(String.valueOf(passengerName_TextInputEditText.getText()), String.valueOf(passengerLastName_TextInputEditText.getText()), Integer.parseInt(String.valueOf(passengerAge_TextInputEditText.getText())), gender);
+                            passengerList.add(passengerModel);
+                            PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerDetailsActivity.this, R.layout.new_passenger_item, passengerList);
+                            passengerInfo_ListView.setAdapter(adapter);
+                            passengerName_TextInputEditText.getText().clear();
+                            passengerLastName_TextInputEditText.getText().clear();
+                            passengerAge_TextInputEditText.getText().clear();
+                            gender_RadioGroup.clearCheck();
+                        }
                     } else if (passengerList.size() == foundAirlineTicketsModel.getNumberPassengers()) {
+                        passengerName_TextInputEditText.getText().clear();
+                        passengerLastName_TextInputEditText.getText().clear();
+                        passengerAge_TextInputEditText.getText().clear();
+                        gender_RadioGroup.clearCheck();
                         goToNext_ImageButton.setBackgroundResource(R.drawable.animation_button_next_activity);
                         Intent intent = new Intent(PassengerDetailsActivity.this, BookingSummaryActivity.class);
                         intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
                         intent.putExtra("passengerList", passengerList);
+                        intent.putExtra("seatsNumber",seatsNumber);
                         startActivity(intent);
                     }
-                }
             }
         });
 
@@ -82,6 +93,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedButtonId) {
+
                 switch (checkedButtonId) {
                     case R.id.genderMen_RadioButton:
                         gender = "Mężczyzna";
@@ -95,7 +107,6 @@ public class PassengerDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
 

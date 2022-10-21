@@ -80,7 +80,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
 
     private void addFoundTickets(String departureCode, String arrivalCode, LocalDate selectedDate) {
         foundAirlineTicketsModels = new ArrayList<>();
-        String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMTE2MDNkZjUwYmE4MjFlYTdmOTBiOTRiM2ZiZGZlZjkyMjFkNTkwMGYxMWUzNGIyMDNmYmZlM2MwNTY3MzY4NmRlN2QzZDBlMTNhYmI5NmUiLCJpYXQiOjE2NjExODg5OTcsIm5iZiI6MTY2MTE4ODk5NywiZXhwIjoxNjkyNzI0OTk3LCJzdWIiOiIxMTA1NCIsInNjb3BlcyI6W119.l3CEK2HL21-jP-dkjSe07jAUCBzCREbbZcnBzIpGp_0D3ytduROOTweAnkSd3o6u12lJtHvgubYnVIzvl--E2g";
+        String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNDMyNDYwODY5ODdmZDUxZWQ0OWFhYzM5N2U3ZmNlMDcyYzUwNTIyZDFhYmNmNzg3NDY3OWJmNjRlNzAzMGJhOTQ1ZjQ2NDE2NzllNWI2M2QiLCJpYXQiOjE2NjYzNTgwNjAsIm5iZiI6MTY2NjM1ODA2MCwiZXhwIjoxNjk3ODk0MDYwLCJzdWIiOiIxNTcyNCIsInNjb3BlcyI6W119.n-qCwXT6OuyD6B1bQ-sPqElGEx96y_8GiYuIee29pFKPT7HNzymQuf7Ov9UVTjERwJr3AUVwBUEhSiBHqu6J7w";
         String url = "https://app.goflightlabs.com/routes?access_key=" + access_key + "&dep_iata=" + departureCode + "&arr_iata=" + arrivalCode;
 
         RequestQueue queue = Volley.newRequestQueue(SearchResultsActivity.this);
@@ -223,7 +223,6 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);
                 intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModels.get(position));
-
                 startActivity(intent);
             }
         });

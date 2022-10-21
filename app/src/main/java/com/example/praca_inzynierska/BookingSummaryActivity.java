@@ -30,6 +30,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
         //Reading the transmitted value
         Intent intent = getIntent();
         FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+        ArrayList<String> seatsNumber = (ArrayList<String>) intent.getSerializableExtra("seatsNumber");
 
         ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
         goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +76,9 @@ public class BookingSummaryActivity extends AppCompatActivity {
         tvDepDate.setText(returnDate(foundAirlineTicketsModel.getDepartureDateAndTime()));
         tvTravelClass.setText(foundAirlineTicketsModel.getTravelClass());
         tvFlightNumber.setText(foundAirlineTicketsModel.getFlightNumber());
-        tvDepTime.setText(returnTime(foundAirlineTicketsModel.getDepartureDateAndTime()));//------------------
+        tvDepTime.setText(returnTime(foundAirlineTicketsModel.getDepartureDateAndTime()));
         tvNumberPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
-        tvSeatNumber.setText("ABCDEFGH");
+        tvSeatNumber.setText(String.valueOf(seatsNumber));
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(foundAirlineTicketsModel.getTicketPrice())+" zł";
         tvTicketPrice.setText(PriceTicket);
@@ -86,9 +87,8 @@ public class BookingSummaryActivity extends AppCompatActivity {
         ListView passengerInformation_ListView = findViewById(R.id.passengerInformation_ListView);
         PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, (ArrayList<PassengerModel>) getIntent().getSerializableExtra("passengerList"));
         passengerInformation_ListView.setAdapter(adapter);
-
-
     }
+
 
     private String returnDate(String s){
         String[] words = s.split(",");
