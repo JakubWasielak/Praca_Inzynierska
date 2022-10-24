@@ -129,10 +129,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
 
     private String setDepartureTime(String depTime) {
         String[] departureTimeSplit = depTime.split(":");
-        int hours = Integer.parseInt(departureTimeSplit[0]);
-        int minutes = Integer.parseInt(departureTimeSplit[1]);
-
-        return hours + ":" + minutes;
+        return departureTimeSplit[0]+ ":" + departureTimeSplit[1];
     }
 
     private String setFlightDuration(String depTime, String arrTime) {
