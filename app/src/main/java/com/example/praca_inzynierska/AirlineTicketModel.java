@@ -1,8 +1,11 @@
 package com.example.praca_inzynierska;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class AirlineTicketModel {
+public class AirlineTicketModel implements Parcelable {
     String departureAirportCode;
     String departureAirportName;
     String arrivalAirportCode;
@@ -32,6 +35,35 @@ public class AirlineTicketModel {
         this.numberPassengers = numberPassengers;
         this.oneWayFlight = oneWayFlight;
     }
+
+    protected AirlineTicketModel(Parcel in) {
+        departureAirportCode = in.readString();
+        departureAirportName = in.readString();
+        arrivalAirportCode = in.readString();
+        arrivalAirportName = in.readString();
+        flightDuration = in.readString();
+        departureDate = in.readString();
+        departureTime = in.readString();
+        flightNumber = in.readString();
+        travelClass = in.readString();
+        ticketPrice = in.readDouble();
+        numberPassengers = in.readInt();
+        oneWayFlight = in.readByte() != 0;
+        reservedSeatsNames = in.createStringArrayList();
+        passengerInformation = in.createTypedArrayList(PassengerModel.CREATOR);
+    }
+
+    public static final Creator<AirlineTicketModel> CREATOR = new Creator<AirlineTicketModel>() {
+        @Override
+        public AirlineTicketModel createFromParcel(Parcel in) {
+            return new AirlineTicketModel(in);
+        }
+
+        @Override
+        public AirlineTicketModel[] newArray(int size) {
+            return new AirlineTicketModel[size];
+        }
+    };
 
     public String getDepartureAirportCode() {
         return departureAirportCode;
@@ -95,5 +127,28 @@ public class AirlineTicketModel {
 
     public void setpassengerInformation(ArrayList<PassengerModel> passengerList) {
         this.passengerInformation = passengerList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(departureAirportCode);
+        parcel.writeString(departureAirportName);
+        parcel.writeString(arrivalAirportCode);
+        parcel.writeString(arrivalAirportName);
+        parcel.writeString(flightDuration);
+        parcel.writeString(departureDate);
+        parcel.writeString(departureTime);
+        parcel.writeString(flightNumber);
+        parcel.writeString(travelClass);
+        parcel.writeDouble(ticketPrice);
+        parcel.writeInt(numberPassengers);
+        parcel.writeByte((byte) (oneWayFlight ? 1 : 0));
+        parcel.writeStringList(reservedSeatsNames);
+        parcel.writeTypedList(passengerInformation);
     }
 }

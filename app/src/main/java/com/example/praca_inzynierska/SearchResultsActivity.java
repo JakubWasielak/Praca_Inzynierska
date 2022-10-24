@@ -40,10 +40,8 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
     private RecyclerView rvTicketsFound;
     private ImageButton btnOpenNextActivity;
 
+    private ArrayList<AirlineTicketModel> airlineTicketModel;
     private ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels;
-    private int numberPassengers;
-    private String travelClass;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +54,9 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         String departureCode = getIntent().getStringExtra("DepartureCode");
         String arrivalCode = getIntent().getStringExtra("ArrivalCode");
         LocalDate selectedDate = (LocalDate) getIntent().getSerializableExtra("SelectedDepartureDate");
-        numberPassengers = Integer.parseInt(getIntent().getStringExtra("NumberPassengers"));
-        travelClass = getIntent().getStringExtra("TravelClass");
+        int numberPassengers = Integer.parseInt(getIntent().getStringExtra("NumberPassengers"));
+        String travelClass = getIntent().getStringExtra("TravelClass");
+        Boolean oneWayFlight = getIntent().getExtras().getBoolean("OneWayFlight");
 
 
         rvTicketsFound = findViewById(R.id.foundFlights_RecyclerView);
@@ -67,7 +66,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         btnOpenNextActivity = findViewById(R.id.goToSeatingChoiceActivity_ImageButton);
 
         rvTicketsFound.setLayoutManager(new LinearLayoutManager(this));
-        storeDataInRecyclerView(departureCode, arrivalCode, selectedDate);
+        storeDataInRecyclerView(departureCode, arrivalCode, selectedDate, numberPassengers, travelClass, oneWayFlight);
 
         ImageButton btnPreviousActivity = findViewById(R.id.goToPreviousActivity_ImageButton);
         btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
@@ -79,8 +78,9 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
 
     }
 
-    private void storeDataInRecyclerView(String departureCode, String arrivalCode, LocalDate selectedDate) {
+    private void storeDataInRecyclerView(String departureCode, String arrivalCode, LocalDate selectedDate, int numberPassengers, String travelClass, Boolean oneWayFlight) {
         foundAirlineTicketsModels = new ArrayList<>();
+        airlineTicketModel = new ArrayList<>();
         String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNDMyNDYwODY5ODdmZDUxZWQ0OWFhYzM5N2U3ZmNlMDcyYzUwNTIyZDFhYmNmNzg3NDY3OWJmNjRlNzAzMGJhOTQ1ZjQ2NDE2NzllNWI2M2QiLCJpYXQiOjE2NjYzNTgwNjAsIm5iZiI6MTY2NjM1ODA2MCwiZXhwIjoxNjk3ODk0MDYwLCJzdWIiOiIxNTcyNCIsInNjb3BlcyI6W119.n-qCwXT6OuyD6B1bQ-sPqElGEx96y_8GiYuIee29pFKPT7HNzymQuf7Ov9UVTjERwJr3AUVwBUEhSiBHqu6J7w";
         String url = "https://app.goflightlabs.com/routes?access_key=" + access_key + "&dep_iata=" + departureCode + "&arr_iata=" + arrivalCode;
 
@@ -95,26 +95,19 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
                         JSONObject jsonObject_arrival = jsonObject.getJSONObject("arrival");
                         JSONObject jsonObject_flight = jsonObject.getJSONObject("flight");
 
-
                         String departureName = jsonObject_departure.getString("airport");
                         String arrivalName = jsonObject_arrival.getString("airport");
                         String flightDuration = setFlightDuration(jsonObject_departure.getString("time"), jsonObject_arrival.getString("time"));
-
-                        String departureDateAndTime = setDepartureDate(selectedDate, jsonObject_departure.getString("time"));
-
-                        String departureDate = selectedDate.getDayOfMonth()+" "+selectedDate.getMonth()+" "+selectedDate.getYear();
-                        String departureTime = setDepartureTime(jsonObject_departure.getString("time"));;
-
+                        String departureDate = selectedDate.getDayOfMonth() + " " + selectedDate.getMonth() + " " + selectedDate.getYear();
+                        String departureTime = setDepartureTime(jsonObject_departure.getString("time"));
                         String flightNumber = jsonObject_flight.getString("number");
                         double ticketPrice = setTicketPrice();
 
-                        foundAirlineTicketsModels.add(new FoundAirlineTicketsModel(departureCode,departureName,arrivalCode,arrivalName,flightDuration,departureDateAndTime,
-                                flightNumber,ticketPrice,numberPassengers,travelClass));
-
+                        airlineTicketModel.add(new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName, flightDuration, departureDate,
+                                departureTime, flightNumber, travelClass, ticketPrice, numberPassengers,oneWayFlight));
                     }
-                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(SearchResultsActivity.this, foundAirlineTicketsModels, SearchResultsActivity.this);
+                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(SearchResultsActivity.this, airlineTicketModel, SearchResultsActivity.this);
                     rvTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
-
                     tvSearchedNumberTicketsFound.setText(String.valueOf(response.length()));
                     tvSearchedDepartureCode.setText(departureCode);
                     tvSearchedArrivalCode.setText(arrivalCode);
@@ -131,62 +124,13 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         queue.add(request);
     }
 
-    private String setDepartureDate(LocalDate selectedDate, String depTime) {
-        String[] departureTimeSplit = depTime.split(":");
-        int hours = Integer.parseInt(departureTimeSplit[0]);
-        int minutes = Integer.parseInt(departureTimeSplit[1]);
-        int seconds = Integer.parseInt(departureTimeSplit[2]);
-        LocalTime departureTime = LocalTime.of(hours, minutes, seconds);
-        String month = String.valueOf(selectedDate.getMonth());
-
-        switch (month) {
-            case "JANUARY":
-                month = "Styczeń";
-                break;
-            case "FEBRUARY":
-                month = "Luty";
-                break;
-            case "MARCH":
-                month = "Marzec";
-                break;
-            case "APRIL":
-                month = "Kwiecień";
-                break;
-            case "MAY":
-                month = "Maj";
-                break;
-            case "JUNE":
-                month = "Czerwiec";
-                break;
-            case "JULY":
-                month = "Lipiec";
-                break;
-            case "AUGUST":
-                month = "Sierpień";
-                break;
-            case "SEPTEMBER":
-                month = "Wrzesień";
-                break;
-            case "OCTOBER":
-                month = "Październik";
-                break;
-            case "NOVEMBER":
-                month = "Listopad";
-                break;
-            case "DECEMBER":
-                month = "Grudzień";
-                break;
-        }
-
-        return selectedDate.getDayOfMonth() + " " + month + ", " + departureTime;
-    } //!!!!!!!!!!!!!!!!!!!!
 
     private String setDepartureTime(String depTime) {
         String[] departureTimeSplit = depTime.split(":");
         int hours = Integer.parseInt(departureTimeSplit[0]);
         int minutes = Integer.parseInt(departureTimeSplit[1]);
 
-        return hours+":"+minutes;
+        return hours + ":" + minutes;
     }
 
     private String setFlightDuration(String depTime, String arrTime) {
@@ -220,7 +164,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);
-                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModels.get(position));
+                intent.putExtra("AirlineTicketsModels", airlineTicketModel.get(position));
                 startActivity(intent);
             }
         });

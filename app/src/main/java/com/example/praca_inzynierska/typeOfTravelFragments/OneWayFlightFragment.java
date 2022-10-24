@@ -71,6 +71,7 @@ public class OneWayFlightFragment extends Fragment {
                     intent.putExtra("SelectedDepartureDate", selectedDepDate);
                     intent.putExtra("NumberPassengers", String.valueOf(tvNumPassengers.getText()));
                     intent.putExtra("TravelClass", String.valueOf(tvSelectTravelClass.getText()));
+                    intent.putExtra("OneWayFlight", true);
                     startActivity(intent);
                 }
             }

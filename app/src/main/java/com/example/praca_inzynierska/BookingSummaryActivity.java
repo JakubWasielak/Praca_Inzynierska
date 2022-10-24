@@ -27,10 +27,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_booking_summary);
 
-
-        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
-        ArrayList<String> seatsNumber = (ArrayList<String>) getIntent().getSerializableExtra("seatsNumber");
-        ArrayList<PassengerModel> passengerList = (ArrayList<PassengerModel>) getIntent().getSerializableExtra("passengerList");
+        AirlineTicketModel airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
 
         TextView tvDepCode = findViewById(R.id.depCode_TextView);
         TextView tvDepCity = findViewById(R.id.depCity_TextView);
@@ -42,29 +39,31 @@ public class BookingSummaryActivity extends AppCompatActivity {
         TextView tvFlightNumber = findViewById(R.id.flightNumber_TextView);
         TextView tvDepTime = findViewById(R.id.departureTime_TextView);
         TextView tvNumberPassengers = findViewById(R.id.numberPassengers_TextView);
-        TextView tvSeatNumber= findViewById(R.id.seatNumber_TextView);
+        TextView tvSeatNumber = findViewById(R.id.seatNumber_TextView);
         TextView tvTicketPrice = findViewById(R.id.ticketPrice_TextView);
 
-        tvDepCode.setText(foundAirlineTicketsModel.getDepartureAirportCode());
-        tvDepCity.setText(foundAirlineTicketsModel.getDepartureAirportCityName());
-        tvFlightDuration.setText(foundAirlineTicketsModel.getFlightDuration());
-        tvArrCode.setText(foundAirlineTicketsModel.getArrivalAirportCode());
-        tvArrCity.setText(foundAirlineTicketsModel.getArrivalAirportCityName());
-        tvDepDate.setText(returnDate(foundAirlineTicketsModel.getDepartureDateAndTime()));
-        tvTravelClass.setText(foundAirlineTicketsModel.getTravelClass());
-        tvFlightNumber.setText(foundAirlineTicketsModel.getFlightNumber());
-        tvDepTime.setText(returnTime(foundAirlineTicketsModel.getDepartureDateAndTime()));
-        tvNumberPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
-        tvSeatNumber.setText(String.valueOf(seatsNumber));
+        tvDepCode.setText(airlineTicketModel.getDepartureAirportCode());
+        tvDepCity.setText(airlineTicketModel.getDepartureAirportName());
+        tvFlightDuration.setText(airlineTicketModel.getFlightDuration());
+        tvArrCode.setText(airlineTicketModel.getArrivalAirportCode());
+        tvArrCity.setText(airlineTicketModel.getArrivalAirportName());
+        tvDepDate.setText(airlineTicketModel.getDepartureDate());
+        tvTravelClass.setText(airlineTicketModel.getTravelClass());
+        tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
+        tvDepTime.setText(airlineTicketModel.getDepartureTime());
+        tvNumberPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengers()));
+        tvSeatNumber.setText(String.valueOf(airlineTicketModel.getReservedSeatsNames()));
+
+
         DecimalFormat formatter = new DecimalFormat("#0.00");
-        String PriceTicket = formatter.format(foundAirlineTicketsModel.getTicketPrice()*foundAirlineTicketsModel.getNumberPassengers())+" zł";
+        String PriceTicket = formatter.format(airlineTicketModel.getTicketPrice() * airlineTicketModel.getNumberPassengers()) + " zł";
         tvTicketPrice.setText(PriceTicket);
 
         ListView lvPassengerInformation = findViewById(R.id.passengerInformation_ListView);
-        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, passengerList);
+        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, airlineTicketModel.getpassengerInformation());
         lvPassengerInformation.setAdapter(adapter);
 
-        ImageButton btnPreviousActivity= findViewById(R.id.goToPreviousActivity_ImageButton);
+        ImageButton btnPreviousActivity = findViewById(R.id.goToPreviousActivity_ImageButton);
         btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,21 +76,11 @@ public class BookingSummaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
-                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                startActivity(intent);
+
+//                startActivity(intent);
 
             }
         });
     }
 
-    private String returnDate(String s){
-        String[] words = s.split(",");
-        return words[0];
-    }
-    private String returnTime(String s){
-        String[] words = s.split(",");
-        String time = words[1];
-        time = time.substring(1);
-        return time;
-    }
 }

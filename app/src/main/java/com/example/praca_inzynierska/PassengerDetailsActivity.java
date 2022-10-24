@@ -32,8 +32,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
 
         passengerInfoList = new ArrayList<>();
 
-        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
-        ArrayList<String> seatsNumber = (ArrayList<String>) getIntent().getSerializableExtra("seatsNumber");
+        AirlineTicketModel airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
 
         ListView lvPassengerInfo = findViewById(R.id.passengerInformation_ListView);
         TextInputEditText tvPassengerName = findViewById(R.id.passengerName_TextInputEditText);
@@ -46,7 +45,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (passengerInfoList.size() < foundAirlineTicketsModel.getNumberPassengers()) {
+                    if (passengerInfoList.size() < airlineTicketModel.getNumberPassengers()) {
                         if (tvPassengerName.length() == 0) {
                             Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
                         } else if (tvPassengerLastName.length() == 0) {
@@ -63,16 +62,15 @@ public class PassengerDetailsActivity extends AppCompatActivity {
                             tvPassengerAge.getText().clear();
                             rgPassagerGender.clearCheck();
                         }
-                    } else if (passengerInfoList.size() == foundAirlineTicketsModel.getNumberPassengers()) {
+                    } else if (passengerInfoList.size() == airlineTicketModel.getNumberPassengers()) {
                         tvPassengerName.getText().clear();
                         tvPassengerLastName.getText().clear();
                         tvPassengerAge.getText().clear();
                         rgPassagerGender.clearCheck();
                         btnNextActivity.setBackgroundResource(R.drawable.animation_button_next_activity);
                         Intent intent = new Intent(PassengerDetailsActivity.this, BookingSummaryActivity.class);
-                        intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                        intent.putExtra("passengerList", passengerInfoList);
-                        intent.putExtra("seatsNumber",seatsNumber);
+                        airlineTicketModel.setpassengerInformation(passengerInfoList);
+                        intent.putExtra("AirlineTicketsModels",airlineTicketModel);
                         startActivity(intent);
                     }
             }

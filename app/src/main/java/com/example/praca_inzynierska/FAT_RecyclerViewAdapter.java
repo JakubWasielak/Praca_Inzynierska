@@ -1,29 +1,23 @@
 package com.example.praca_inzynierska;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerViewAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
-    ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels;
+    ArrayList<AirlineTicketModel> foundAirlineTicketsModels;
     int singleItem_selection_position = -1;
 
-    public FAT_RecyclerViewAdapter(Context context, ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels, RecyclerViewInterface recyclerViewInterface){
+    public FAT_RecyclerViewAdapter(Context context, ArrayList<AirlineTicketModel> foundAirlineTicketsModels, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.foundAirlineTicketsModels = foundAirlineTicketsModels;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -40,11 +34,11 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull FAT_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.tvDepartureAirportCode.setText(foundAirlineTicketsModels.get(position).getDepartureAirportCode());
-        holder.tvDepartureAirportName.setText(foundAirlineTicketsModels.get(position).getDepartureAirportCityName());
+        holder.tvDepartureAirportName.setText(foundAirlineTicketsModels.get(position).getDepartureAirportName());
         holder.tvArrivalAirportCode.setText(foundAirlineTicketsModels.get(position).getArrivalAirportCode());
-        holder.tvArrivalAirportName.setText(foundAirlineTicketsModels.get(position).getArrivalAirportCityName());
+        holder.tvArrivalAirportName.setText(foundAirlineTicketsModels.get(position).getArrivalAirportName());
         holder.tvFlightDuration.setText(foundAirlineTicketsModels.get(position).getFlightDuration());
-        holder.tvDepartureDateAndTime.setText(foundAirlineTicketsModels.get(position).getDepartureDateAndTime());
+        holder.tvDepartureDateAndTime.setText(String.format("%s, %s", foundAirlineTicketsModels.get(position).getDepartureDate(), foundAirlineTicketsModels.get(position).getDepartureTime()));
         holder.tvFlightNumber.setText(foundAirlineTicketsModels.get(position).getFlightNumber());
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(foundAirlineTicketsModels.get(position).getTicketPrice())+" zł";

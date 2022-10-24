@@ -55,8 +55,7 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seating_choice);
 
         reservedSeatsNames = new ArrayList<>();
-
-        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        AirlineTicketModel airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
 
         TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
         TextView tvDepartureAirportName = findViewById(R.id.departureCityName_TextView);
@@ -68,29 +67,29 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         TextView tvNumberOfPassengers = findViewById(R.id.numberOfPassengers_TextView);
         TextView tvTravelClass = findViewById(R.id.travelClass_TextView);
 
-        tvDepartureAirportCode.setText(foundAirlineTicketsModel.getDepartureAirportCode());
-        tvDepartureAirportName.setText(foundAirlineTicketsModel.getDepartureAirportCityName());
-        tvArrivalAirportCode.setText(foundAirlineTicketsModel.getArrivalAirportCode());
-        tvArrivalAirportName.setText(foundAirlineTicketsModel.getArrivalAirportCityName());
-        tvFlightDuration.setText(foundAirlineTicketsModel.getFlightDuration());
-        tvDepartureDateAndTime.setText(foundAirlineTicketsModel.getDepartureDateAndTime());
-        tvFlightNumber.setText(foundAirlineTicketsModel.getFlightNumber());
-        tvNumberOfPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
-        tvTravelClass.setText("klasa " + foundAirlineTicketsModel.getTravelClass());
+        tvDepartureAirportCode.setText(airlineTicketModel.getDepartureAirportCode());
+        tvDepartureAirportName.setText(airlineTicketModel.getDepartureAirportName());
+        tvArrivalAirportCode.setText(airlineTicketModel.getArrivalAirportCode());
+        tvArrivalAirportName.setText(airlineTicketModel.getArrivalAirportName());
+        tvFlightDuration.setText(airlineTicketModel.getFlightDuration());
+        tvDepartureDateAndTime.setText(String.format("%s, %s", airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()));
+        tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
+        tvNumberOfPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengers()));
+        tvTravelClass.setText("klasa " + airlineTicketModel.getTravelClass());
 
         //Seat management
         GridLayout seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
-        setSeatReservation(seatMap_GridLayout, foundAirlineTicketsModel.getNumberPassengers());
+        setSeatReservation(seatMap_GridLayout, airlineTicketModel.getNumberPassengers());
         setReservedSeats(seatMap_GridLayout);
 
         ImageButton btnOpenNextActivity = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
         btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedSeats == foundAirlineTicketsModel.getNumberPassengers()) {
+                if (selectedSeats == airlineTicketModel.getNumberPassengers()) {
                     Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
-                    intent.putExtra("AirlineTicketsModels", foundAirlineTicketsModel);
-                    intent.putExtra("seatsNumber", reservedSeatsNames);
+                    airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
+                    intent.putExtra("AirlineTicketsModels", airlineTicketModel);
                     startActivity(intent);
                 } else {
                     Toast.makeText(SeatingChoiceActivity.this, "Wybierz miejsce dla pasażera.", Toast.LENGTH_SHORT).show();
