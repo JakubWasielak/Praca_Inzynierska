@@ -1,10 +1,14 @@
 package com.example.praca_inzynierska.typeOfTravelFragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,129 +16,139 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.praca_inzynierska.R;
+import com.example.praca_inzynierska.SearchResultsActivity;
+import com.google.android.material.textfield.TextInputEditText;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class RoundTripFlightFragment extends Fragment {
-    private AutoCompleteTextView mDepartureDateFormat, mReturnDateFormat;
-    private DatePickerDialog.OnDateSetListener onDepartureDateSetListener, onReturnDateSetListener;
-    private AutoCompleteTextView selectClassOfTravel;
-    private final String[] items =  {"Ekonomiczna","Biznesowa","Pierwsza"};
-    private AutoCompleteTextView arrivalAirport_ACTv,departureAirport_ACTv;
-    private String[] airportNames;
-    private final Calendar c = Calendar.getInstance();
-    private final int mYear = c.get(Calendar.YEAR);
-    private final int mMonth = c.get(Calendar.MONTH);
-    private final int mDay = c.get(Calendar.DAY_OF_MONTH);
+    private TextInputEditText tvDepCode;
+    private TextInputEditText tvArrCode;
+    private TextInputEditText tvNumPassengers;
+    private AutoCompleteTextView tvDepDate;
+    private AutoCompleteTextView tvDepDateReturn;
+    private AutoCompleteTextView tvSelectTravelClass;
 
-    private int dYear;
-    private int dMonth;
-    private int dDay;
+    private final String[] TravelClassName = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
+    private LocalDate selectedDepDate;
+    private LocalDate selectedDepDateReturn;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_round_trip_flight,container,false);
-        selectClassOfTravel = view.findViewById(R.id.selectClassOfTravel);
-        mDepartureDateFormat = view.findViewById(R.id.departureDate_Format);
-        mReturnDateFormat = view.findViewById(R.id.returnDate_Format);
-        airportNames = getResources().getStringArray(R.array.airport_names);
-        departureAirport_ACTv = view.findViewById(R.id.departureAirport_AutoCompleteTextView);
-        arrivalAirport_ACTv =view.findViewById(R.id.arrivalAirport_AutoCompleteTextView);
-        selectDepartureAirportSuggestion();
-        selectArrivalAirportSuggestion();
-        initDepartureDatePicker();
-        initBackDatePicker();
-        initClassPicker();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_round_trip_flight, container, false);
+
+        tvDepCode = view.findViewById(R.id.departureCode_TextInputEditText_RoundTrip);
+        tvArrCode = view.findViewById(R.id.arrivalCode_TextInputEditText_RoundTrip);
+        tvNumPassengers = view.findViewById(R.id.numberOfPassengers_TextInputEditText_RoundTrip);
+        tvDepDate = view.findViewById(R.id.departureDate_AutoCompleteTextView_RoundTrip);
+        tvDepDateReturn= view.findViewById(R.id.departureDateReturn_AutoCompleteTextView_RoundTrip);
+        tvSelectTravelClass = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView_RoundTrip);
+
+        ImageButton btnOpenNextActivity_RoundTrip = view.findViewById(R.id.searchForTickets_ImageButton_RoundTrip);
+        btnOpenNextActivity_RoundTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvDepCode.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvArrCode.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvDepDate.length() == 0) {
+                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvDepDateReturn.length() == 0) {
+                    Toast.makeText(getActivity(), "Podaj date powrotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvNumPassengers.length() < 1) {
+                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
+                } else if (tvSelectTravelClass.length() == 0) {
+                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+                    intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
+                    intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
+                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
+                    intent.putExtra("SelectedDepartureDateReturn", selectedDepDateReturn);
+                    intent.putExtra("NumberPassengers", String.valueOf(tvNumPassengers.getText()));
+                    intent.putExtra("TravelClass", String.valueOf(tvSelectTravelClass.getText()));
+                    intent.putExtra("OneWayFlight", false);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        setTravelClassPicker();
+        setDepartureDate();
+        setDepartureDateReturn();
 
         return view;
     }
-
-    private void selectDepartureAirportSuggestion() {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
-        departureAirport_ACTv.setAdapter(arrayAdapter);
+    private void setTravelClassPicker() {
+        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(getActivity(), R.layout.drop_down_menu_list_item, TravelClassName);
+        tvSelectTravelClass.setAdapter(adapterItems);
     }
 
-    private void selectArrivalAirportSuggestion() {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,airportNames);
-        arrivalAirport_ACTv.setAdapter(arrayAdapter);
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setDepartureDate() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        LocalDate todayDate = LocalDate.now();
 
-    private void initBackDatePicker() {
+        tvDepDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        selectedDepDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-        mReturnDateFormat.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    onReturnDateSetListener, dYear, dMonth, dDay+1);
-            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            datePickerDialog.show();
+                        if (selectedDepDate.isAfter(todayDate) || selectedDepDate.isEqual(todayDate)) {
+                            String formattedDate = selectedDepDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                            tvDepDate.setText(formattedDate);
+                        }
+                    }
+                }, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
         });
-
-        onReturnDateSetListener = (view, year1, month1, dayOfMonth) -> {
-            month1 = month1 +1;
-            String DepartureDate = String.valueOf(mReturnDateFormat.getText());
-            String date = dayOfMonth+"-"+month1 +"-" + year1;
-            String date1 = dayOfMonth+"-"+"0"+month1 +"-" + year1;
-            System.out.println(dDay);
-            System.out.println(dMonth);
-            System.out.println(dYear);
-            if(dYear<=year1 && dMonth+1 <=month1 && dDay<=dayOfMonth)
-            {
-                if(month1>9)
-                {
-                    mReturnDateFormat.setText(date);
-                }
-                else
-                {
-                    mReturnDateFormat.setText(date1);
-                }
-            }
-            else{
-                mReturnDateFormat.setText("");
-            }
-        };
     }
 
-    private void initClassPicker() {
-        ArrayAdapter<String> adapterItems = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, items);
-        selectClassOfTravel.setAdapter(adapterItems);
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setDepartureDateReturn() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-    private void initDepartureDatePicker() {
+        tvDepDateReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        selectedDepDateReturn = LocalDate.of(year, month + 1, dayOfMonth);
 
-        mDepartureDateFormat.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    onDepartureDateSetListener, mYear, mMonth, mDay);
-            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            datePickerDialog.show();
+                        if (selectedDepDateReturn.isAfter(selectedDepDate)) {
+                            String formattedDate = selectedDepDateReturn.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                            tvDepDateReturn.setText(formattedDate);
+                        }
+                    }
+                }, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
         });
-
-        onDepartureDateSetListener = (view, year1, month1, dayOfMonth) -> {
-            month1 = month1 +1;
-            String date = dayOfMonth+"-"+month1 +"-" + year1;
-            String date1 = dayOfMonth+"-"+"0"+month1 +"-" + year1;
-            if(mYear<=year1 && mMonth+1 <=month1 && mDay<=dayOfMonth)
-            {
-                dDay=dayOfMonth;
-                dMonth= month1-1;
-                dYear=year1;
-
-                if(month1>9)
-                {
-                    mDepartureDateFormat.setText(date);
-                }
-                else
-                {
-                    mDepartureDateFormat.setText(date1);
-                }
-            }
-            else{
-                mDepartureDateFormat.setText("");
-
-            }
-        };
     }
+
+
+
+
 }

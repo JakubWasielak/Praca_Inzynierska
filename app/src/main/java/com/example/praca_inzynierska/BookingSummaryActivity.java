@@ -1,8 +1,10 @@
 package com.example.praca_inzynierska;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -73,19 +76,54 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
         ImageButton btnOpenMainActivity = findViewById(R.id.confirm_ImageButton);
         btnOpenMainActivity.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
-                FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
-                flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
-                        airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
-                        airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
-                        , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
-                        airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
-                startActivity(intent);
+                if(airlineTicketModel.isOneWayFlight()) {
+                    Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
+                    FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
+                    flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
+                            airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
+                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
+                            , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
+                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
+                    startActivity(intent);
 
+                }else{
+                    Intent intent = new Intent(BookingSummaryActivity.this, SearchResultsActivity.class);
+                    FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
+                    flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
+                            airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
+                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
+                            , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
+                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
+
+                    intent.putExtra("DepartureCode", airlineTicketModel.getArrivalAirportCode());
+                    intent.putExtra("ArrivalCode", airlineTicketModel.getDepartureAirportCode());
+                    LocalDate selectedDepDate = dateToLocalDate(airlineTicketModel.getDepartureDateReturn());
+                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
+                    intent.putExtra("NumberPassengers",String.valueOf( airlineTicketModel.getNumberPassengers()));
+                    intent.putExtra("TravelClass", airlineTicketModel.getTravelClass());
+                    intent.putExtra("OneWayFlight", true);
+
+                    startActivity(intent);
+
+                }
             }
         });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalDate dateToLocalDate(String date){
+        String[] departureDateSplit = date.split(" ");
+        String y = String.valueOf(departureDateSplit[2]);
+        String m = String.valueOf(departureDateSplit[1]);
+        String d = String.valueOf(departureDateSplit[0]);
+
+        int year = Integer.parseInt(y);
+        int month = Integer.parseInt(m);
+        int day = Integer.parseInt(d);
+
+        return LocalDate.of(year,month,day);
     }
 
 }

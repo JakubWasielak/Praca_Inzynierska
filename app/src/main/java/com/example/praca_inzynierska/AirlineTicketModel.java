@@ -13,6 +13,7 @@ public class AirlineTicketModel implements Parcelable {
     String flightDuration;
     String departureDate;
     String departureTime;
+    String departureDateReturn;
     String flightNumber;
     String travelClass;
     double ticketPrice;
@@ -44,6 +45,7 @@ public class AirlineTicketModel implements Parcelable {
         flightDuration = in.readString();
         departureDate = in.readString();
         departureTime = in.readString();
+        departureDateReturn = in.readString();
         flightNumber = in.readString();
         travelClass = in.readString();
         ticketPrice = in.readDouble();
@@ -91,6 +93,14 @@ public class AirlineTicketModel implements Parcelable {
 
     public String getDepartureTime() {
         return departureTime;
+    }
+
+    public String getDepartureDateReturn() {
+        return departureDateReturn;
+    }
+
+    public void setDepartureDateReturn(String departureDateReturn) {
+        this.departureDateReturn = departureDateReturn;
     }
 
     public String getFlightNumber() {
@@ -143,6 +153,7 @@ public class AirlineTicketModel implements Parcelable {
         parcel.writeString(flightDuration);
         parcel.writeString(departureDate);
         parcel.writeString(departureTime);
+        parcel.writeString(departureDateReturn);
         parcel.writeString(flightNumber);
         parcel.writeString(travelClass);
         parcel.writeDouble(ticketPrice);

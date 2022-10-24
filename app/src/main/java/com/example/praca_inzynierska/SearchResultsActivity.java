@@ -41,8 +41,8 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
     private ImageButton btnOpenNextActivity;
 
     private ArrayList<AirlineTicketModel> airlineTicketModel;
-    private ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels;
-
+    private boolean oneWayFlight;
+    private LocalDate selectedDateReturn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +56,11 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         LocalDate selectedDate = (LocalDate) getIntent().getSerializableExtra("SelectedDepartureDate");
         int numberPassengers = Integer.parseInt(getIntent().getStringExtra("NumberPassengers"));
         String travelClass = getIntent().getStringExtra("TravelClass");
-        Boolean oneWayFlight = getIntent().getExtras().getBoolean("OneWayFlight");
+        oneWayFlight = getIntent().getExtras().getBoolean("OneWayFlight");
 
+        if(!oneWayFlight){
+            selectedDateReturn = (LocalDate) getIntent().getSerializableExtra("SelectedDepartureDateReturn");
+        }
 
         rvTicketsFound = findViewById(R.id.foundFlights_RecyclerView);
         tvSearchedNumberTicketsFound = findViewById(R.id.numberOfTicketsFound_TextView);
@@ -79,7 +82,6 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
     }
 
     private void storeDataInRecyclerView(String departureCode, String arrivalCode, LocalDate selectedDate, int numberPassengers, String travelClass, Boolean oneWayFlight) {
-        foundAirlineTicketsModels = new ArrayList<>();
         airlineTicketModel = new ArrayList<>();
         String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNDMyNDYwODY5ODdmZDUxZWQ0OWFhYzM5N2U3ZmNlMDcyYzUwNTIyZDFhYmNmNzg3NDY3OWJmNjRlNzAzMGJhOTQ1ZjQ2NDE2NzllNWI2M2QiLCJpYXQiOjE2NjYzNTgwNjAsIm5iZiI6MTY2NjM1ODA2MCwiZXhwIjoxNjk3ODk0MDYwLCJzdWIiOiIxNTcyNCIsInNjb3BlcyI6W119.n-qCwXT6OuyD6B1bQ-sPqElGEx96y_8GiYuIee29pFKPT7HNzymQuf7Ov9UVTjERwJr3AUVwBUEhSiBHqu6J7w";
         String url = "https://app.goflightlabs.com/routes?access_key=" + access_key + "&dep_iata=" + departureCode + "&arr_iata=" + arrivalCode;
@@ -164,6 +166,9 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);
+                if(!oneWayFlight){
+                    airlineTicketModel.get(position).setDepartureDateReturn(selectedDateReturn.getDayOfMonth() + " " + selectedDateReturn.getMonthValue() + " " + selectedDateReturn.getYear());
+                }
                 intent.putExtra("AirlineTicketsModels", airlineTicketModel.get(position));
                 startActivity(intent);
             }
