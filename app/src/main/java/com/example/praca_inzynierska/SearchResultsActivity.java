@@ -34,14 +34,16 @@ import java.util.Random;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class SearchResultsActivity extends AppCompatActivity implements RecyclerViewInterface {
+    private TextView tvSearchedNumberTicketsFound;
+    private TextView tvSearchedDepartureCode;
+    private TextView tvSearchedArrivalCode;
+    private RecyclerView rvTicketsFound;
+    private ImageButton btnOpenNextActivity;
+
     private ArrayList<FoundAirlineTicketsModel> foundAirlineTicketsModels;
-    private ImageButton goToNextActivity_ImageButton;
-    private TextView numberOfTicketsFound_TextView;
-    private TextView searchedDeparture_TextView;
-    private TextView searchedArrival_TextView;
-    private RecyclerView foundFlightsRecyclerView;
     private int numberPassengers;
     private String travelClass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +52,25 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_search_results);
 
-        //Reading the transmitted value
-        LocalDate selectedDate = (LocalDate) getIntent().getSerializableExtra("SelectedDate");
-        String departureCode = getIntent().getStringExtra("CodeDeparture");
-        String arrivalCode = getIntent().getStringExtra("CodeArrival");
+
+        String departureCode = getIntent().getStringExtra("DepartureCode");
+        String arrivalCode = getIntent().getStringExtra("ArrivalCode");
+        LocalDate selectedDate = (LocalDate) getIntent().getSerializableExtra("SelectedDepartureDate");
         numberPassengers = Integer.parseInt(getIntent().getStringExtra("NumberPassengers"));
-        travelClass = getIntent().getStringExtra("travelClass");
-
-        //Search Results
-        foundFlightsRecyclerView = findViewById(R.id.foundFlights_RecyclerView);
-        numberOfTicketsFound_TextView = findViewById(R.id.numberOfTicketsFound_TextView);
-        searchedDeparture_TextView = findViewById(R.id.searchedDeparture_TextView);
-        searchedArrival_TextView = findViewById(R.id.searchedArrival_TextView);
-        foundFlightsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        addFoundTickets(departureCode, arrivalCode, selectedDate);
+        travelClass = getIntent().getStringExtra("TravelClass");
 
 
-        //Open next Activity
-        goToNextActivity_ImageButton = findViewById(R.id.goToSeatingChoiceActivity_ImageButton);
-        ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
-        goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+        rvTicketsFound = findViewById(R.id.foundFlights_RecyclerView);
+        tvSearchedNumberTicketsFound = findViewById(R.id.numberOfTicketsFound_TextView);
+        tvSearchedDepartureCode = findViewById(R.id.searchedDeparture_TextView);
+        tvSearchedArrivalCode = findViewById(R.id.searchedArrival_TextView);
+        btnOpenNextActivity = findViewById(R.id.goToSeatingChoiceActivity_ImageButton);
+
+        rvTicketsFound.setLayoutManager(new LinearLayoutManager(this));
+        storeDataInRecyclerView(departureCode, arrivalCode, selectedDate);
+
+        ImageButton btnPreviousActivity = findViewById(R.id.goToPreviousActivity_ImageButton);
+        btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -78,25 +79,15 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
 
     }
 
-    private void addFoundTickets(String departureCode, String arrivalCode, LocalDate selectedDate) {
+    private void storeDataInRecyclerView(String departureCode, String arrivalCode, LocalDate selectedDate) {
         foundAirlineTicketsModels = new ArrayList<>();
         String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNDMyNDYwODY5ODdmZDUxZWQ0OWFhYzM5N2U3ZmNlMDcyYzUwNTIyZDFhYmNmNzg3NDY3OWJmNjRlNzAzMGJhOTQ1ZjQ2NDE2NzllNWI2M2QiLCJpYXQiOjE2NjYzNTgwNjAsIm5iZiI6MTY2NjM1ODA2MCwiZXhwIjoxNjk3ODk0MDYwLCJzdWIiOiIxNTcyNCIsInNjb3BlcyI6W119.n-qCwXT6OuyD6B1bQ-sPqElGEx96y_8GiYuIee29pFKPT7HNzymQuf7Ov9UVTjERwJr3AUVwBUEhSiBHqu6J7w";
         String url = "https://app.goflightlabs.com/routes?access_key=" + access_key + "&dep_iata=" + departureCode + "&arr_iata=" + arrivalCode;
 
         RequestQueue queue = Volley.newRequestQueue(SearchResultsActivity.this);
-
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String departureCode = "";
-                String departureName = "";
-                String arrivalCode = "";
-                String arrivalName = "";
-                String flightDuration = "";
-                String departureDateAndTime = "";
-                String flightNumber = "";
-                double ticketPrice;
-
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -104,25 +95,29 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
                         JSONObject jsonObject_arrival = jsonObject.getJSONObject("arrival");
                         JSONObject jsonObject_flight = jsonObject.getJSONObject("flight");
 
-                        departureCode = jsonObject_departure.getString("iata");
-                        departureName = jsonObject_departure.getString("airport");
-                        arrivalCode = jsonObject_arrival.getString("iata");
-                        arrivalName = jsonObject_arrival.getString("airport");
-                        flightDuration = setFlightTime(jsonObject_departure.getString("time"), jsonObject_arrival.getString("time"));
-                        departureDateAndTime = setDepartureDate(selectedDate, jsonObject_departure.getString("time"));
-                        flightNumber = jsonObject_flight.getString("number");
-                        ticketPrice = setTicketPrice();
+
+                        String departureName = jsonObject_departure.getString("airport");
+                        String arrivalName = jsonObject_arrival.getString("airport");
+                        String flightDuration = setFlightDuration(jsonObject_departure.getString("time"), jsonObject_arrival.getString("time"));
+
+                        String departureDateAndTime = setDepartureDate(selectedDate, jsonObject_departure.getString("time"));
+
+                        String departureDate = selectedDate.getDayOfMonth()+" "+selectedDate.getMonth()+" "+selectedDate.getYear();
+                        String departureTime = setDepartureTime(jsonObject_departure.getString("time"));;
+
+                        String flightNumber = jsonObject_flight.getString("number");
+                        double ticketPrice = setTicketPrice();
 
                         foundAirlineTicketsModels.add(new FoundAirlineTicketsModel(departureCode,departureName,arrivalCode,arrivalName,flightDuration,departureDateAndTime,
                                 flightNumber,ticketPrice,numberPassengers,travelClass));
 
                     }
                     FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(SearchResultsActivity.this, foundAirlineTicketsModels, SearchResultsActivity.this);
-                    foundFlightsRecyclerView.setAdapter(FAT_RecyclerViewAdapter);
-                    String numberOfTickets = String.valueOf(response.length());
-                    numberOfTicketsFound_TextView.setText(numberOfTickets);
-                    searchedDeparture_TextView.setText(departureCode);
-                    searchedArrival_TextView.setText(arrivalCode);
+                    rvTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
+
+                    tvSearchedNumberTicketsFound.setText(String.valueOf(response.length()));
+                    tvSearchedDepartureCode.setText(departureCode);
+                    tvSearchedArrivalCode.setText(arrivalCode);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -130,7 +125,7 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SearchResultsActivity.this, "Error!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchResultsActivity.this, "Nie udało się znaleźć połączenia.", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(request);
@@ -184,9 +179,17 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
         }
 
         return selectedDate.getDayOfMonth() + " " + month + ", " + departureTime;
+    } //!!!!!!!!!!!!!!!!!!!!
+
+    private String setDepartureTime(String depTime) {
+        String[] departureTimeSplit = depTime.split(":");
+        int hours = Integer.parseInt(departureTimeSplit[0]);
+        int minutes = Integer.parseInt(departureTimeSplit[1]);
+
+        return hours+":"+minutes;
     }
 
-    private String setFlightTime(String depTime, String arrTime) {
+    private String setFlightDuration(String depTime, String arrTime) {
         String[] departureTimeSplit = depTime.split(":");
         String[] arrivalTimeSplit = arrTime.split(":");
         int hours = Integer.parseInt(departureTimeSplit[0]);
@@ -207,18 +210,13 @@ public class SearchResultsActivity extends AppCompatActivity implements Recycler
 
     private double setTicketPrice() {
         Random r = new Random();
-        DecimalFormat formatter = new DecimalFormat("#0.00");
-        double random = 50 + (200 - 50) * r.nextDouble();
-        return random;
+        return 50 + (200 - 50) * r.nextDouble();
     }
 
     @Override
     public void onItemClick(int position) {
-        goToNextActivity_ImageButton.setVisibility(View.VISIBLE);
-        Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);
-
-
-        goToNextActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+        btnOpenNextActivity.setVisibility(View.VISIBLE);
+        btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultsActivity.this, SeatingChoiceActivity.class);

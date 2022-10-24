@@ -27,51 +27,24 @@ public class BookingSummaryActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_booking_summary);
 
-        //Reading the transmitted value
-        Intent intent = getIntent();
-        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
-        ArrayList<String> seatsNumber = (ArrayList<String>) intent.getSerializableExtra("seatsNumber");
+
+        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        ArrayList<String> seatsNumber = (ArrayList<String>) getIntent().getSerializableExtra("seatsNumber");
         ArrayList<PassengerModel> passengerList = (ArrayList<PassengerModel>) getIntent().getSerializableExtra("passengerList");
 
-        ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
-        goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        ImageButton confirm_ImageButton = findViewById(R.id.confirm_ImageButton);
-        confirm_ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
-                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                startActivity(intent);
-
-            }
-        });
-
-        //Information
         TextView tvDepCode = findViewById(R.id.depCode_TextView);
         TextView tvDepCity = findViewById(R.id.depCity_TextView);
-
         TextView tvFlightDuration = findViewById(R.id.flightDuration_TextView);
-
         TextView tvArrCode = findViewById(R.id.arrCode_TextView);
         TextView tvArrCity = findViewById(R.id.arrCity_TextView);
-
         TextView tvDepDate = findViewById(R.id.depDate_TextView);
         TextView tvTravelClass = findViewById(R.id.travelClass_TextView);
         TextView tvFlightNumber = findViewById(R.id.flightNumber_TextView);
-
         TextView tvDepTime = findViewById(R.id.departureTime_TextView);
         TextView tvNumberPassengers = findViewById(R.id.numberPassengers_TextView);
         TextView tvSeatNumber= findViewById(R.id.seatNumber_TextView);
-
         TextView tvTicketPrice = findViewById(R.id.ticketPrice_TextView);
 
-        //Set Information
         tvDepCode.setText(foundAirlineTicketsModel.getDepartureAirportCode());
         tvDepCity.setText(foundAirlineTicketsModel.getDepartureAirportCityName());
         tvFlightDuration.setText(foundAirlineTicketsModel.getFlightDuration());
@@ -87,12 +60,29 @@ public class BookingSummaryActivity extends AppCompatActivity {
         String PriceTicket = formatter.format(foundAirlineTicketsModel.getTicketPrice()*foundAirlineTicketsModel.getNumberPassengers())+" zł";
         tvTicketPrice.setText(PriceTicket);
 
-        //
-        ListView passengerInformation_ListView = findViewById(R.id.passengerInformation_ListView);
+        ListView lvPassengerInformation = findViewById(R.id.passengerInformation_ListView);
         PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, passengerList);
-        passengerInformation_ListView.setAdapter(adapter);
-    }
+        lvPassengerInformation.setAdapter(adapter);
 
+        ImageButton btnPreviousActivity= findViewById(R.id.goToPreviousActivity_ImageButton);
+        btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        ImageButton btnOpenMainActivity = findViewById(R.id.confirm_ImageButton);
+        btnOpenMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
+                intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
+                startActivity(intent);
+
+            }
+        });
+    }
 
     private String returnDate(String s){
         String[] words = s.split(",");

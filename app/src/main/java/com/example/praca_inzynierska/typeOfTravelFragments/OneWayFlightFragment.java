@@ -30,37 +30,60 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class OneWayFlightFragment extends Fragment {
+    private TextInputEditText tvDepCode;
+    private TextInputEditText tvArrCode;
+    private TextInputEditText tvNumPassengers;
+    private AutoCompleteTextView tvDepDate;
+    private AutoCompleteTextView tvSelectTravelClass;
 
-    private TextInputEditText departureCode_TextInputEditText;
-    private TextInputEditText arrivalCode_TextInputEditText;
-    private TextInputEditText numberOfPassengers_TextInputEditText;
-    private AutoCompleteTextView departureDate_AutoCompleteTextView;
-    private AutoCompleteTextView selectClassOfTravel_AutoCompleteTextView;
-    private ImageButton btn_searchForTickets;
-    private final String[] items = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
-    private LocalDate selectedDate;
+    private final String[] TravelClassName = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
+    private LocalDate selectedDepDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_way_flight, container, false);
 
-        departureCode_TextInputEditText = view.findViewById(R.id.departureCode_TextInputEditText);
-        arrivalCode_TextInputEditText = view.findViewById(R.id.arrivalCode_TextInputEditText);
-        numberOfPassengers_TextInputEditText = view.findViewById(R.id.numberOfPassengers_TextInputEditText);
-        departureDate_AutoCompleteTextView = view.findViewById(R.id.departureDate_AutoCompleteTextView);
-        selectClassOfTravel_AutoCompleteTextView = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView);
-        btn_searchForTickets = view.findViewById(R.id.searchForTickets_ImageButton);
+        tvDepCode = view.findViewById(R.id.departureCode_TextInputEditText);
+        tvArrCode = view.findViewById(R.id.arrivalCode_TextInputEditText);
+        tvNumPassengers = view.findViewById(R.id.numberOfPassengers_TextInputEditText);
+        tvDepDate = view.findViewById(R.id.departureDate_AutoCompleteTextView);
+        tvSelectTravelClass = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView);
+
+        ImageButton btnOpenNextActivity = view.findViewById(R.id.searchForTickets_ImageButton);
+        btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvDepCode.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvArrCode.length() < 3) {
+                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvDepDate.length() == 0) {
+                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
+                } else if (tvNumPassengers.length() < 1) {
+                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
+                } else if (tvSelectTravelClass.length() == 0) {
+                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+                    intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
+                    intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
+                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
+                    intent.putExtra("NumberPassengers", String.valueOf(tvNumPassengers.getText()));
+                    intent.putExtra("TravelClass", String.valueOf(tvSelectTravelClass.getText()));
+                    startActivity(intent);
+                }
+            }
+        });
 
         setDepartureDate();
-        setClassPicker();
-        goToSearchResultActivity();
+        setTravelClassPicker();
         return view;
     }
 
-    private void setClassPicker() {
-        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(getActivity(), R.layout.drop_down_menu_list_item, items);
-        selectClassOfTravel_AutoCompleteTextView.setAdapter(adapterItems);
+    private void setTravelClassPicker() {
+        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(getActivity(), R.layout.drop_down_menu_list_item, TravelClassName);
+        tvSelectTravelClass.setAdapter(adapterItems);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -71,50 +94,22 @@ public class OneWayFlightFragment extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LocalDate todayDate = LocalDate.now();
 
-        departureDate_AutoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+        tvDepDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
+                        selectedDepDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if (selectedDate.isAfter(todayDate) || selectedDate.isEqual(todayDate)) {
-                            String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                            departureDate_AutoCompleteTextView.setText(formattedDate);
+                        if (selectedDepDate.isAfter(todayDate) || selectedDepDate.isEqual(todayDate)) {
+                            String formattedDate = selectedDepDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                            tvDepDate.setText(formattedDate);
                         }
                     }
                 }, year, month, day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void goToSearchResultActivity() {
-        btn_searchForTickets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (departureCode_TextInputEditText.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (arrivalCode_TextInputEditText.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
-                } else if (departureDate_AutoCompleteTextView.length() == 0) {
-                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (numberOfPassengers_TextInputEditText.length() < 1) {
-                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
-                } else if (selectClassOfTravel_AutoCompleteTextView.length() == 0) {
-                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                    intent.putExtra("CodeDeparture", String.valueOf(departureCode_TextInputEditText.getText()));
-                    intent.putExtra("CodeArrival", String.valueOf(arrivalCode_TextInputEditText.getText()));
-                    intent.putExtra("SelectedDate", selectedDate);
-                    intent.putExtra("NumberPassengers", String.valueOf(numberOfPassengers_TextInputEditText.getText()));
-                    intent.putExtra("travelClass", String.valueOf(selectClassOfTravel_AutoCompleteTextView.getText()));
-                    startActivity(intent);
-                }
             }
         });
     }

@@ -25,25 +25,25 @@ import java.util.Random;
 
 public class SeatingChoiceActivity extends AppCompatActivity {
     private int selectedSeats = 0;
-    private final String[] seatNames = {
-            "A1","A2","A3","A4",
-            "B1","B2","B3","B4",
-            "C1","C2","C3","C4",
-            "D1","D2","D3","D4",
-            "E1","E2","E3","E4",
-            "F1","F2","F3","F4",
-            "G1","G2","G3","G4"};
+    private final String[] seatNumberNames = {
+            "A1", "A2", "A3", "A4",
+            "B1", "B2", "B3", "B4",
+            "C1", "C2", "C3", "C4",
+            "D1", "D2", "D3", "D4",
+            "E1", "E2", "E3", "E4",
+            "F1", "F2", "F3", "F4",
+            "G1", "G2", "G3", "G4"};
 
-    private final int[]seatID={
-            R.id.A1,R.id.A2,R.id.A3,R.id.A4,
-            R.id.B1,R.id.B2,R.id.B3,R.id.B4,
-            R.id.C1,R.id.C2,R.id.C3,R.id.C4,
-            R.id.D1,R.id.D2,R.id.D3,R.id.D4,
-            R.id.E1,R.id.E2,R.id.E3,R.id.E4,
-            R.id.F1,R.id.F2,R.id.F3,R.id.F4,
-            R.id.G1,R.id.G2,R.id.G3,R.id.G4};
+    private final int[] seatsID = {
+            R.id.A1, R.id.A2, R.id.A3, R.id.A4,
+            R.id.B1, R.id.B2, R.id.B3, R.id.B4,
+            R.id.C1, R.id.C2, R.id.C3, R.id.C4,
+            R.id.D1, R.id.D2, R.id.D3, R.id.D4,
+            R.id.E1, R.id.E2, R.id.E3, R.id.E4,
+            R.id.F1, R.id.F2, R.id.F3, R.id.F4,
+            R.id.G1, R.id.G2, R.id.G3, R.id.G4};
 
-    ArrayList<String> seatsNumber;
+    private ArrayList<String> reservedSeatsNames;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -54,13 +54,10 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_seating_choice);
 
-        seatsNumber = new ArrayList<>();;
+        reservedSeatsNames = new ArrayList<>();
 
-        //Reading the transmitted value
-        Intent intent = getIntent();
-        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
 
-        //Set flight information
         TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
         TextView tvDepartureAirportName = findViewById(R.id.departureCityName_TextView);
         TextView tvArrivalAirportCode = findViewById(R.id.arrivalAirportCode_TextView);
@@ -71,9 +68,6 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         TextView tvNumberOfPassengers = findViewById(R.id.numberOfPassengers_TextView);
         TextView tvTravelClass = findViewById(R.id.travelClass_TextView);
 
-        ImageButton imageButton = findViewById(R.id.G1);
-        imageButton.getContentDescription();
-
         tvDepartureAirportCode.setText(foundAirlineTicketsModel.getDepartureAirportCode());
         tvDepartureAirportName.setText(foundAirlineTicketsModel.getDepartureAirportCityName());
         tvArrivalAirportCode.setText(foundAirlineTicketsModel.getArrivalAirportCode());
@@ -82,32 +76,31 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         tvDepartureDateAndTime.setText(foundAirlineTicketsModel.getDepartureDateAndTime());
         tvFlightNumber.setText(foundAirlineTicketsModel.getFlightNumber());
         tvNumberOfPassengers.setText(String.valueOf(foundAirlineTicketsModel.getNumberPassengers()));
-        tvTravelClass.setText("klasa "+foundAirlineTicketsModel.getTravelClass());
+        tvTravelClass.setText("klasa " + foundAirlineTicketsModel.getTravelClass());
 
         //Seat management
         GridLayout seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
         setSeatReservation(seatMap_GridLayout, foundAirlineTicketsModel.getNumberPassengers());
         setReservedSeats(seatMap_GridLayout);
 
-        //Next Activity
-        ImageButton goToPassengerDetailsActivity_ImageButton = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
-        goToPassengerDetailsActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton btnOpenNextActivity = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
+        btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedSeats == foundAirlineTicketsModel.getNumberPassengers()){
+                if (selectedSeats == foundAirlineTicketsModel.getNumberPassengers()) {
                     Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
-                    intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                    intent.putExtra("seatsNumber",seatsNumber);
+                    intent.putExtra("AirlineTicketsModels", foundAirlineTicketsModel);
+                    intent.putExtra("seatsNumber", reservedSeatsNames);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(SeatingChoiceActivity.this,"Wybierz miejsce w samolocie dla pasażera", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SeatingChoiceActivity.this, "Wybierz miejsce dla pasażera.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        //Previous Activity
-        ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
-        goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton btnPreviousActivity = findViewById(R.id.goToPreviousActivity_ImageButton);
+        btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -145,17 +138,17 @@ public class SeatingChoiceActivity extends AppCompatActivity {
                     if (selectedSeats < numberOfPassengers) {
                         if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_free).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_selected);
-                            for(int i=0; i<seatID.length;i++){
-                                if(imageButton.getId()==seatID[i]){
-                                    seatsNumber.add(seatNames[i]);
+                            for (int i = 0; i < seatsID.length; i++) {
+                                if (imageButton.getId() == seatsID[i]) {
+                                    reservedSeatsNames.add(seatNumberNames[i]);
                                 }
                             }
                             selectedSeats++;
                         } else if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_free);
-                            for(int i=0; i<seatID.length;i++){
-                                if(imageButton.getId()==seatID[i]){
-                                    seatsNumber.remove(seatNames[i]);
+                            for (int i = 0; i < seatsID.length; i++) {
+                                if (imageButton.getId() == seatsID[i]) {
+                                    reservedSeatsNames.remove(seatNumberNames[i]);
                                 }
                             }
                             selectedSeats--;
@@ -163,9 +156,9 @@ public class SeatingChoiceActivity extends AppCompatActivity {
                     } else if (selectedSeats == numberOfPassengers) {
                         if (imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_selected).getConstantState()) {
                             imageButton.setBackgroundResource(R.drawable.bg_seat_free);
-                            for(int i=0; i<seatID.length;i++){
-                                if(imageButton.getId()==seatID[i]){
-                                    seatsNumber.remove(seatNames[i]);
+                            for (int i = 0; i < seatsID.length; i++) {
+                                if (imageButton.getId() == seatsID[i]) {
+                                    reservedSeatsNames.remove(seatNumberNames[i]);
                                 }
                             }
                             selectedSeats--;
@@ -175,11 +168,5 @@ public class SeatingChoiceActivity extends AppCompatActivity {
             });
 
         }
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void backToSearchResultAcitivity(View view) {
-        finish();
     }
 }

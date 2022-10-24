@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PassengerDetailsActivity extends AppCompatActivity {
-    ArrayList<PassengerModel> passengerList = new ArrayList<>();
-    private String gender;
+    private ArrayList<PassengerModel> passengerInfoList;
+    private String PassagerGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,79 +30,77 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_passenger_details);
 
-        //Reading the transmitted value
-        Intent intent = getIntent();
-        FoundAirlineTicketsModel foundAirlineTicketsModel = intent.getParcelableExtra("AirlineTicketsModels");
+        passengerInfoList = new ArrayList<>();
+
+        FoundAirlineTicketsModel foundAirlineTicketsModel = getIntent().getParcelableExtra("AirlineTicketsModels");
         ArrayList<String> seatsNumber = (ArrayList<String>) getIntent().getSerializableExtra("seatsNumber");
 
-        //
-        ListView passengerInfo_ListView = findViewById(R.id.passengerInformation_ListView);
-        TextInputEditText passengerName_TextInputEditText = findViewById(R.id.passengerName_TextInputEditText);
-        TextInputEditText passengerLastName_TextInputEditText = findViewById(R.id.passengerLastName_TextInputEditText);
-        TextInputEditText passengerAge_TextInputEditText = findViewById(R.id.passengerAge_TextInputEditText);
-        RadioGroup gender_RadioGroup = findViewById(R.id.gender_RadioGroup);
+        ListView lvPassengerInfo = findViewById(R.id.passengerInformation_ListView);
+        TextInputEditText tvPassengerName = findViewById(R.id.passengerName_TextInputEditText);
+        TextInputEditText tvPassengerLastName = findViewById(R.id.passengerLastName_TextInputEditText);
+        TextInputEditText tvPassengerAge= findViewById(R.id.passengerAge_TextInputEditText);
+        RadioGroup rgPassagerGender= findViewById(R.id.gender_RadioGroup);
 
-        //Next Activity
-        ImageButton goToNext_ImageButton = findViewById(R.id.goToNext_ImageButton);
 
-        goToNext_ImageButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton btnNextActivity = findViewById(R.id.goToNext_ImageButton);
+        btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (passengerList.size() < foundAirlineTicketsModel.getNumberPassengers()) {
-                        if (passengerName_TextInputEditText.length() == 0) {
+                    if (passengerInfoList.size() < foundAirlineTicketsModel.getNumberPassengers()) {
+                        if (tvPassengerName.length() == 0) {
                             Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
-                        } else if (passengerLastName_TextInputEditText.length() == 0) {
+                        } else if (tvPassengerLastName.length() == 0) {
                             Toast.makeText(PassengerDetailsActivity.this, "Podaj Nazwisko pasażera.", Toast.LENGTH_SHORT).show();
-                        } else if (passengerAge_TextInputEditText.length() == 0) {
+                        } else if (tvPassengerAge.length() == 0) {
                             Toast.makeText(PassengerDetailsActivity.this, "Podaj Wiek pasażera.", Toast.LENGTH_SHORT).show();
                         } else {
-                            PassengerModel passengerModel = new PassengerModel(String.valueOf(passengerName_TextInputEditText.getText()), String.valueOf(passengerLastName_TextInputEditText.getText()), Integer.parseInt(String.valueOf(passengerAge_TextInputEditText.getText())), gender);
-                            passengerList.add(passengerModel);
-                            PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerDetailsActivity.this, R.layout.new_passenger_item, passengerList);
-                            passengerInfo_ListView.setAdapter(adapter);
-                            passengerName_TextInputEditText.getText().clear();
-                            passengerLastName_TextInputEditText.getText().clear();
-                            passengerAge_TextInputEditText.getText().clear();
-                            gender_RadioGroup.clearCheck();
+                            PassengerModel passengerModel = new PassengerModel(String.valueOf(tvPassengerName.getText()), String.valueOf(tvPassengerLastName.getText()), Integer.parseInt(String.valueOf(tvPassengerAge.getText())), PassagerGender);
+                            passengerInfoList.add(passengerModel);
+                            PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerDetailsActivity.this, R.layout.new_passenger_item, passengerInfoList);
+                            lvPassengerInfo.setAdapter(adapter);
+                            tvPassengerName.getText().clear();
+                            tvPassengerLastName.getText().clear();
+                            tvPassengerAge.getText().clear();
+                            rgPassagerGender.clearCheck();
                         }
-                    } else if (passengerList.size() == foundAirlineTicketsModel.getNumberPassengers()) {
-                        passengerName_TextInputEditText.getText().clear();
-                        passengerLastName_TextInputEditText.getText().clear();
-                        passengerAge_TextInputEditText.getText().clear();
-                        gender_RadioGroup.clearCheck();
-                        goToNext_ImageButton.setBackgroundResource(R.drawable.animation_button_next_activity);
+                    } else if (passengerInfoList.size() == foundAirlineTicketsModel.getNumberPassengers()) {
+                        tvPassengerName.getText().clear();
+                        tvPassengerLastName.getText().clear();
+                        tvPassengerAge.getText().clear();
+                        rgPassagerGender.clearCheck();
+                        btnNextActivity.setBackgroundResource(R.drawable.animation_button_next_activity);
                         Intent intent = new Intent(PassengerDetailsActivity.this, BookingSummaryActivity.class);
                         intent.putExtra("AirlineTicketsModels",foundAirlineTicketsModel);
-                        intent.putExtra("passengerList", passengerList);
+                        intent.putExtra("passengerList", passengerInfoList);
                         intent.putExtra("seatsNumber",seatsNumber);
                         startActivity(intent);
                     }
             }
         });
 
-        //Previous Activity
-        ImageButton goToPreviousActivity_ImageButton = findViewById(R.id.goToPreviousActivity_ImageButton);
-        goToPreviousActivity_ImageButton.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton btnPreviousActivity = findViewById(R.id.goToPreviousActivity_ImageButton);
+        btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        //
-        gender_RadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+        rgPassagerGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedButtonId) {
 
                 switch (checkedButtonId) {
                     case R.id.genderMen_RadioButton:
-                        gender = "Mężczyzna";
+                        PassagerGender = "Mężczyzna";
                         break;
                     case R.id.genderWoman_RadioButton:
-                        gender = "Kobieta";
+                        PassagerGender = "Kobieta";
                         break;
                     case R.id.genderOther_RadioButton:
-                        gender = "Inna";
+                        PassagerGender = "Inna";
                         break;
                 }
             }
