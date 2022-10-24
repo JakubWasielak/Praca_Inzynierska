@@ -76,8 +76,13 @@ public class BookingSummaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
-
-//                startActivity(intent);
+                FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
+                flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
+                        airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
+                        airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
+                        , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
+                        airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
+                startActivity(intent);
 
             }
         });
