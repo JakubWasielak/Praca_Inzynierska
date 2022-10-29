@@ -10,18 +10,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -38,12 +37,12 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/departureCode_TextInputEditText_RoundTrip"
+                    android:id="@+id/RoundTripDepartureCode_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:fontFamily="@font/opensans_semibold"
-                    android:inputType="textCapCharacters"
                     android:imeOptions="actionDone"
+                    android:inputType="textCapCharacters"
                     android:maxLength="3"
                     android:singleLine="true"
                     android:textColor="@color/white"
@@ -68,7 +67,7 @@
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/arrivalCode_TextInputEditText_RoundTrip"
+                    android:id="@+id/RoundTripArrivalCode_TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:fontFamily="@font/opensans_semibold"
@@ -82,7 +81,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/departureDate_TextInputLayout"
+                android:id="@+id/RoundTripDepartureDate_TextInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +96,7 @@
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
-                    android:id="@+id/departureDate_AutoCompleteTextView_RoundTrip"
+                    android:id="@+id/RoundTripDepartureDate_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:clickable="false"
@@ -108,14 +107,15 @@
                     android:textSize="15sp"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/departureDateReturn_TextInputLayout"
+                android:id="@+id/RoundTripDepartureDateReturn_TextInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:focusable="false"
-                android:hint="Data wylotu"
+                android:hint="Data powrotu"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
                 app:boxStrokeWidth="2dp"
@@ -124,7 +124,7 @@
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
-                    android:id="@+id/departureDateReturn_AutoCompleteTextView_RoundTrip"
+                    android:id="@+id/RoundTripDepartureDateReturn_AutoCompleteTextView_RoundTrip"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:clickable="false"
@@ -134,35 +134,6 @@
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     tools:ignore="LabelFor" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:focusable="true"
-                android:hint="Ilość pasażerów"
-                android:textColorHint="@color/white"
-                app:boxStrokeColor="@color/white"
-                app:boxStrokeWidth="2dp"
-                app:endIconMode="clear_text"
-                app:hintTextColor="@color/white"
-                app:startIconDrawable="@drawable/ic_passengers"
-                app:startIconTint="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/numberOfPassengers_TextInputEditText_RoundTrip"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -181,7 +152,7 @@
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
-                    android:id="@+id/selectClassOfTravel_AutoCompleteTextView_RoundTrip"
+                    android:id="@+id/RoundTripSelectClassOfTravel_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:fontFamily="@font/opensans_semibold"
@@ -191,17 +162,185 @@
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_passengers"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/opensans_bold"
+                    android:gravity="center"
+                    android:text="Pasażerowie: "
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="horizontal"
+                tools:ignore="DisableBaselineAlignment">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_bold"
+                        android:text="Dorośli"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:text="powyżej 15 lat"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/RoundTrip_minusOneAdult_ImageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_remove"
+                        android:gravity="center"
+                        tools:ignore="ContentDescription,NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/RoundTrip_numberOfAdults_TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:fontFamily="@font/montserra_bold"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+
+                    <ImageButton
+                        android:id="@+id/RoundTrip_addOneAdult_ImageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_add"
+                        android:gravity="center"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="horizontal"
+                tools:ignore="DisableBaselineAlignment">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_bold"
+                        android:text="Dzieci"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:text="powniżej 15 lat"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/RoundTrip_minusOneChild_ImageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_remove"
+                        android:gravity="center"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/RoundTrip_numberOfChildren_TextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:fontFamily="@font/montserra_bold"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+
+                    <ImageButton
+                        android:id="@+id/RoundTrip_addOneChild_ImageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_add"
+                        android:gravity="center"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
             <ImageButton
-                android:id="@+id/searchForTickets_ImageButton_RoundTrip"
+                android:id="@+id/RoundTrip_searchForTickets_ImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/animation_button_search_for_tickets"
                 tools:ignore="ContentDescription" />
-
         </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

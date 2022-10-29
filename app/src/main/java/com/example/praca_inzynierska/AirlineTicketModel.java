@@ -17,12 +17,13 @@ public class AirlineTicketModel implements Parcelable {
     String flightNumber;
     String travelClass;
     double ticketPrice;
-    int numberPassengers;
+    int numberPassengersAdults;
+    int numberPassengersChildren;
     boolean oneWayFlight;
     ArrayList<String> reservedSeatsNames;
     ArrayList<PassengerModel> passengerInformation;
 
-    public AirlineTicketModel(String departureAirportCode, String departureAirportName, String arrivalAirportCode, String arrivalAirportName, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengers, boolean oneWayFlight) {
+    public AirlineTicketModel(String departureAirportCode, String departureAirportName, String arrivalAirportCode, String arrivalAirportName, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight) {
         this.departureAirportCode = departureAirportCode;
         this.departureAirportName = departureAirportName;
         this.arrivalAirportCode = arrivalAirportCode;
@@ -33,7 +34,8 @@ public class AirlineTicketModel implements Parcelable {
         this.flightNumber = flightNumber;
         this.travelClass = travelClass;
         this.ticketPrice = ticketPrice;
-        this.numberPassengers = numberPassengers;
+        this.numberPassengersAdults = numberPassengersAdults;
+        this.numberPassengersChildren = numberPassengersChildren;
         this.oneWayFlight = oneWayFlight;
     }
 
@@ -49,7 +51,8 @@ public class AirlineTicketModel implements Parcelable {
         flightNumber = in.readString();
         travelClass = in.readString();
         ticketPrice = in.readDouble();
-        numberPassengers = in.readInt();
+        numberPassengersAdults = in.readInt();
+        numberPassengersChildren = in.readInt();
         oneWayFlight = in.readByte() != 0;
         reservedSeatsNames = in.createStringArrayList();
         passengerInformation = in.createTypedArrayList(PassengerModel.CREATOR);
@@ -115,8 +118,12 @@ public class AirlineTicketModel implements Parcelable {
         return ticketPrice;
     }
 
-    public int getNumberPassengers() {
-        return numberPassengers;
+    public int getNumberPassengersAdults() {
+        return numberPassengersAdults;
+    }
+
+    public int getNumberPassengersChildren() {
+        return numberPassengersChildren;
     }
 
     public boolean isOneWayFlight() {
@@ -157,7 +164,8 @@ public class AirlineTicketModel implements Parcelable {
         parcel.writeString(flightNumber);
         parcel.writeString(travelClass);
         parcel.writeDouble(ticketPrice);
-        parcel.writeInt(numberPassengers);
+        parcel.writeInt(numberPassengersAdults);
+        parcel.writeInt(numberPassengersChildren);
         parcel.writeByte((byte) (oneWayFlight ? 1 : 0));
         parcel.writeStringList(reservedSeatsNames);
         parcel.writeTypedList(passengerInformation);

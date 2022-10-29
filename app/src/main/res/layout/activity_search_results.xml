@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchResultsActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".SearchResultsActivity">
 
     <ImageView
         android:id="@+id/background_ImageView"
@@ -35,7 +34,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,UsingOnClickInXml" />
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -46,108 +44,59 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="95dp"
         android:layout_marginEnd="25dp"
-        android:gravity="center"
         android:fontFamily="@font/montserra_bold"
+        android:gravity="center"
         android:text="Wybierz bilet"
         android:textColor="@color/mainColor"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
-        android:id="@+id/foundInfo_LinearLayout"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/ticketSearchResults_TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/background_ImageView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="0dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/mainColor"
+        app:tabIndicator="@drawable/ic_custom_tab_indicator"
+        app:tabIndicatorFullWidth="false"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="#C4DFE6">
 
-        <TextView
-            android:id="@+id/numberOfTicketsFound_TextView"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text="3"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="Polecane" />
 
-        <TextView
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text=" dostępne loty z "
-            android:textColor="#66A5AD"
-            android:textSize="20sp" />
+            android:text="Czas" />
 
-        <TextView
-            android:id="@+id/searchedDeparture_TextView"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text=" "
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="Cena" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text=" do "
-            android:textColor="#66A5AD"
-            android:textSize="20sp" />
+    </com.google.android.material.tabs.TabLayout>
 
-        <TextView
-            android:id="@+id/searchedArrival_TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text=" "
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans_semibold"
-            android:text="."
-            android:textColor="#66A5AD"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/foundInfo_LinearLayout"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/ticketSearchResults_ViewPager2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ticketSearchResults_TabLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/foundFlights_RecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
-
-    <ImageButton
-        android:id="@+id/goToSeatingChoiceActivity_ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/animation_button_next_activity"
-        android:visibility="invisible"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,UsingOnClickInXml" />
+        android:layout_marginBottom="0dp" />
 
 </RelativeLayout>

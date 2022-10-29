@@ -1,18 +1,16 @@
 package com.example.praca_inzynierska;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,7 +43,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
         btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (passengerInfoList.size() < airlineTicketModel.getNumberPassengers()) {
+                    if (passengerInfoList.size() < (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) {
                         if (tvPassengerName.length() == 0) {
                             Toast.makeText(PassengerDetailsActivity.this, "Podaj Imie pasażera.", Toast.LENGTH_SHORT).show();
                         } else if (tvPassengerLastName.length() == 0) {
@@ -62,7 +60,7 @@ public class PassengerDetailsActivity extends AppCompatActivity {
                             tvPassengerAge.getText().clear();
                             rgPassagerGender.clearCheck();
                         }
-                    } else if (passengerInfoList.size() == airlineTicketModel.getNumberPassengers()) {
+                    } else if (passengerInfoList.size() == (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) {
                         tvPassengerName.getText().clear();
                         tvPassengerLastName.getText().clear();
                         tvPassengerAge.getText().clear();

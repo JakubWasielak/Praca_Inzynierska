@@ -1,9 +1,5 @@
 package com.example.praca_inzynierska;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -12,14 +8,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.praca_inzynierska.R;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -74,19 +69,19 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         tvFlightDuration.setText(airlineTicketModel.getFlightDuration());
         tvDepartureDateAndTime.setText(String.format("%s, %s", airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()));
         tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
-        tvNumberOfPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengers()));
+        tvNumberOfPassengers.setText(String.valueOf((airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())));
         tvTravelClass.setText("klasa " + airlineTicketModel.getTravelClass());
 
         //Seat management
         GridLayout seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
-        setSeatReservation(seatMap_GridLayout, airlineTicketModel.getNumberPassengers());
+        setSeatReservation(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
         setReservedSeats(seatMap_GridLayout);
 
         ImageButton btnOpenNextActivity = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
         btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedSeats == airlineTicketModel.getNumberPassengers()) {
+                if (selectedSeats == (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) {
                     Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
                     airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
                     intent.putExtra("AirlineTicketsModels", airlineTicketModel);

@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerViewAdapter.MyViewHolder> {
-    private final RecyclerViewInterface recyclerViewInterface;
+    private RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<AirlineTicketModel> foundAirlineTicketsModels;
     int singleItem_selection_position = -1;
@@ -21,6 +21,11 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         this.context = context;
         this.foundAirlineTicketsModels = foundAirlineTicketsModels;
         this.recyclerViewInterface = recyclerViewInterface;
+    }
+
+    public FAT_RecyclerViewAdapter(Context context, ArrayList<AirlineTicketModel> foundAirlineTicketsModels) {
+        this.context = context;
+        this.foundAirlineTicketsModels = foundAirlineTicketsModels;
     }
 
     @NonNull

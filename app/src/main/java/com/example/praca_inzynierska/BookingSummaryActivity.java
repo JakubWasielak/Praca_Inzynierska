@@ -1,8 +1,5 @@
 package com.example.praca_inzynierska;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,14 +9,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Objects;
-
-import kotlin.experimental.BitwiseOperationsKt;
 
 public class BookingSummaryActivity extends AppCompatActivity {
 
@@ -54,12 +48,12 @@ public class BookingSummaryActivity extends AppCompatActivity {
         tvTravelClass.setText(airlineTicketModel.getTravelClass());
         tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
         tvDepTime.setText(airlineTicketModel.getDepartureTime());
-        tvNumberPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengers()));
+        tvNumberPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
         tvSeatNumber.setText(String.valueOf(airlineTicketModel.getReservedSeatsNames()));
 
 
         DecimalFormat formatter = new DecimalFormat("#0.00");
-        String PriceTicket = formatter.format(airlineTicketModel.getTicketPrice() * airlineTicketModel.getNumberPassengers()) + " zł";
+        String PriceTicket = formatter.format(airlineTicketModel.getTicketPrice() * (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) + " zł";
         tvTicketPrice.setText(PriceTicket);
 
         ListView lvPassengerInformation = findViewById(R.id.passengerInformation_ListView);
@@ -86,7 +80,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
                             airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
                             airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
                             , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
-                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
+                            airlineTicketModel.getTicketPrice(), (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
                     startActivity(intent);
 
                 }else{
@@ -96,13 +90,14 @@ public class BookingSummaryActivity extends AppCompatActivity {
                             airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
                             airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
                             , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
-                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengers());
+                            airlineTicketModel.getTicketPrice(), (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
 
                     intent.putExtra("DepartureCode", airlineTicketModel.getArrivalAirportCode());
                     intent.putExtra("ArrivalCode", airlineTicketModel.getDepartureAirportCode());
-                    LocalDate selectedDepDate = dateToLocalDate(airlineTicketModel.getDepartureDateReturn());
+                    String selectedDepDate = airlineTicketModel.getDepartureDateReturn();
                     intent.putExtra("SelectedDepartureDate", selectedDepDate);
-                    intent.putExtra("NumberPassengers",String.valueOf( airlineTicketModel.getNumberPassengers()));
+                    intent.putExtra("NumberPassengersAdults", airlineTicketModel.getNumberPassengersAdults());
+                    intent.putExtra("NumberPassengersChildren", airlineTicketModel.getNumberPassengersAdults());
                     intent.putExtra("TravelClass", airlineTicketModel.getTravelClass());
                     intent.putExtra("OneWayFlight", true);
 
@@ -112,18 +107,4 @@ public class BookingSummaryActivity extends AppCompatActivity {
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private LocalDate dateToLocalDate(String date){
-        String[] departureDateSplit = date.split(" ");
-        String y = String.valueOf(departureDateSplit[2]);
-        String m = String.valueOf(departureDateSplit[1]);
-        String d = String.valueOf(departureDateSplit[0]);
-
-        int year = Integer.parseInt(y);
-        int month = Integer.parseInt(m);
-        int day = Integer.parseInt(d);
-
-        return LocalDate.of(year,month,day);
-    }
-
 }

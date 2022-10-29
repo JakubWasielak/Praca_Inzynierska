@@ -7,10 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
@@ -27,16 +27,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class RoundTripFlightFragment extends Fragment {
     private TextInputEditText tvDepCode;
     private TextInputEditText tvArrCode;
-    private TextInputEditText tvNumPassengers;
     private AutoCompleteTextView tvDepDate;
     private AutoCompleteTextView tvDepDateReturn;
     private AutoCompleteTextView tvSelectTravelClass;
-
-    private final String[] TravelClassName = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
+    private TextView tvNumberOfAdults_RoundTrip, tvNumberOfChildren_RoundTrip;
+    private final String[] TravelClassName = {"ekonomiczna", "biznesowa", "pierwsza"};
     private LocalDate selectedDepDate;
     private LocalDate selectedDepDateReturn;
 
@@ -45,14 +45,59 @@ public class RoundTripFlightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_round_trip_flight, container, false);
 
-        tvDepCode = view.findViewById(R.id.departureCode_TextInputEditText_RoundTrip);
-        tvArrCode = view.findViewById(R.id.arrivalCode_TextInputEditText_RoundTrip);
-        tvNumPassengers = view.findViewById(R.id.numberOfPassengers_TextInputEditText_RoundTrip);
-        tvDepDate = view.findViewById(R.id.departureDate_AutoCompleteTextView_RoundTrip);
-        tvDepDateReturn= view.findViewById(R.id.departureDateReturn_AutoCompleteTextView_RoundTrip);
-        tvSelectTravelClass = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView_RoundTrip);
+        tvDepCode = view.findViewById(R.id.RoundTripDepartureCode_TextInputEditText);
+        tvArrCode = view.findViewById(R.id.RoundTripArrivalCode_TextInputEditText);
+        tvDepDate = view.findViewById(R.id.RoundTripDepartureDate_AutoCompleteTextView);
+        tvDepDateReturn = view.findViewById(R.id.RoundTripDepartureDateReturn_AutoCompleteTextView_RoundTrip);
+        tvSelectTravelClass = view.findViewById(R.id.RoundTripSelectClassOfTravel_AutoCompleteTextView);
 
-        ImageButton btnOpenNextActivity_RoundTrip = view.findViewById(R.id.searchForTickets_ImageButton_RoundTrip);
+        ImageButton btnRoundTrip_minusOneAdult = view.findViewById(R.id.RoundTrip_minusOneAdult_ImageButton);
+        ImageButton btnRoundTrip_addOneAdult = view.findViewById(R.id.RoundTrip_addOneAdult_ImageButton);
+        tvNumberOfAdults_RoundTrip = view.findViewById(R.id.RoundTrip_numberOfAdults_TextView);
+
+        ImageButton btnRoundTrip_minusOneChild = view.findViewById(R.id.RoundTrip_minusOneChild_ImageButton);
+        ImageButton btnRoundTrip_addOneChild = view.findViewById(R.id.RoundTrip_addOneChild_ImageButton);
+        tvNumberOfChildren_RoundTrip = view.findViewById(R.id.RoundTrip_numberOfChildren_TextView);
+
+        btnRoundTrip_minusOneAdult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults_RoundTrip.getText()));
+                if (numberOfAdults - 1 > 0) {
+                    tvNumberOfAdults_RoundTrip.setText(String.valueOf(numberOfAdults - 1));
+                }
+            }
+        });
+        btnRoundTrip_addOneAdult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults_RoundTrip.getText()));
+                if (numberOfAdults < 8) {
+                    tvNumberOfAdults_RoundTrip.setText(String.valueOf(numberOfAdults + 1));
+                }
+            }
+        });
+
+        btnRoundTrip_minusOneChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren_RoundTrip.getText()));
+                if (numberOfAdults - 1 >= 0) {
+                    tvNumberOfChildren_RoundTrip.setText(String.valueOf(numberOfAdults - 1));
+                }
+            }
+        });
+        btnRoundTrip_addOneChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren_RoundTrip.getText()));
+                if (numberOfAdults < 8) {
+                    tvNumberOfChildren_RoundTrip.setText(String.valueOf(numberOfAdults + 1));
+                }
+            }
+        });
+
+        ImageButton btnOpenNextActivity_RoundTrip = view.findViewById(R.id.RoundTrip_searchForTickets_ImageButton);
         btnOpenNextActivity_RoundTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,20 +107,19 @@ public class RoundTripFlightFragment extends Fragment {
                     Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
                 } else if (tvDepDate.length() == 0) {
                     Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvDepDateReturn.length() == 0) {
+                }else if (tvDepDateReturn.length() == 0) {
                     Toast.makeText(getActivity(), "Podaj date powrotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvNumPassengers.length() < 1) {
-                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
                 } else if (tvSelectTravelClass.length() == 0) {
                     Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
                     intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
                     intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
-                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
-                    intent.putExtra("SelectedDepartureDateReturn", selectedDepDateReturn);
-                    intent.putExtra("NumberPassengers", String.valueOf(tvNumPassengers.getText()));
-                    intent.putExtra("TravelClass", String.valueOf(tvSelectTravelClass.getText()));
+                    intent.putExtra("SelectedDepartureDate", selectedDepDate.getYear() + "-" + selectedDepDate.getMonthValue() + "-" + selectedDepDate.getDayOfMonth());
+                    intent.putExtra("SelectedDepartureDateReturn", selectedDepDateReturn.getYear() + "-" + selectedDepDateReturn.getMonthValue() + "-" + selectedDepDateReturn.getDayOfMonth());
+                    intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvSelectTravelClass.getText())));
+                    intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults_RoundTrip.getText()));
+                    intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren_RoundTrip.getText()));
                     intent.putExtra("OneWayFlight", false);
                     startActivity(intent);
                 }
@@ -148,7 +192,16 @@ public class RoundTripFlightFragment extends Fragment {
         });
     }
 
-
-
+    private String setTravelClass(String TravelClass) {
+        String SelectedTravelClass = "";
+        if(Objects.equals(TravelClass, "ekonomiczna")){
+            SelectedTravelClass = "economy";
+        }else if(Objects.equals(TravelClass, "biznesowa")){
+            SelectedTravelClass = "business";
+        }else if(Objects.equals(TravelClass, "pierwsza")){
+            SelectedTravelClass = "first";
+        }
+        return SelectedTravelClass;
+    }
 
 }

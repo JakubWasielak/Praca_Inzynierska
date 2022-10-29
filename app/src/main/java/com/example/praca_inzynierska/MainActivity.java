@@ -1,11 +1,5 @@
 package com.example.praca_inzynierska;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,6 +8,12 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(rvUserTickets);
 
-
-//        DaneDoTestowania();
 
         ImageButton btnAddTicked = findViewById(R.id.AddTicked_ImageButton);
         btnAddTicked.setOnClickListener(new View.OnClickListener() {
@@ -111,27 +109,5 @@ public class MainActivity extends AppCompatActivity {
         rvUserTickets.setAdapter(showUserTicketsAdapter);
         rvUserTickets.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-    }
-
-    private void DaneDoTestowania() {
-        FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 1);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 2);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 3);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 4);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 5);
-        flyingApplicationDatabaseHelper.addTicket("COD1", "airport_name", "COD1", "airport_name",
-                "1h:11m", "date", "time", "travel_class", "flight_number",
-                100.00, 6);
     }
 }

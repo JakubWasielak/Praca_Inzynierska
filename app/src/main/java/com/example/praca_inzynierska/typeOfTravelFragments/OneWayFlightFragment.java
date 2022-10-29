@@ -7,10 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
@@ -28,15 +27,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class OneWayFlightFragment extends Fragment {
     private TextInputEditText tvDepCode;
     private TextInputEditText tvArrCode;
-    private TextInputEditText tvNumPassengers;
     private AutoCompleteTextView tvDepDate;
     private AutoCompleteTextView tvSelectTravelClass;
-
-    private final String[] TravelClassName = {"Ekonomiczna", "Biznesowa", "Pierwsza"};
+    private TextView tvNumberOfAdults, tvNumberOfChildren;
+    private final String[] TravelClassName = {"ekonomiczna", "biznesowa", "pierwsza"};
     private LocalDate selectedDepDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -46,9 +45,54 @@ public class OneWayFlightFragment extends Fragment {
 
         tvDepCode = view.findViewById(R.id.departureCode_TextInputEditText);
         tvArrCode = view.findViewById(R.id.arrivalCode_TextInputEditText);
-        tvNumPassengers = view.findViewById(R.id.numberOfPassengers_TextInputEditText);
         tvDepDate = view.findViewById(R.id.departureDate_AutoCompleteTextView);
         tvSelectTravelClass = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView);
+
+        ImageButton btnOneWay_minusOneAdult = view.findViewById(R.id.OneWay_minusOneAdult_ImageButton);
+        ImageButton btnOneWay_addOneAdult = view.findViewById(R.id.OneWay_addOneAdult_ImageButton);
+        tvNumberOfAdults = view.findViewById(R.id.OneWay_numberOfAdults_TextView);
+
+        ImageButton btnOneWay_minusOneChild = view.findViewById(R.id.OneWay_minusOneChild_ImageButton);
+        ImageButton btnOneWay_addOneChild = view.findViewById(R.id.OneWay_addOneChild_ImageButton);
+        tvNumberOfChildren = view.findViewById(R.id.OneWay_numberOfChildren_TextView);
+
+        btnOneWay_minusOneAdult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults.getText()));
+                if (numberOfAdults - 1 > 0) {
+                    tvNumberOfAdults.setText(String.valueOf(numberOfAdults - 1));
+                }
+            }
+        });
+        btnOneWay_addOneAdult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults.getText()));
+                if (numberOfAdults < 8) {
+                    tvNumberOfAdults.setText(String.valueOf(numberOfAdults + 1));
+                }
+            }
+        });
+
+        btnOneWay_minusOneChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren.getText()));
+                if (numberOfAdults - 1 >= 0) {
+                    tvNumberOfChildren.setText(String.valueOf(numberOfAdults - 1));
+                }
+            }
+        });
+        btnOneWay_addOneChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren.getText()));
+                if (numberOfAdults < 8) {
+                    tvNumberOfChildren.setText(String.valueOf(numberOfAdults + 1));
+                }
+            }
+        });
 
         ImageButton btnOpenNextActivity = view.findViewById(R.id.searchForTickets_ImageButton);
         btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
@@ -60,17 +104,16 @@ public class OneWayFlightFragment extends Fragment {
                     Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
                 } else if (tvDepDate.length() == 0) {
                     Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvNumPassengers.length() < 1) {
-                    Toast.makeText(getActivity(), "Podaj ilość pasażerów.", Toast.LENGTH_SHORT).show();
                 } else if (tvSelectTravelClass.length() == 0) {
                     Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
                     intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
                     intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
-                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
-                    intent.putExtra("NumberPassengers", String.valueOf(tvNumPassengers.getText()));
-                    intent.putExtra("TravelClass", String.valueOf(tvSelectTravelClass.getText()));
+                    intent.putExtra("SelectedDepartureDate", selectedDepDate.getYear()+"-"+selectedDepDate.getMonthValue()+"-"+selectedDepDate.getDayOfMonth());
+                    intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvSelectTravelClass.getText())));
+                    intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
+                    intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
                     intent.putExtra("OneWayFlight", true);
                     startActivity(intent);
                 }
@@ -115,4 +158,15 @@ public class OneWayFlightFragment extends Fragment {
         });
     }
 
+    private String setTravelClass(String TravelClass) {
+        String SelectedTravelClass = "";
+        if(Objects.equals(TravelClass, "ekonomiczna")){
+            SelectedTravelClass = "economy";
+        }else if(Objects.equals(TravelClass, "biznesowa")){
+            SelectedTravelClass = "business";
+        }else if(Objects.equals(TravelClass, "pierwsza")){
+            SelectedTravelClass = "first";
+        }
+        return SelectedTravelClass;
+    }
 }
