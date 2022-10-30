@@ -65,7 +65,7 @@ public class CheapestTicketSearchResultsFragment extends Fragment implements Rec
     }
     private void storeRequestInRecyclerView(String origin, String destination, String departureDate, int adults, int children, String travelClass, boolean oneWayFlight) {
         airlineTicketModel = new ArrayList<>();
-        String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYzIzZjk2YjFiZDc5MWQ5ZGJhODNiOTc3M2NkNzNmNjFiMTc3OGViNDQwNzA3NjIyMTMyNTFkZmU1OGQ1MjhhZjc4Y2Y0MTYyODY1MGJlYjYiLCJpYXQiOjE2NjcwNDY5NDIsIm5iZiI6MTY2NzA0Njk0MiwiZXhwIjoxNjk4NTgyOTQyLCJzdWIiOiIxNjQ0NCIsInNjb3BlcyI6W119.cgYZWh-wsV5kTpyqsQ0QWepzxXLHqkmrw9LbBZdaQr6cDgjQ0dWuB7irUbYm8ribn6h1KdC9bgKzaC6grUGnHA";
+        String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMGE4N2Y1NDRhY2M2ZDUyOWY5MmY1NjEwZTU3YTMzODM1NDE1OTQ1MjI5NjFkNTZjNmMzYWFmZTE5NGM2NjYwNTRlNDYwNGNmNWJlYTZiZjEiLCJpYXQiOjE2NjcwNjg1MjgsIm5iZiI6MTY2NzA2ODUyOCwiZXhwIjoxNjk4NjA0NTI4LCJzdWIiOiIxNjQ3NCIsInNjb3BlcyI6W119.SR6i0lqjeBCKEFgsHKHMH3d44UAcc2TV7toHMj155uCuBisxjlpdzFD3UTDJbdI6OYgpaYQ7UBEGxLYOfCGVlQ";
 
         String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1"+ "&origin=" + origin + "&destination=" + destination + "&departureDate=" + departureDate + "&cabinClass" + travelClass;
 

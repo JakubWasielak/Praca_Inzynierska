@@ -27,9 +27,9 @@ public class TicketSearchResultsViewPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new FastestTicketSearchResultsFragment();
             case 2:
-                return new CheapestTicketSearchResultsFragment();
-            default:
                 return new BestTicketSearchResultsFragment();
+            default:
+                return new CheapestTicketSearchResultsFragment();
         }
     }
 

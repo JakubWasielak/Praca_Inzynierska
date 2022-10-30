@@ -72,17 +72,17 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Polecane" />
+            android:text="Najtańsze" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Czas" />
+            android:text="Najszybsze" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cena" />
+            android:text="Najlepsze" />
 
     </com.google.android.material.tabs.TabLayout>
 

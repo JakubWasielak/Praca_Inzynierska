@@ -1,13 +1,11 @@
 package com.example.praca_inzynierska;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.praca_inzynierska.R;
-import com.example.praca_inzynierska.typeOfTravelViewPagerAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -26,8 +24,8 @@ public class SearchingForTicketActivity extends AppCompatActivity {
     }
 
     private void initTypeOfTravelView() {
-        mTypeOfTravel_TabLayout=findViewById(R.id.typeOfTravel_TabLayout);
-        mTypeOfTravel_ViewPager2=findViewById(R.id.typeOfTravel_ViewPager2);
+        mTypeOfTravel_TabLayout = findViewById(R.id.typeOfTravel_TabLayout);
+        mTypeOfTravel_ViewPager2 = findViewById(R.id.typeOfTravel_ViewPager2);
         typeOfTravelViewPagerAdapter = new typeOfTravelViewPagerAdapter(this);
         mTypeOfTravel_ViewPager2.setAdapter(typeOfTravelViewPagerAdapter);
 
