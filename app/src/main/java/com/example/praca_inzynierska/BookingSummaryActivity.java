@@ -94,11 +94,10 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
                     intent.putExtra("DepartureCode", airlineTicketModel.getArrivalAirportCode());
                     intent.putExtra("ArrivalCode", airlineTicketModel.getDepartureAirportCode());
-                    String selectedDepDate = airlineTicketModel.getDepartureDateReturn();
-                    intent.putExtra("SelectedDepartureDate", selectedDepDate);
-                    intent.putExtra("NumberPassengersAdults", airlineTicketModel.getNumberPassengersAdults());
-                    intent.putExtra("NumberPassengersChildren", airlineTicketModel.getNumberPassengersAdults());
+                    intent.putExtra("SelectedDepartureDate", airlineTicketModel.getDepartureDateReturn());
                     intent.putExtra("TravelClass", airlineTicketModel.getTravelClass());
+                    intent.putExtra("NumberPassengersAdults", airlineTicketModel.getNumberPassengersAdults());
+                    intent.putExtra("NumberPassengersChildren", airlineTicketModel.getNumberPassengersChildren());
                     intent.putExtra("OneWayFlight", true);
 
                     startActivity(intent);

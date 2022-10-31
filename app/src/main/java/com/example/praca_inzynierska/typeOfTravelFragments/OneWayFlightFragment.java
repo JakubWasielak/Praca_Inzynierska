@@ -20,9 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.example.praca_inzynierska.AirportDataService;
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,32 +30,41 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class OneWayFlightFragment extends Fragment {
-    private TextInputEditText tvDepCode;
-    private TextInputEditText tvArrCode;
-    private AutoCompleteTextView tvDepDate;
-    private AutoCompleteTextView tvSelectTravelClass;
-    private TextView tvNumberOfAdults, tvNumberOfChildren;
-    private final String[] TravelClassName = {"ekonomiczna", "biznesowa", "pierwsza"};
-    private LocalDate selectedDepDate;
+    private AutoCompleteTextView tvOneWay_departureDate;
+    private AutoCompleteTextView tvOneWay_classTravel;
+    private LocalDate OneWay_selectedDepartureDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_way_flight, container, false);
 
-        tvDepCode = view.findViewById(R.id.departureCode_TextInputEditText);
-        tvArrCode = view.findViewById(R.id.arrivalCode_TextInputEditText);
-        tvDepDate = view.findViewById(R.id.departureDate_AutoCompleteTextView);
-        tvSelectTravelClass = view.findViewById(R.id.selectClassOfTravel_AutoCompleteTextView);
+        String[] countryNames = getResources().getStringArray(R.array.Countries);
+        String[] travelClassNames = getResources().getStringArray(R.array.TravelClasses);
+        final AirportDataService airportDataService = new AirportDataService(getActivity());
 
+        //Suggesting a country name -  Departure
+        AutoCompleteTextView tvOneWay_departureCountry = view.findViewById(R.id.OneWay_departureCountry_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
+        tvOneWay_departureCountry.setAdapter(arrayAdapter1);
+
+        //Suggesting a country name -  Arrival
+        AutoCompleteTextView tvOneWay_arrivalCountry = view.findViewById(R.id.OneWay_arrivalCountry_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
+        tvOneWay_arrivalCountry.setAdapter(arrayAdapter2);
+
+        //Selecting a date - departure
+        tvOneWay_departureDate = view.findViewById(R.id.OneWay_departureDate_AutoCompleteTextView);
+        setDepartureDate();
+
+        //Selecting a travel class
+        tvOneWay_classTravel = view.findViewById(R.id.OneWay_classTravel_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, travelClassNames);
+        tvOneWay_classTravel.setAdapter(arrayAdapter3);
+
+        //Setting the number of passengers - Adult
+        TextView tvNumberOfAdults = view.findViewById(R.id.OneWay_numberOfAdults_TextView);
         ImageButton btnOneWay_minusOneAdult = view.findViewById(R.id.OneWay_minusOneAdult_ImageButton);
-        ImageButton btnOneWay_addOneAdult = view.findViewById(R.id.OneWay_addOneAdult_ImageButton);
-        tvNumberOfAdults = view.findViewById(R.id.OneWay_numberOfAdults_TextView);
-
-        ImageButton btnOneWay_minusOneChild = view.findViewById(R.id.OneWay_minusOneChild_ImageButton);
-        ImageButton btnOneWay_addOneChild = view.findViewById(R.id.OneWay_addOneChild_ImageButton);
-        tvNumberOfChildren = view.findViewById(R.id.OneWay_numberOfChildren_TextView);
-
         btnOneWay_minusOneAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +74,7 @@ public class OneWayFlightFragment extends Fragment {
                 }
             }
         });
+        ImageButton btnOneWay_addOneAdult = view.findViewById(R.id.OneWay_addOneAdult_ImageButton);
         btnOneWay_addOneAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +85,9 @@ public class OneWayFlightFragment extends Fragment {
             }
         });
 
+        //Setting the number of passengers - Child
+        TextView tvNumberOfChildren = view.findViewById(R.id.OneWay_numberOfChildren_TextView);
+        ImageButton btnOneWay_minusOneChild = view.findViewById(R.id.OneWay_minusOneChild_ImageButton);
         btnOneWay_minusOneChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +97,7 @@ public class OneWayFlightFragment extends Fragment {
                 }
             }
         });
+        ImageButton btnOneWay_addOneChild = view.findViewById(R.id.OneWay_addOneChild_ImageButton);
         btnOneWay_addOneChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,40 +108,46 @@ public class OneWayFlightFragment extends Fragment {
             }
         });
 
-        ImageButton btnOpenNextActivity = view.findViewById(R.id.searchForTickets_ImageButton);
-        btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
+        //Searching for tickets
+        ImageButton btnOneWay_OpenNextActivity = view.findViewById(R.id.OneWay_searchTickets_ImageButton);
+        btnOneWay_OpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tvDepCode.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvArrCode.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvDepDate.length() == 0) {
-                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvSelectTravelClass.length() == 0) {
-                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                    intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
-                    intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
-                    intent.putExtra("SelectedDepartureDate", selectedDepDate.getYear()+"-"+selectedDepDate.getMonthValue()+"-"+selectedDepDate.getDayOfMonth());
-                    intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvSelectTravelClass.getText())));
-                    intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
-                    intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
-                    intent.putExtra("OneWayFlight", true);
-                    startActivity(intent);
-                }
+
+                airportDataService.getDepartureCode(String.valueOf(tvOneWay_departureCountry.getText()), new AirportDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String Code) {
+                        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+                        intent.putExtra("DepartureCode", Code);
+                        airportDataService.getArrivalCode(String.valueOf(tvOneWay_arrivalCountry.getText()), new AirportDataService.VolleyResponseListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponse(String Code) {
+                                intent.putExtra("ArrivalCode", Code);
+                                intent.putExtra("SelectedDepartureDate", String.valueOf(tvOneWay_departureDate.getText()));
+                                intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvOneWay_classTravel.getText())));
+                                intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
+                                intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
+                                intent.putExtra("OneWayFlight", true);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+
             }
         });
 
-        setDepartureDate();
-        setTravelClassPicker();
         return view;
-    }
-
-    private void setTravelClassPicker() {
-        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(getActivity(), R.layout.drop_down_menu_list_item, TravelClassName);
-        tvSelectTravelClass.setAdapter(adapterItems);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -138,17 +158,17 @@ public class OneWayFlightFragment extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LocalDate todayDate = LocalDate.now();
 
-        tvDepDate.setOnClickListener(new View.OnClickListener() {
+        tvOneWay_departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        selectedDepDate = LocalDate.of(year, month + 1, dayOfMonth);
+                        OneWay_selectedDepartureDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if (selectedDepDate.isAfter(todayDate) || selectedDepDate.isEqual(todayDate)) {
-                            String formattedDate = selectedDepDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                            tvDepDate.setText(formattedDate);
+                        if (OneWay_selectedDepartureDate.isAfter(todayDate) || OneWay_selectedDepartureDate.isEqual(todayDate)) {
+                            String formattedDate = OneWay_selectedDepartureDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                            tvOneWay_departureDate.setText(formattedDate);
                         }
                     }
                 }, year, month, day);
@@ -160,13 +180,14 @@ public class OneWayFlightFragment extends Fragment {
 
     private String setTravelClass(String TravelClass) {
         String SelectedTravelClass = "";
-        if(Objects.equals(TravelClass, "ekonomiczna")){
+        if (Objects.equals(TravelClass, "ekonomiczna")) {
             SelectedTravelClass = "economy";
-        }else if(Objects.equals(TravelClass, "biznesowa")){
+        } else if (Objects.equals(TravelClass, "biznesowa")) {
             SelectedTravelClass = "business";
-        }else if(Objects.equals(TravelClass, "pierwsza")){
+        } else if (Objects.equals(TravelClass, "pierwsza")) {
             SelectedTravelClass = "first";
         }
         return SelectedTravelClass;
     }
+
 }

@@ -20,9 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.example.praca_inzynierska.AirportDataService;
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,132 +30,150 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class RoundTripFlightFragment extends Fragment {
-    private TextInputEditText tvDepCode;
-    private TextInputEditText tvArrCode;
-    private AutoCompleteTextView tvDepDate;
-    private AutoCompleteTextView tvDepDateReturn;
-    private AutoCompleteTextView tvSelectTravelClass;
-    private TextView tvNumberOfAdults_RoundTrip, tvNumberOfChildren_RoundTrip;
-    private final String[] TravelClassName = {"ekonomiczna", "biznesowa", "pierwsza"};
-    private LocalDate selectedDepDate;
-    private LocalDate selectedDepDateReturn;
+    private AutoCompleteTextView tvRoundTrip_departureDate;
+    private AutoCompleteTextView tvRoundTrip_departureDateReturn;
+    private AutoCompleteTextView tvRoundTrip_classTravel;
+    private LocalDate RoundTrip_selectedDepartureDate;
+    private LocalDate RoundTrip_selectedDepartureDateReturn;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_round_trip_flight, container, false);
 
-        tvDepCode = view.findViewById(R.id.RoundTripDepartureCode_TextInputEditText);
-        tvArrCode = view.findViewById(R.id.RoundTripArrivalCode_TextInputEditText);
-        tvDepDate = view.findViewById(R.id.RoundTripDepartureDate_AutoCompleteTextView);
-        tvDepDateReturn = view.findViewById(R.id.RoundTripDepartureDateReturn_AutoCompleteTextView_RoundTrip);
-        tvSelectTravelClass = view.findViewById(R.id.RoundTripSelectClassOfTravel_AutoCompleteTextView);
+        String[] countryNames = getResources().getStringArray(R.array.Countries);
+        String[] travelClassNames = getResources().getStringArray(R.array.TravelClasses);
+        final AirportDataService airportDataService = new AirportDataService(getActivity());
 
+        //Suggesting a country name -  Departure
+        AutoCompleteTextView tvRoundTrip_departureCountry = view.findViewById(R.id.RoundTrip_departureCountry_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
+        tvRoundTrip_departureCountry.setAdapter(arrayAdapter1);
+
+        //Suggesting a country name -  Arrival
+        AutoCompleteTextView tvRoundTrip_arrivalCountry = view.findViewById(R.id.RoundTrip_arrivalCountry_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
+        tvRoundTrip_arrivalCountry.setAdapter(arrayAdapter2);
+
+        //Selecting a date - departure
+        tvRoundTrip_departureDate = view.findViewById(R.id.RoundTrip_departureDate_AutoCompleteTextView);
+        setDatePickerDepartureDate();
+
+        //Selecting a Return date - departure
+        tvRoundTrip_departureDateReturn = view.findViewById(R.id.RoundTrip_departureDateReturn_AutoCompleteTextView);
+        setDatePickerDepartureDateReturn();
+
+        //Selecting a travel class
+        tvRoundTrip_classTravel = view.findViewById(R.id.RoundTrip_classTravel_AutoCompleteTextView);
+        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, travelClassNames);
+        tvRoundTrip_classTravel.setAdapter(arrayAdapter3);
+
+        //Setting the number of passengers - Adult
+        TextView tvNumberOfAdults = view.findViewById(R.id.RoundTrip_numberOfAdults_TextView);
         ImageButton btnRoundTrip_minusOneAdult = view.findViewById(R.id.RoundTrip_minusOneAdult_ImageButton);
-        ImageButton btnRoundTrip_addOneAdult = view.findViewById(R.id.RoundTrip_addOneAdult_ImageButton);
-        tvNumberOfAdults_RoundTrip = view.findViewById(R.id.RoundTrip_numberOfAdults_TextView);
-
-        ImageButton btnRoundTrip_minusOneChild = view.findViewById(R.id.RoundTrip_minusOneChild_ImageButton);
-        ImageButton btnRoundTrip_addOneChild = view.findViewById(R.id.RoundTrip_addOneChild_ImageButton);
-        tvNumberOfChildren_RoundTrip = view.findViewById(R.id.RoundTrip_numberOfChildren_TextView);
-
         btnRoundTrip_minusOneAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults_RoundTrip.getText()));
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults.getText()));
                 if (numberOfAdults - 1 > 0) {
-                    tvNumberOfAdults_RoundTrip.setText(String.valueOf(numberOfAdults - 1));
+                    tvNumberOfAdults.setText(String.valueOf(numberOfAdults - 1));
                 }
             }
         });
+        ImageButton btnRoundTrip_addOneAdult = view.findViewById(R.id.RoundTrip_addOneAdult_ImageButton);
         btnRoundTrip_addOneAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults_RoundTrip.getText()));
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfAdults.getText()));
                 if (numberOfAdults < 8) {
-                    tvNumberOfAdults_RoundTrip.setText(String.valueOf(numberOfAdults + 1));
+                    tvNumberOfAdults.setText(String.valueOf(numberOfAdults + 1));
                 }
             }
         });
 
+        TextView tvNumberOfChildren = view.findViewById(R.id.RoundTrip_numberOfChildren_TextView);
+        ImageButton btnRoundTrip_minusOneChild = view.findViewById(R.id.RoundTrip_minusOneChild_ImageButton);
         btnRoundTrip_minusOneChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren_RoundTrip.getText()));
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren.getText()));
                 if (numberOfAdults - 1 >= 0) {
-                    tvNumberOfChildren_RoundTrip.setText(String.valueOf(numberOfAdults - 1));
+                    tvNumberOfChildren.setText(String.valueOf(numberOfAdults - 1));
                 }
             }
         });
+        ImageButton btnRoundTrip_addOneChild = view.findViewById(R.id.RoundTrip_addOneChild_ImageButton);
         btnRoundTrip_addOneChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren_RoundTrip.getText()));
+                int numberOfAdults = Integer.parseInt(String.valueOf(tvNumberOfChildren.getText()));
                 if (numberOfAdults < 8) {
-                    tvNumberOfChildren_RoundTrip.setText(String.valueOf(numberOfAdults + 1));
+                    tvNumberOfChildren.setText(String.valueOf(numberOfAdults + 1));
                 }
             }
         });
 
-        ImageButton btnOpenNextActivity_RoundTrip = view.findViewById(R.id.RoundTrip_searchForTickets_ImageButton);
-        btnOpenNextActivity_RoundTrip.setOnClickListener(new View.OnClickListener() {
+        //Searching for tickets
+        ImageButton btnRoundTrip_OpenNextActivity = view.findViewById(R.id.RoundTrip_searchTickets_ImageButton);
+        btnRoundTrip_OpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tvDepCode.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce wylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvArrCode.length() < 3) {
-                    Toast.makeText(getActivity(), "Podaj miejsce przylotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvDepDate.length() == 0) {
-                    Toast.makeText(getActivity(), "Podaj date wylotu.", Toast.LENGTH_SHORT).show();
-                }else if (tvDepDateReturn.length() == 0) {
-                    Toast.makeText(getActivity(), "Podaj date powrotu.", Toast.LENGTH_SHORT).show();
-                } else if (tvSelectTravelClass.length() == 0) {
-                    Toast.makeText(getActivity(), "Wybierz klase podrózy.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                    intent.putExtra("DepartureCode", String.valueOf(tvDepCode.getText()));
-                    intent.putExtra("ArrivalCode", String.valueOf(tvArrCode.getText()));
-                    intent.putExtra("SelectedDepartureDate", selectedDepDate.getYear() + "-" + selectedDepDate.getMonthValue() + "-" + selectedDepDate.getDayOfMonth());
-                    intent.putExtra("SelectedDepartureDateReturn", selectedDepDateReturn.getYear() + "-" + selectedDepDateReturn.getMonthValue() + "-" + selectedDepDateReturn.getDayOfMonth());
-                    intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvSelectTravelClass.getText())));
-                    intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults_RoundTrip.getText()));
-                    intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren_RoundTrip.getText()));
-                    intent.putExtra("OneWayFlight", false);
-                    startActivity(intent);
-                }
+
+                airportDataService.getDepartureCode(String.valueOf(tvRoundTrip_departureCountry.getText()), new AirportDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String Code) {
+                        Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
+                        intent.putExtra("DepartureCode", Code);
+                        airportDataService.getArrivalCode(String.valueOf(tvRoundTrip_arrivalCountry.getText()), new AirportDataService.VolleyResponseListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onResponse(String Code) {
+                                intent.putExtra("ArrivalCode", Code);
+                                intent.putExtra("SelectedDepartureDate", String.valueOf(tvRoundTrip_departureDate.getText()));
+                                intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvRoundTrip_classTravel.getText())));
+                                intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
+                                intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
+                                intent.putExtra("OneWayFlight", false);
+                                intent.putExtra("SelectedDepartureDateReturn", String.valueOf(tvRoundTrip_departureDateReturn.getText()));
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+
             }
         });
-
-        setTravelClassPicker();
-        setDepartureDate();
-        setDepartureDateReturn();
 
         return view;
     }
-    private void setTravelClassPicker() {
-        ArrayAdapter<String> adapterItems = new ArrayAdapter<>(getActivity(), R.layout.drop_down_menu_list_item, TravelClassName);
-        tvSelectTravelClass.setAdapter(adapterItems);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setDepartureDate() {
+    private void setDatePickerDepartureDate() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LocalDate todayDate = LocalDate.now();
 
-        tvDepDate.setOnClickListener(new View.OnClickListener() {
+        tvRoundTrip_departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        selectedDepDate = LocalDate.of(year, month + 1, dayOfMonth);
+                        RoundTrip_selectedDepartureDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if (selectedDepDate.isAfter(todayDate) || selectedDepDate.isEqual(todayDate)) {
-                            String formattedDate = selectedDepDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                            tvDepDate.setText(formattedDate);
+                        if (RoundTrip_selectedDepartureDate.isAfter(todayDate) || RoundTrip_selectedDepartureDate.isEqual(todayDate)) {
+                            String formattedDate = RoundTrip_selectedDepartureDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                            tvRoundTrip_departureDate.setText(formattedDate);
                         }
                     }
                 }, year, month, day);
@@ -166,23 +184,23 @@ public class RoundTripFlightFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setDepartureDateReturn() {
+    private void setDatePickerDepartureDateReturn() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        tvDepDateReturn.setOnClickListener(new View.OnClickListener() {
+        tvRoundTrip_departureDateReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        selectedDepDateReturn = LocalDate.of(year, month + 1, dayOfMonth);
+                        RoundTrip_selectedDepartureDateReturn = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if (selectedDepDateReturn.isAfter(selectedDepDate)) {
-                            String formattedDate = selectedDepDateReturn.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                            tvDepDateReturn.setText(formattedDate);
+                        if (RoundTrip_selectedDepartureDateReturn.isAfter(RoundTrip_selectedDepartureDate)) {
+                            String formattedDate = RoundTrip_selectedDepartureDateReturn.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                            tvRoundTrip_departureDateReturn.setText(formattedDate);
                         }
                     }
                 }, year, month, day);
@@ -194,11 +212,11 @@ public class RoundTripFlightFragment extends Fragment {
 
     private String setTravelClass(String TravelClass) {
         String SelectedTravelClass = "";
-        if(Objects.equals(TravelClass, "ekonomiczna")){
+        if (Objects.equals(TravelClass, "ekonomiczna")) {
             SelectedTravelClass = "economy";
-        }else if(Objects.equals(TravelClass, "biznesowa")){
+        } else if (Objects.equals(TravelClass, "biznesowa")) {
             SelectedTravelClass = "business";
-        }else if(Objects.equals(TravelClass, "pierwsza")){
+        } else if (Objects.equals(TravelClass, "pierwsza")) {
             SelectedTravelClass = "first";
         }
         return SelectedTravelClass;

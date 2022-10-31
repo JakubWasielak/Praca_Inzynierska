@@ -10,16 +10,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -27,26 +26,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:hint="Lotnisko wylotu"
+                android:hint="Skąd"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
-                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidth="1.5dp"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_takeoff"
                 app:startIconTint="@color/white">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/departureCode_TextInputEditText"
+                <AutoCompleteTextView
+                    android:id="@+id/OneWay_departureCountry_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:completionThreshold="1"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:fontFamily="@font/opensans_semibold"
                     android:imeOptions="actionDone"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="3"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="10"
                     android:singleLine="true"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -57,31 +58,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:focusable="true"
-                android:hint="Lotnisko przylotu"
+                android:hint="Dokąd"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
-                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidth="1.5dp"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_flight_land"
                 app:startIconTint="@color/white">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/arrivalCode_TextInputEditText"
+                <AutoCompleteTextView
+                    android:id="@+id/OneWay_arrivalCountry_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:completionThreshold="1"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:fontFamily="@font/opensans_semibold"
                     android:imeOptions="actionDone"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="3"
+                    android:inputType="text"
+                    android:maxLength="10"
                     android:singleLine="true"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/departureDate_TextInputLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,13 +92,13 @@
                 android:hint="Data wylotu"
                 android:textColorHint="@color/white"
                 app:boxStrokeColor="@color/white"
-                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidth="1.5dp"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_calendar_month"
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
-                    android:id="@+id/departureDate_AutoCompleteTextView"
+                    android:id="@+id/OneWay_departureDate_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:clickable="false"
@@ -104,7 +106,7 @@
                     android:fontFamily="@font/opensans_semibold"
                     android:inputType="none"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,19 +120,19 @@
                 android:textColorHint="@color/white"
                 app:boxBackgroundColor="@color/mainColor"
                 app:boxStrokeColor="@color/white"
-                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidth="1.5dp"
                 app:hintTextColor="@color/white"
                 app:startIconDrawable="@drawable/ic_airline_seat"
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
-                    android:id="@+id/selectClassOfTravel_AutoCompleteTextView"
+                    android:id="@+id/OneWay_classTravel_AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:fontFamily="@font/opensans_semibold"
                     android:inputType="none"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +181,7 @@
                         android:fontFamily="@font/opensans_bold"
                         android:text="Dorośli"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -215,7 +217,7 @@
                         android:gravity="center"
                         android:text="1"
                         android:textColor="@color/white"
-                        android:textSize="25sp" />
+                        android:textSize="20sp" />
 
                     <ImageButton
                         android:id="@+id/OneWay_addOneAdult_ImageButton"
@@ -251,7 +253,7 @@
                         android:fontFamily="@font/opensans_bold"
                         android:text="Dzieci"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -287,7 +289,7 @@
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/white"
-                        android:textSize="25sp" />
+                        android:textSize="20sp" />
 
                     <ImageButton
                         android:id="@+id/OneWay_addOneChild_ImageButton"
@@ -302,9 +304,8 @@
 
             </LinearLayout>
 
-
             <ImageButton
-                android:id="@+id/searchForTickets_ImageButton"
+                android:id="@+id/OneWay_searchTickets_ImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

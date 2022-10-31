@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
+
     <ImageButton
         android:id="@+id/btnOpenNexttActivity3_ImageButton"
         android:layout_width="wrap_content"

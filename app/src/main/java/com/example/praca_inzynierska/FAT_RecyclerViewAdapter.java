@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerViewAdapter.MyViewHolder> {
-    private RecyclerViewInterface recyclerViewInterface;
+    RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<AirlineTicketModel> foundAirlineTicketsModels;
     int singleItem_selection_position = -1;
@@ -21,11 +21,6 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         this.context = context;
         this.foundAirlineTicketsModels = foundAirlineTicketsModels;
         this.recyclerViewInterface = recyclerViewInterface;
-    }
-
-    public FAT_RecyclerViewAdapter(Context context, ArrayList<AirlineTicketModel> foundAirlineTicketsModels) {
-        this.context = context;
-        this.foundAirlineTicketsModels = foundAirlineTicketsModels;
     }
 
     @NonNull
@@ -47,6 +42,12 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         holder.tvFlightNumber.setText(foundAirlineTicketsModels.get(position).getFlightNumber());
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(foundAirlineTicketsModels.get(position).getTicketPrice())+" zł";
+
+        if(foundAirlineTicketsModels.get(position).isTicketConnecting()){
+            holder.icConnectingTicket.setVisibility(View.VISIBLE);
+        }
+
+
         holder.tvTicketPrice.setText(PriceTicket);
 
         if(singleItem_selection_position == position)
@@ -74,6 +75,7 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         TextView tvDepartureDateAndTime;
         TextView tvFlightNumber;
         TextView tvTicketPrice;
+        ImageView icConnectingTicket;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -85,16 +87,20 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
             tvDepartureDateAndTime = itemView.findViewById(R.id.dateAndTimeOfDeparture_TextView);
             tvFlightNumber = itemView.findViewById(R.id.flightNumber_TextView);
             tvTicketPrice = itemView.findViewById(R.id.ticketPrice_TextView);
+            icConnectingTicket= itemView.findViewById(R.id.connectingTicket_ImageView);
             ivBackground = itemView.findViewById(R.id.background_ImageView);
 
             ivBackground.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     setSingleSelection(getAdapterPosition());
+
                     if(recyclerViewInterface != null);{
                         int pos = getAdapterPosition();
                         if(pos!=RecyclerView.NO_POSITION){
+
                             recyclerViewInterface.onItemClick(pos);
+
                         }
                     }
                 }

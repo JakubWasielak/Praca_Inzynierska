@@ -13,26 +13,31 @@
         android:theme="@style/Theme.Praca_Inzynierska">
         <activity
             android:name=".BookingSummaryActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".PassengerDetailsActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SeatingChoiceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchingForTicketActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchResultsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SearchingForTicketActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SearchResultsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

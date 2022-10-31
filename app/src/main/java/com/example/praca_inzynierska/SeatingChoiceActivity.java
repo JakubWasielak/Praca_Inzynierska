@@ -1,6 +1,7 @@
 package com.example.praca_inzynierska;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ public class SeatingChoiceActivity extends AppCompatActivity {
             R.id.G1, R.id.G2, R.id.G3, R.id.G4};
 
     private ArrayList<String> reservedSeatsNames;
+    private AirlineTicketModel airlineTicketModel;
+    private GridLayout seatMap_GridLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -50,7 +54,7 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seating_choice);
 
         reservedSeatsNames = new ArrayList<>();
-        AirlineTicketModel airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
 
         TextView tvDepartureAirportCode = findViewById(R.id.departureAirportCode_TextView);
         TextView tvDepartureAirportName = findViewById(R.id.departureCityName_TextView);
@@ -73,21 +77,26 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         tvTravelClass.setText("klasa " + airlineTicketModel.getTravelClass());
 
         //Seat management
-        GridLayout seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
+        seatMap_GridLayout = findViewById(R.id.seatMap_GridLayout);
         setSeatReservation(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
-        setReservedSeats(seatMap_GridLayout);
+        setReservedSeats(seatMap_GridLayout,(airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
+
 
         ImageButton btnOpenNextActivity = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
         btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedSeats == (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) {
+                System.out.println(reservedSeatsNames.size());
+                System.out.println(selectedSeats);
+                if (reservedSeatsNames.size() == 0) {
+                    automaticallySelectedDialog();
+                }else if(reservedSeatsNames.size()>=1 && reservedSeatsNames.size()<(airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()) ){
+                    Toast.makeText(SeatingChoiceActivity.this, "Wybierz miejsce.", Toast.LENGTH_SHORT).show();
+                } else if (reservedSeatsNames.size() == (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren())) {
                     Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
                     airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
                     intent.putExtra("AirlineTicketsModels", airlineTicketModel);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(SeatingChoiceActivity.this, "Wybierz miejsce dla pasażera.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,9 +111,15 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         });
     }
 
-    private void setReservedSeats(GridLayout gridLayout) {
+    private void setReservedSeats(GridLayout gridLayout, int numberOfPassengers) {
         ImageButton imageButton;
-        int[] a = new int[8];
+        int[] a;
+        if (numberOfPassengers == 16) {
+            a = new int[24 - numberOfPassengers + 4];
+        } else {
+            a = new int[8];
+        }
+
         Random random = new Random();
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(gridLayout.getChildCount());
@@ -162,5 +177,47 @@ public class SeatingChoiceActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void setAutomaticallyReservedSeats(GridLayout gridLayout, int numberOfPassengers) {
+            for (int i = 0; i < gridLayout.getChildCount(); i++) {
+                ImageButton imageButton = (ImageButton) gridLayout.getChildAt(i);
+                if (selectedSeats < numberOfPassengers) {
+                    if(imageButton.getBackground().getConstantState() == getResources().getDrawable(R.drawable.bg_seat_free).getConstantState()){
+                        imageButton.setBackgroundResource(R.drawable.bg_seat_selected);
+                        for (int j = 0; j < seatsID.length; j++) {
+                            if (imageButton.getId() == seatsID[j]) {
+                                reservedSeatsNames.add(seatNumberNames[j]);
+                            }
+                        }
+                        selectedSeats++;
+                    }
+                }
+            }
+    }
+
+    void automaticallySelectedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Automatyczny wybór miejsca?");
+        builder.setMessage("Chcesz żeby miejsca zostały wybrane automatycznie?");
+        builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setAutomaticallyReservedSeats(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
+                Intent intent = new Intent(SeatingChoiceActivity.this, PassengerDetailsActivity.class);
+                airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
+                intent.putExtra("AirlineTicketsModels", airlineTicketModel);
+                startActivity(intent);
+
+            }
+        });
+        builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
     }
 }

@@ -23,7 +23,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/btnOpenNexttActivity2_ImageButton"
+        android:id="@+id/btnFastestOpenNexttActivity_ImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
