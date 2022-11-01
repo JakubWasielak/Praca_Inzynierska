@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         ivEmptyData = findViewById(R.id.emptyData_ImageView);
         tvEmptyData = findViewById(R.id.emptyData_TextView);
 
-
         LoadDataFromDatabase();
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
                 flyingApplicationDatabaseHelper.deleteTicket(String.valueOf(viewHolder.itemView.getTag()));
                 LoadDataFromDatabase();
-                System.out.println(ticket_id.size());
-                LoadDataFromDatabase();
             }
         }).attachToRecyclerView(rvUserTickets);
 
@@ -62,13 +59,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchingForTicketActivity.class);
+                FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
                 startActivity(intent);
             }
         });
     }
 
     private void storeDataInArrays() {
-        Cursor cursor = flyingApplicationDatabaseHelper.readAllData();
+        Cursor cursor = flyingApplicationDatabaseHelper.readAllTickets();
         if (cursor.getCount() == 0) {
             ivEmptyData.setVisibility(View.VISIBLE);
             tvEmptyData.setVisibility(View.VISIBLE);

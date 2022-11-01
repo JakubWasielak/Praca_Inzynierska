@@ -16,15 +16,10 @@ public class typeOfTravelViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position)
-        {
-            case 0:
-                return new OneWayFlightFragment();
-            case 1:
-                return new RoundTripFlightFragment();
-            default:
-                return new OneWayFlightFragment();
+        if (position == 1) {
+            return new RoundTripFlightFragment();
         }
+        return new OneWayFlightFragment();
     }
 
     @Override
