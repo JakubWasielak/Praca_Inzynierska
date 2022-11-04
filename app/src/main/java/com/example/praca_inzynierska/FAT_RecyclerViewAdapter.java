@@ -43,7 +43,7 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(foundAirlineTicketsModels.get(position).getTicketPrice())+" zł";
 
-        if(foundAirlineTicketsModels.get(position).isTicketConnecting()){
+        if(foundAirlineTicketsModels.get(position).isTicketConnecting()==1){
             holder.icConnectingTicket.setVisibility(View.VISIBLE);
         }
 

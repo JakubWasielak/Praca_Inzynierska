@@ -76,16 +76,16 @@ public class BookingSummaryActivity extends AppCompatActivity {
                 if(airlineTicketModel.isOneWayFlight()) {
                     Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
                     FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
-                    flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
+                    flyingApplicationDatabaseHelper.addNewTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
                             airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
-                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
-                            , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
-                            airlineTicketModel.getTicketPrice(), (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
+                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime(), airlineTicketModel.getFlightNumber()
+                            , airlineTicketModel.getTravelClass(),
+                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengersAdults(),airlineTicketModel.getNumberPassengersChildren(),airlineTicketModel.isTicketConnecting());
                     int Id = flyingApplicationDatabaseHelper.getNextTickedID();
                     for(int i=0; i<airlineTicketModel.getpassengerInformation().size();i++)
                     {
-                        flyingApplicationDatabaseHelper.addPassager(airlineTicketModel.getpassengerInformation().get(i).getName(),airlineTicketModel.getpassengerInformation().get(i).getLastName(),
-                                 airlineTicketModel.getpassengerInformation().get(i).getAge(),airlineTicketModel.getpassengerInformation().get(i).getGender(),Id);
+                        flyingApplicationDatabaseHelper.addNewPassager(airlineTicketModel.getpassengerInformation().get(i).getName(),airlineTicketModel.getpassengerInformation().get(i).getLastName(),
+                                 airlineTicketModel.getpassengerInformation().get(i).getAge(),airlineTicketModel.getpassengerInformation().get(i).getGender(),airlineTicketModel.getReservedSeatsNames().get(i),Id);
                     }
 
                     startActivity(intent);
@@ -93,17 +93,17 @@ public class BookingSummaryActivity extends AppCompatActivity {
                 }else{
                     Intent intent = new Intent(BookingSummaryActivity.this, SearchResultsActivity.class);
                     FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
-                    flyingApplicationDatabaseHelper.addTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
+                    flyingApplicationDatabaseHelper.addNewTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
                             airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
-                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()
-                            , airlineTicketModel.getTravelClass(), airlineTicketModel.getFlightNumber(),
-                            airlineTicketModel.getTicketPrice(), (airlineTicketModel.getNumberPassengersAdults()+airlineTicketModel.getNumberPassengersChildren()));
+                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime(), airlineTicketModel.getFlightNumber()
+                            , airlineTicketModel.getTravelClass(),
+                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengersAdults(),airlineTicketModel.getNumberPassengersChildren(),airlineTicketModel.isTicketConnecting());
 
                     int Id = flyingApplicationDatabaseHelper.getNextTickedID();
                     for(int i=0; i<airlineTicketModel.getpassengerInformation().size();i++)
                     {
-                        flyingApplicationDatabaseHelper.addPassager(airlineTicketModel.getpassengerInformation().get(i).getName(),airlineTicketModel.getpassengerInformation().get(i).getLastName(),
-                                airlineTicketModel.getpassengerInformation().get(i).getAge(),airlineTicketModel.getpassengerInformation().get(i).getGender(),Id);
+                        flyingApplicationDatabaseHelper.addNewPassager(airlineTicketModel.getpassengerInformation().get(i).getName(),airlineTicketModel.getpassengerInformation().get(i).getLastName(),
+                                airlineTicketModel.getpassengerInformation().get(i).getAge(),airlineTicketModel.getpassengerInformation().get(i).getGender(),airlineTicketModel.getReservedSeatsNames().get(i),Id);
                     }
 
                     intent.putExtra("DepartureCode", airlineTicketModel.getArrivalAirportCode());

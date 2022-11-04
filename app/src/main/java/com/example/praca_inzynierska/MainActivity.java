@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvEmptyData;
 
     private FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper;
-    private ArrayList<String> ticket_id, ticket_depCode, ticket_depName, ticket_arrCode, ticket_arrName, ticket_flightDuration, ticket_departureDate, ticket_departureTime, ticket_travelClass, ticket_flightNumber, ticket_price, ticket_numberPassengers;
+    private ArrayList<Integer> ticket_id, ticket_adults_passengers, ticket_children_passengers;
+    private ArrayList<String> ticket_depCode, ticket_depName, ticket_arrCode, ticket_arrName, ticket_flightDuration, ticket_departureDate, ticket_departureTime, ticket_travelClass, ticket_flightNumber;
+    private ArrayList<Double> ticket_price;
+    private ArrayList<Integer> ticket_isConnecting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         ivEmptyData = findViewById(R.id.emptyData_ImageView);
         tvEmptyData = findViewById(R.id.emptyData_TextView);
 
-        LoadDataFromDatabase();
+        LoadDataFromArrays();
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -47,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
-                flyingApplicationDatabaseHelper.deleteTicket(String.valueOf(viewHolder.itemView.getTag()));
-                LoadDataFromDatabase();
+                flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
+                flyingApplicationDatabaseHelper.deleteAllPassengers((Integer) viewHolder.itemView.getTag());
+                flyingApplicationDatabaseHelper.deleteSelectedTicket((Integer) viewHolder.itemView.getTag());
+                LoadDataFromArrays();
             }
         }).attachToRecyclerView(rvUserTickets);
 
@@ -59,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchingForTicketActivity.class);
-                FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
-                startActivity(intent);
+//                startActivity(intent);
+                flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
+                System.out.println(flyingApplicationDatabaseHelper.getNextTickedID());
+                DanDoTestowania();
             }
         });
     }
@@ -72,23 +78,29 @@ public class MainActivity extends AppCompatActivity {
             tvEmptyData.setVisibility(View.VISIBLE);
         } else {
             while (cursor.moveToNext()) {
-                ticket_id.add(cursor.getString(0));
+                ticket_id.add(cursor.getInt(0));
+
                 ticket_depCode.add(cursor.getString(1));
                 ticket_depName.add(cursor.getString(2));
                 ticket_arrCode.add(cursor.getString(3));
                 ticket_arrName.add(cursor.getString(4));
+
                 ticket_flightDuration.add(cursor.getString(5));
                 ticket_departureDate.add(cursor.getString(6));
                 ticket_departureTime.add(cursor.getString(7));
-                ticket_travelClass.add(cursor.getString(8));
-                ticket_flightNumber.add(cursor.getString(9));
-                ticket_price.add(cursor.getString(10));
-                ticket_numberPassengers.add(cursor.getString(11));
+
+                ticket_flightNumber.add(cursor.getString(8));
+                ticket_travelClass.add(cursor.getString(9));
+                ticket_price.add(cursor.getDouble(10));
+
+                ticket_adults_passengers.add(cursor.getInt(11));
+                ticket_children_passengers.add(cursor.getInt(12));
+                ticket_isConnecting.add(cursor.getInt(13));
             }
         }
     }
 
-    private void LoadDataFromDatabase() {
+    private void LoadDataFromArrays() {
         flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
         ticket_id = new ArrayList<>();
         ticket_depCode = new ArrayList<>();
@@ -101,11 +113,31 @@ public class MainActivity extends AppCompatActivity {
         ticket_travelClass = new ArrayList<>();
         ticket_flightNumber = new ArrayList<>();
         ticket_price = new ArrayList<>();
-        ticket_numberPassengers = new ArrayList<>();
+        ticket_adults_passengers = new ArrayList<>();
+        ticket_children_passengers = new ArrayList<>();
+        ticket_isConnecting = new ArrayList<>();
+
         storeDataInArrays();
-        ShowUserTicketsAdapter showUserTicketsAdapter = new ShowUserTicketsAdapter(MainActivity.this, ticket_id, ticket_depCode, ticket_depName, ticket_arrCode, ticket_arrName, ticket_flightDuration, ticket_departureDate, ticket_departureTime, ticket_travelClass, ticket_flightNumber, ticket_price, ticket_numberPassengers);
+        ShowUserTicketsAdapter showUserTicketsAdapter = new ShowUserTicketsAdapter(MainActivity.this, ticket_id, ticket_depCode, ticket_depName, ticket_arrCode, ticket_arrName, ticket_flightDuration, ticket_departureDate, ticket_departureTime, ticket_flightNumber, ticket_travelClass, ticket_price, ticket_adults_passengers, ticket_children_passengers, ticket_isConnecting);
         rvUserTickets.setAdapter(showUserTicketsAdapter);
         rvUserTickets.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
+    }
+
+    private void DanDoTestowania() {
+        flyingApplicationDatabaseHelper.addNewTicket("MUC", "Monachium", "WAW", "Warszawa", "1h:45m", "2022-11-11",
+                "20:30", "2115", "first", 205.99, 3, 0, 0);
+        flyingApplicationDatabaseHelper.addNewPassager("Kuba", "Wasielak", 23, "mężczyzna", "A1", 1);
+        flyingApplicationDatabaseHelper.addNewPassager("Adam", "Nowak", 33, "mężczyzna", "A2", 1);
+        flyingApplicationDatabaseHelper.addNewPassager("Jan", "Kowalski", 43, "mężczyzna", "A3", 1);
+
+        flyingApplicationDatabaseHelper.addNewTicket("MAD", "Madryt", "WAW", "Warszawa", "2h:45m", "2022-11-12",
+                "21:30", "2114", "first", 215.99, 2, 0, 0);
+        flyingApplicationDatabaseHelper.addNewPassager("Kuba", "Wasielak", 23, "mężczyzna", "A4", 2);
+        flyingApplicationDatabaseHelper.addNewPassager("Adam", "Nowak", 33, "mężczyzna", "B1", 2);
+
+        flyingApplicationDatabaseHelper.addNewTicket("BER", "Berlin", "WAW", "Warszawa", "3h:45m", "2022-11-14",
+                "22:30", "2113", "first", 235.99, 1, 0, 0);
+        flyingApplicationDatabaseHelper.addNewPassager("Kuba", "Wasielak", 23, "mężczyzna", "B2", 3);
     }
 }

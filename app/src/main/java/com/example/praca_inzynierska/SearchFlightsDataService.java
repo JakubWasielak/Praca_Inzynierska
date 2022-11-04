@@ -49,8 +49,13 @@ public class SearchFlightsDataService {
                         String flightNumber = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getString("flightNumber");
                         double ticketPrice = Double.parseDouble(jsonArray.getJSONObject(i).getJSONObject("price").getString("raw"));
                         JSONArray segments =jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments");
-                        boolean ticketConnecting;
-                        ticketConnecting = segments.length() > 1;
+                        int ticketConnecting;
+                        if(segments.length() > 1){
+                            ticketConnecting=1;
+                        }else{
+                            ticketConnecting=0;
+                        }
+
 
                         AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
                                 flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);
@@ -92,8 +97,12 @@ public class SearchFlightsDataService {
                         String flightNumber = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getString("flightNumber");
                         double ticketPrice = Double.parseDouble(jsonArray.getJSONObject(i).getJSONObject("price").getString("raw"));
                         JSONArray segments =jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments");
-                        boolean ticketConnecting;
-                        ticketConnecting = segments.length() > 1;
+                        int ticketConnecting;
+                        if(segments.length() > 1){
+                            ticketConnecting=1;
+                        }else{
+                            ticketConnecting=0;
+                        }
 
                         AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
                                 flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);
@@ -135,8 +144,12 @@ public class SearchFlightsDataService {
                         String flightNumber = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getString("flightNumber");
                         double ticketPrice = Double.parseDouble(jsonArray.getJSONObject(i).getJSONObject("price").getString("raw"));
                         JSONArray segments =jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments");
-                        boolean ticketConnecting;
-                        ticketConnecting = segments.length() > 1;
+                        int ticketConnecting;
+                        if(segments.length() > 1){
+                            ticketConnecting=1;
+                        }else{
+                            ticketConnecting=0;
+                        }
 
                         AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
                                 flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);

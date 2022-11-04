@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Praca_Inzynierska">
         <activity
+            android:name=".TicketInformationActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookingSummaryActivity"
             android:exported="false" />
         <activity
@@ -20,20 +23,18 @@
         <activity
             android:name=".SeatingChoiceActivity"
             android:exported="false" />
-
         <activity
             android:name=".SearchingForTicketActivity"
             android:exported="false" />
-
         <activity
             android:name=".SearchResultsActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
