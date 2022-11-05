@@ -9,6 +9,7 @@ public class PassengerModel implements Parcelable {
     int age;
     String gender;
 
+
     public PassengerModel(String name, String lastName, int age, String gender) {
         this.name = name;
         this.lastName = lastName;

@@ -141,8 +141,6 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
     void deleteAllPassengers(int tickedID){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM Passenger WHERE Ticked_id="+ tickedID+";");
-
-
     }
 
     public int getTickedIDFromPassenger(int passengerID){
@@ -178,6 +176,24 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE Tickets SET Number_adults_passengers ="+ numberAdultsPassengers +" WHERE Id = "+tickedID+";");
 
+    }
+    void updatePassenger(String passengerID, String passengerName, String passengerLastName,int passengerAge, String passengerGender) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("Name", passengerName);
+        cv.put("Last_name", passengerLastName);
+        cv.put("Age", passengerAge);
+        cv.put("Gender", passengerGender);
+
+        long result = db.update("Passenger", cv, "id=?", new String[]{passengerID});
+        if(result == -1){
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+        }
+
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        db.execSQL("UPDATE Passenger SET Name ="+passengerName+", Last_name="+passengerLastName+", Age="+passengerAge+", Gender="+passengerGender+"  WHERE Id ="+passengerID+";");
     }
 
 }

@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Praca_Inzynierska">
         <activity
+            android:name=".UpdatePassengerInformationActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
             android:name=".TicketInformationActivity"
             android:exported="false" />
         <activity

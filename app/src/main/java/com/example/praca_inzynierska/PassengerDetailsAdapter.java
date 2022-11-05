@@ -2,6 +2,7 @@ package com.example.praca_inzynierska;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +43,22 @@ public class PassengerDetailsAdapter extends RecyclerView.Adapter<PassengerDetai
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull PassengerDetailsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PassengerDetailsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvPassengerName.setText(passenger_name.get(position));
         holder.tvPassengerLastName.setText(passenger_lastName.get(position));
         holder.tvPassengerAge.setText(passenger_age.get(position)+" l");
         holder.tvPassengerGender.setText(passenger_gender.get(position)+", ");
         holder.itemView.setTag(passenger_id.get(position));
+        holder.passengerItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UpdatePassengerInformationActivity.class);
+                PassengerModel passengerModel = new PassengerModel(passenger_name.get(position),passenger_lastName.get(position),passenger_age.get(position),passenger_gender.get(position));
+                intent.putExtra("passengerModel", passengerModel);
+                intent.putExtra("passenger_id",passenger_id.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
