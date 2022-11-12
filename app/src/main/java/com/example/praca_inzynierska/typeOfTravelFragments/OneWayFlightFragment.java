@@ -43,26 +43,21 @@ public class OneWayFlightFragment extends Fragment {
         String[] travelClassNames = getResources().getStringArray(R.array.TravelClasses);
         final AirportDataService airportDataService = new AirportDataService(getActivity());
 
-        //Suggesting a country name -  Departure
         AutoCompleteTextView tvOneWay_departureCountry = view.findViewById(R.id.OneWay_departureCountry_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
         tvOneWay_departureCountry.setAdapter(arrayAdapter1);
 
-        //Suggesting a country name -  Arrival
         AutoCompleteTextView tvOneWay_arrivalCountry = view.findViewById(R.id.OneWay_arrivalCountry_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
         tvOneWay_arrivalCountry.setAdapter(arrayAdapter2);
 
-        //Selecting a date - departure
         tvOneWay_departureDate = view.findViewById(R.id.OneWay_departureDate_AutoCompleteTextView);
         setDepartureDate();
 
-        //Selecting a travel class
         tvOneWay_classTravel = view.findViewById(R.id.OneWay_classTravel_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, travelClassNames);
         tvOneWay_classTravel.setAdapter(arrayAdapter3);
 
-        //Setting the number of passengers - Adult
         TextView tvNumberOfAdults = view.findViewById(R.id.OneWay_numberOfAdults_TextView);
         ImageButton btnOneWay_minusOneAdult = view.findViewById(R.id.OneWay_minusOneAdult_ImageButton);
         btnOneWay_minusOneAdult.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +80,6 @@ public class OneWayFlightFragment extends Fragment {
             }
         });
 
-        //Setting the number of passengers - Child
         TextView tvNumberOfChildren = view.findViewById(R.id.OneWay_numberOfChildren_TextView);
         ImageButton btnOneWay_minusOneChild = view.findViewById(R.id.OneWay_minusOneChild_ImageButton);
         btnOneWay_minusOneChild.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +102,6 @@ public class OneWayFlightFragment extends Fragment {
             }
         });
 
-        //Searching for tickets
         ImageButton btnOneWay_OpenNextActivity = view.findViewById(R.id.OneWay_searchTickets_ImageButton);
         btnOneWay_OpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override

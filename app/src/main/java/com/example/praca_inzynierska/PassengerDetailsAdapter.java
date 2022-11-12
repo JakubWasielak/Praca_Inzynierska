@@ -22,7 +22,7 @@ public class PassengerDetailsAdapter extends RecyclerView.Adapter<PassengerDetai
 
     public PassengerDetailsAdapter(Context context, ArrayList<Integer> passenger_id, ArrayList<String> passenger_name,
                                    ArrayList<String> passenger_lastName, ArrayList<Integer> passenger_age, ArrayList<String> passenger_gender,
-                                   ArrayList<String> passenger_seat, ArrayList<Integer> passenge_ticketId) {
+                                   ArrayList<String> passenger_seat, ArrayList<Integer> passenger_ticketId) {
         this.context = context;
         this.passenger_id = passenger_id;
         this.passenger_name = passenger_name;
@@ -30,7 +30,7 @@ public class PassengerDetailsAdapter extends RecyclerView.Adapter<PassengerDetai
         this.passenger_age = passenger_age;
         this.passenger_gender = passenger_gender;
         this.passenger_seat = passenger_seat;
-        this.passenge_ticketId = passenge_ticketId;
+        this.passenge_ticketId = passenger_ticketId;
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class PassengerDetailsAdapter extends RecyclerView.Adapter<PassengerDetai
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, UpdatePassengerInformationActivity.class);
-                PassengerModel passengerModel = new PassengerModel(passenger_name.get(position),passenger_lastName.get(position),passenger_age.get(position),passenger_gender.get(position));
+                PassengerModel passengerModel = new PassengerModel(passenger_name.get(position),passenger_lastName.get(position),passenger_age.get(position),passenger_gender.get(position),true);
                 intent.putExtra("passengerModel", passengerModel);
                 intent.putExtra("passenger_id",passenger_id.get(position));
                 context.startActivity(intent);

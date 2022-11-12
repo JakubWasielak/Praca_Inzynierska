@@ -45,30 +45,24 @@ public class RoundTripFlightFragment extends Fragment {
         String[] travelClassNames = getResources().getStringArray(R.array.TravelClasses);
         final AirportDataService airportDataService = new AirportDataService(getActivity());
 
-        //Suggesting a country name -  Departure
         AutoCompleteTextView tvRoundTrip_departureCountry = view.findViewById(R.id.RoundTrip_departureCountry_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
         tvRoundTrip_departureCountry.setAdapter(arrayAdapter1);
 
-        //Suggesting a country name -  Arrival
         AutoCompleteTextView tvRoundTrip_arrivalCountry = view.findViewById(R.id.RoundTrip_arrivalCountry_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countryNames);
         tvRoundTrip_arrivalCountry.setAdapter(arrayAdapter2);
 
-        //Selecting a date - departure
         tvRoundTrip_departureDate = view.findViewById(R.id.RoundTrip_departureDate_AutoCompleteTextView);
         setDatePickerDepartureDate();
 
-        //Selecting a Return date - departure
         tvRoundTrip_departureDateReturn = view.findViewById(R.id.RoundTrip_departureDateReturn_AutoCompleteTextView);
         setDatePickerDepartureDateReturn();
 
-        //Selecting a travel class
         tvRoundTrip_classTravel = view.findViewById(R.id.RoundTrip_classTravel_AutoCompleteTextView);
         ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(getActivity(), R.layout.drop_down_menu_list_item, travelClassNames);
         tvRoundTrip_classTravel.setAdapter(arrayAdapter3);
 
-        //Setting the number of passengers - Adult
         TextView tvNumberOfAdults = view.findViewById(R.id.RoundTrip_numberOfAdults_TextView);
         ImageButton btnRoundTrip_minusOneAdult = view.findViewById(R.id.RoundTrip_minusOneAdult_ImageButton);
         btnRoundTrip_minusOneAdult.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +107,6 @@ public class RoundTripFlightFragment extends Fragment {
             }
         });
 
-        //Searching for tickets
         ImageButton btnRoundTrip_OpenNextActivity = view.findViewById(R.id.RoundTrip_searchTickets_ImageButton);
         btnRoundTrip_OpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override

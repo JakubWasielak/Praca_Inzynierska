@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchingForTicketActivity.class);
-//                startActivity(intent);
-                flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
-                System.out.println(flyingApplicationDatabaseHelper.getNextTickedID());
-                DanDoTestowania();
+                startActivity(intent);
+
+//                daneTest();
             }
         });
     }
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void DanDoTestowania() {
+    private void daneTest() {
         flyingApplicationDatabaseHelper.addNewTicket("MUC", "Monachium", "WAW", "Warszawa", "1h:45m", "2022-11-11",
                 "20:30", "2115", "first", 205.99, 3, 0, 0);
         flyingApplicationDatabaseHelper.addNewPassager("Kuba", "Wasielak", 23, "mężczyzna", "A1", 1);

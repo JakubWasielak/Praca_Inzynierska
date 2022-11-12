@@ -191,9 +191,6 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
         }else {
             Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
         }
-
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.execSQL("UPDATE Passenger SET Name ="+passengerName+", Last_name="+passengerLastName+", Age="+passengerAge+", Gender="+passengerGender+"  WHERE Id ="+passengerID+";");
     }
 
 }

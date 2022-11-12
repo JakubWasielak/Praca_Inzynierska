@@ -26,6 +26,11 @@ import java.util.ArrayList;
 public class CheapestTicketSearchResultsFragment extends Fragment implements RecyclerViewInterface {
     private RecyclerView rvCheapestTicketsFound;
     private ImageButton btnOpenNextActivity;
+
+    private boolean oneWayFlight;
+    private String departureCode, arrivalCode;
+    private String selectedDepartureDate, selectedDepartureDateReturn, travelClass;
+    private int numberPassengersAdults, numberPassengersChildren;
     private int selectedPosition;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -37,20 +42,9 @@ public class CheapestTicketSearchResultsFragment extends Fragment implements Rec
         rvCheapestTicketsFound = view.findViewById(R.id.foundCheapestFlights_RecyclerView);
         btnOpenNextActivity = view.findViewById(R.id.btnOpenNexttActivity3_ImageButton);
 
-        Intent intent = getActivity().getIntent();
-
-        boolean oneWayFlight = intent.getExtras().getBoolean("OneWayFlight");
-
-        String departureCode = intent.getStringExtra("DepartureCode");
-        String arrivalCode = intent.getStringExtra("ArrivalCode");
-        String selectedDepartureDate = intent.getStringExtra("SelectedDepartureDate");
-        String travelClass = intent.getStringExtra("TravelClass");
-        int numberPassengersAdults = intent.getIntExtra("NumberPassengersAdults", 0);
-        int numberPassengersChildren = intent.getIntExtra("NumberPassengersChildren", 0);
+        getIntentData();
 
         if (!oneWayFlight) {
-            String selectedDepartureDateReturn = intent.getStringExtra("SelectedDepartureDateReturn");
-
             searchFlightsDataService.getCheapestTickets(departureCode, arrivalCode, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, false, new SearchFlightsDataService.VolleyResponseListener() {
                 @Override
                 public void onError(String message) {
@@ -136,6 +130,29 @@ public class CheapestTicketSearchResultsFragment extends Fragment implements Rec
         return view;
     }
 
+    private void getIntentData() {
+        if (getActivity().getIntent().hasExtra("OneWayFlight")
+                && getActivity().getIntent().hasExtra("DepartureCode")
+                && getActivity().getIntent().hasExtra("ArrivalCode")
+                && getActivity().getIntent().hasExtra("SelectedDepartureDate")
+                && getActivity().getIntent().hasExtra("TravelClass")
+                && getActivity().getIntent().hasExtra("NumberPassengersAdults")
+                && getActivity().getIntent().hasExtra("NumberPassengersChildren")) {
+            if (getActivity().getIntent().hasExtra("SelectedDepartureDateReturn")) {
+                selectedDepartureDateReturn = getActivity().getIntent().getStringExtra("SelectedDepartureDateReturn");
+            } else {
+                oneWayFlight = getActivity().getIntent().getExtras().getBoolean("OneWayFlight");
+                departureCode = getActivity().getIntent().getStringExtra("DepartureCode");
+                arrivalCode = getActivity().getIntent().getStringExtra("ArrivalCode");
+                selectedDepartureDate = getActivity().getIntent().getStringExtra("SelectedDepartureDate");
+                travelClass = getActivity().getIntent().getStringExtra("TravelClass");
+                numberPassengersAdults = getActivity().getIntent().getIntExtra("NumberPassengersAdults", 0);
+                numberPassengersChildren = getActivity().getIntent().getIntExtra("NumberPassengersChildren", 0);
+            }
+        } else {
+            Toast.makeText(getActivity(), "Brak danych.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onItemClick(int position) {

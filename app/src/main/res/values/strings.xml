@@ -56,15 +56,10 @@
         <item>pierwsza</item>
     </string-array>
 
-    <string-array name="adultGender">
-        <item>mężczyzna</item>
-        <item>kobieta</item>
-        <item>inna</item>
-    </string-array>
-
-    <string-array name="childGender">
-        <item>chłopiec</item>
-        <item>dziewczynka</item>
+    <string-array name="passengerGender">
+        <item>Mężczyzna</item>
+        <item>Kobieta</item>
+        <item>Inna</item>
     </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -113,13 +113,14 @@
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 tools:ignore="SmallSp" />
+
             <ImageView
                 android:id="@+id/connectingTicket_ImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
                 android:src="@drawable/ic_airline_connecting"
+                android:visibility="gone"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
     </LinearLayout>

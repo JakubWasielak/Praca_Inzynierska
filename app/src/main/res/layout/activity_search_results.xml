@@ -11,12 +11,12 @@
         android:id="@+id/background_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="50dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/main_background"
         tools:ignore="ContentDescription,MissingConstraints" />
@@ -27,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/animation_button_previous_activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,12 +38,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/montserra_bold"
         android:gravity="center"
         android:text="Wybierz bilet"
@@ -66,23 +63,23 @@
         app:tabIndicator="@drawable/ic_custom_tab_indicator"
         app:tabIndicatorFullWidth="false"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextAppearance="@style/TabLayoutTextStyle_TicketFilters"
         app:tabTextColor="#C4DFE6">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Najtańsze" />
+            android:text="Cena" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Najszybsze" />
+            android:text="czas podróży" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Najlepsze" />
+            android:text="Polecane" />
 
     </com.google.android.material.tabs.TabLayout>
 

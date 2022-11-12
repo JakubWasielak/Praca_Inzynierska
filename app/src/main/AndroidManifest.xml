@@ -12,18 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Praca_Inzynierska">
         <activity
+            android:name=".PassengerInformationActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdatePassengerInformationActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".TicketInformationActivity"
             android:exported="false" />
         <activity
             android:name=".BookingSummaryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PassengerDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".SeatingChoiceActivity"

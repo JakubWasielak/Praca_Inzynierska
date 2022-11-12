@@ -1,5 +1,6 @@
 package com.example.praca_inzynierska;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PassengerDetailsListAdapter extends ArrayAdapter<PassengerModel> {
-    private Context context;
+    private final Context context;
     int resource;
 
     public PassengerDetailsListAdapter(Context context, int resource, ArrayList<PassengerModel> objects) {
@@ -24,6 +23,7 @@ public class PassengerDetailsListAdapter extends ArrayAdapter<PassengerModel> {
         this.resource = resource;
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -31,7 +31,7 @@ public class PassengerDetailsListAdapter extends ArrayAdapter<PassengerModel> {
         String lastName = getItem(position).getLastName();
         int age = getItem(position).getAge();
         String gender = getItem(position).getGender();
-
+        boolean isAdult = getItem(position).isAdult();
 
         if(convertView == null ){
             LayoutInflater inflater = LayoutInflater.from(context);
@@ -41,11 +41,17 @@ public class PassengerDetailsListAdapter extends ArrayAdapter<PassengerModel> {
             TextView tvPassengerLastName = (TextView) convertView.findViewById(R.id.passengerLastName_TextView);
             TextView tvPassengerAge = (TextView) convertView.findViewById(R.id.passengerAge_TextView);
             TextView tvPassengerGender = (TextView) convertView.findViewById(R.id.passengerGender_TextView);
+            ImageView imgPassengerIcon = (ImageView) convertView.findViewById(R.id.passengerIcon_ImageView);
 
+            if(isAdult){
+                imgPassengerIcon.setBackgroundResource(R.drawable.ic_adult_passenger);
+            }else {
+                imgPassengerIcon.setBackgroundResource(R.drawable.ic_child_passenger);
+            }
             tvPassengerName.setText(name);
             tvPassengerLastName.setText(lastName);
-            tvPassengerAge.setText(String.valueOf(age)+" l");
-            tvPassengerGender.setText(gender);
+            tvPassengerAge.setText(age +" l");
+            tvPassengerGender.setText(gender+", ");
         }
 
         return convertView;

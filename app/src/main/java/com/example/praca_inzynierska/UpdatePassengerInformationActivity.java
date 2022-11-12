@@ -32,8 +32,8 @@ public class UpdatePassengerInformationActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_update_passenger_information);
 
-        String[] adultGenderNames = getResources().getStringArray(R.array.adultGender);
-        String[] childGenderNames = getResources().getStringArray(R.array.childGender);
+        String[] adultGenderNames = getResources().getStringArray(R.array.passengerGender);
+
 
         tvGenderSelection = findViewById(R.id.updatePassenger_GenderSelection_AutoCompleteTextView);
         tvPassengerName = findViewById(R.id.updatePassenger_PassengerName_TextInputEditText);
@@ -42,29 +42,25 @@ public class UpdatePassengerInformationActivity extends AppCompatActivity {
 
         getAndSetIntentData();
 
-        //Selecting a travel class
-        ArrayAdapter<String> arrayAdapter1;
-        if(passengerModel.getAge()>16){
-            arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.drop_down_menu_list_item, adultGenderNames);
-
-        }else {
-            arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.drop_down_menu_list_item, childGenderNames);
-
-        }
-        tvGenderSelection.setAdapter(arrayAdapter1);
+        ArrayAdapter<String> arrayAdapter;
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.drop_down_menu_list_item, adultGenderNames);
+        tvGenderSelection.setAdapter(arrayAdapter);
 
         ImageButton btnUpdatePassenger = findViewById(R.id.updatePassenger_UpdatePassenger_ImageButton);
         btnUpdatePassenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FlyingApplicationDatabaseHelper databaseHelper = new FlyingApplicationDatabaseHelper(UpdatePassengerInformationActivity.this);
-                System.out.println(tvGenderSelection.getText());
-                System.out.println(tvPassengerName.getText());
-                System.out.println(tvPassengerLastName.getText());
-                System.out.println(tvPassengerAge.getText());
                 databaseHelper.updatePassenger(String.valueOf(passengerModel_PassengerID),String.valueOf(tvPassengerName.getText()),String.valueOf(tvPassengerLastName.getText()),Integer.parseInt(String.valueOf(tvPassengerAge.getText())),String.valueOf(tvGenderSelection.getText()));
                 Intent intent = new Intent(UpdatePassengerInformationActivity.this, TicketInformationActivity.class);
                 startActivity(intent);
+            }
+        });
+        ImageButton btnPreviousActivityPassenger = findViewById(R.id.updatePassenger_previousActivity_ImageButton);
+        btnPreviousActivityPassenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -74,7 +70,6 @@ public class UpdatePassengerInformationActivity extends AppCompatActivity {
         if (getIntent().hasExtra("passengerModel")) {
             passengerModel = getIntent().getParcelableExtra("passengerModel");
             passengerModel_PassengerID = getIntent().getIntExtra("passenger_id", 0);
-
             tvGenderSelection.setText(passengerModel.getGender());
             tvPassengerName.setText(passengerModel.getName());
             tvPassengerLastName.setText(passengerModel.getLastName());
