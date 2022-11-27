@@ -27,14 +27,15 @@ public class TicketInformationActivity extends AppCompatActivity {
     private TextView tvArrivalCode, tvArrivalCity, tvDepartureDate;
     private TextView tvTravelClass, tvFlightNumber, tvDepartureTime;
     private TextView tvNumberPassengers, tvSeatNumber, tvTicketPrice;
-    private RecyclerView rvPassengerInformation;
+    public static RecyclerView rvPassengerInformation;
 
     private AirlineTicketModel ticketModel;
     private int ticketModel_TicketID;
 
     private FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper;
-    private ArrayList<Integer> passenger_id, passenger_age, passenger_ticketId;
-    private ArrayList<String> passenger_name, passenger_lastName, passenger_gender, passenger_seat;
+    private ArrayList<Integer> passenger_Id, passenger_Age,passenger_IsAdult, passenger_TicketId;
+    private ArrayList<String> passenger_Name, passenger_LastName, passenger_Gender, passenger_SeatNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,34 +88,35 @@ public class TicketInformationActivity extends AppCompatActivity {
     }
 
     private void storePassengersDataInArrays(int ticketId) {
-        Cursor cursor = flyingApplicationDatabaseHelper.readAllPassengers(ticketId);
-
+        Cursor cursor = flyingApplicationDatabaseHelper.getPassengersFromTicket(ticketId);
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
-                passenger_id.add(cursor.getInt(0));
-                passenger_name.add(cursor.getString(1));
-                passenger_lastName.add(cursor.getString(2));
-                passenger_age.add(cursor.getInt(3));
-                passenger_gender.add(cursor.getString(4));
-                passenger_seat.add(cursor.getString(5));
-                passenger_ticketId.add(cursor.getInt(6));
+                passenger_Id.add(cursor.getInt(0));
+                passenger_Name.add(cursor.getString(1));
+                passenger_LastName.add(cursor.getString(2));
+                passenger_Age.add(cursor.getInt(3));
+                passenger_Gender.add(cursor.getString(4));
+                passenger_SeatNumber.add(cursor.getString(5));
+                passenger_IsAdult.add(cursor.getInt(6));
+                passenger_TicketId.add(cursor.getInt(7));
             }
         }
     }
 
     private void loadPassengersDataFromArrays(int ticketId) {
         flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(TicketInformationActivity.this);
-        passenger_id = new ArrayList<>();
-        passenger_name = new ArrayList<>();
-        passenger_lastName = new ArrayList<>();
-        passenger_age = new ArrayList<>();
-        passenger_gender = new ArrayList<>();
-        passenger_seat = new ArrayList<>();
-        passenger_ticketId = new ArrayList<>();
+        passenger_Id = new ArrayList<>();
+        passenger_Name = new ArrayList<>();
+        passenger_LastName = new ArrayList<>();
+        passenger_Age = new ArrayList<>();
+        passenger_Gender = new ArrayList<>();
+        passenger_SeatNumber = new ArrayList<>();
+        passenger_IsAdult = new ArrayList<>();
+        passenger_TicketId = new ArrayList<>();
 
         storePassengersDataInArrays(ticketId);
-        PassengerDetailsAdapter adapter = new PassengerDetailsAdapter(TicketInformationActivity.this, passenger_id, passenger_name,
-                passenger_lastName, passenger_age, passenger_gender, passenger_seat, passenger_ticketId);
+        PassengerDetailsAdapter adapter = new PassengerDetailsAdapter(TicketInformationActivity.this, passenger_Id, passenger_Name,
+                passenger_LastName, passenger_Age, passenger_Gender, passenger_SeatNumber,passenger_IsAdult, passenger_TicketId);
         rvPassengerInformation.setAdapter(adapter);
         rvPassengerInformation.setLayoutManager(new LinearLayoutManager(TicketInformationActivity.this));
     }
@@ -122,21 +124,20 @@ public class TicketInformationActivity extends AppCompatActivity {
     private void setTicketInformation(AirlineTicketModel ticketModel) {
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(ticketModel.getTicketPrice() * (ticketModel.getNumberPassengersAdults() + ticketModel.getNumberPassengersChildren())) + " zł";
-
-        tvTitle_departureCode.setText(ticketModel.getDepartureAirportCode());
-        tvTitle_arrivalCode.setText(ticketModel.getArrivalAirportCode());
-        tvDepartureCode.setText(ticketModel.getDepartureAirportCode());
-        tvDepartureCity.setText(ticketModel.getDepartureAirportName());
+        tvTitle_departureCode.setText(ticketModel.getDepartureAirport().getAirportCode());
+        tvTitle_arrivalCode.setText(ticketModel.getArrivalAirport().getAirportCode());
+        tvDepartureCode.setText(ticketModel.getDepartureAirport().getAirportCode());
+        tvDepartureCity.setText(ticketModel.getDepartureAirport().getAirportCity());
         tvFlightDuration.setText(ticketModel.getFlightDuration());
-        tvArrivalCode.setText(ticketModel.getArrivalAirportCode());
-        tvArrivalCity.setText(ticketModel.getArrivalAirportName());
+        tvArrivalCode.setText(ticketModel.getArrivalAirport().getAirportCode());
+        tvArrivalCity.setText(ticketModel.getArrivalAirport().getAirportCity());
         tvDepartureDate.setText(ticketModel.getDepartureDate());
         tvTravelClass.setText(ticketModel.getTravelClass());
         tvFlightNumber.setText(ticketModel.getFlightNumber());
         tvDepartureTime.setText(ticketModel.getDepartureTime());
         tvNumberPassengers.setText(String.valueOf(ticketModel.getNumberPassengersAdults()));
         tvTicketPrice.setText(PriceTicket);
-        tvSeatNumber.setText(String.valueOf(passenger_seat));
+        tvSeatNumber.setText(String.valueOf(passenger_SeatNumber));
     }
 
     private void removePassenger() {
@@ -153,16 +154,14 @@ public class TicketInformationActivity extends AppCompatActivity {
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(TicketInformationActivity.this);
                     if(Integer.parseInt(String.valueOf(tvNumberPassengers.getText())) > 1){
-                        flyingApplicationDatabaseHelper.updateSelectedTicket(flyingApplicationDatabaseHelper.getTickedIDFromPassenger((Integer) viewHolder.itemView.getTag()),Integer.parseInt(String.valueOf(ticketModel.getNumberPassengersAdults()-1)));
-                        flyingApplicationDatabaseHelper.deleteSelectedPassenger((Integer) viewHolder.itemView.getTag());
-
-                        tvNumberPassengers.setText(String.valueOf(ticketModel.getNumberPassengersAdults()-1));
-                        System.out.println("Usunięto pasażera!");
+                        flyingApplicationDatabaseHelper.removePassenger((Integer) viewHolder.itemView.getTag());
+                        int numberPassengers=flyingApplicationDatabaseHelper.getNumberAdultPassengers(ticketModel_TicketID)+flyingApplicationDatabaseHelper.getNumberChildrenPassengers(ticketModel_TicketID);
+                        tvNumberPassengers.setText(String.valueOf(numberPassengers));
                         Toast.makeText(TicketInformationActivity.this, "Usunięto pasażera!", Toast.LENGTH_SHORT).show();
                         removePassenger();
                         loadPassengersDataFromArrays(ticketModel_TicketID);
                     }else{
-                        flyingApplicationDatabaseHelper.deleteSelectedTicket(flyingApplicationDatabaseHelper.getTickedIDFromPassenger((Integer) viewHolder.itemView.getTag()));
+                        flyingApplicationDatabaseHelper.removeTicket(ticketModel_TicketID);
                         Intent intent = new Intent(TicketInformationActivity.this, MainActivity.class);
                         startActivity(intent);
                     }

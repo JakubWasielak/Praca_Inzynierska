@@ -27,7 +27,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
     private TextInputEditText passengerLastName;
     private TextInputEditText passengerAge;
 
-    private AirlineTicketModel airlineTicketModel;
+    private AirlineTicketModel selectedTicket;
     private ArrayList<PassengerModel> passengerInfoList;
     private int countAdultPassengers;
     private int countChildPassengers;
@@ -52,10 +52,10 @@ public class PassengerInformationActivity extends AppCompatActivity {
         btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (countAdultPassengers == airlineTicketModel.getNumberPassengersAdults() && countChildPassengers==airlineTicketModel.getNumberPassengersChildren()){
+                if (countAdultPassengers == selectedTicket.getNumberPassengersAdults() && countChildPassengers==selectedTicket.getNumberPassengersChildren()){
                     Intent intent = new Intent(PassengerInformationActivity.this, BookingSummaryActivity.class);
-                    airlineTicketModel.setpassengerInformation(passengerInfoList);
-                    intent.putExtra("AirlineTicketsModels",airlineTicketModel);
+                    selectedTicket.setPassengerInformation(passengerInfoList);
+                    intent.putExtra("SelectedTicket",selectedTicket);
                     startActivity(intent);
                 }else {
                     BottomSheetDialog addPassenger_BottomSheetDialog = new BottomSheetDialog(PassengerInformationActivity.this);
@@ -71,11 +71,11 @@ public class PassengerInformationActivity extends AppCompatActivity {
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(PassengerInformationActivity.this, android.R.layout.simple_list_item_1, passengerGenderNames);
                     passengerGender.setAdapter(arrayAdapter);
 
-                    if(countAdultPassengers<airlineTicketModel.getNumberPassengersAdults()){
+                    if(countAdultPassengers<selectedTicket.getNumberPassengersAdults()){
                         passengerIsAdult.setText("Dorosły");
                     }else if(countAdultPassengers==3){
                         passengerIsAdult.setText("Dziecko");
-                    }else if(countChildPassengers ==airlineTicketModel.getNumberPassengersChildren()){
+                    }else if(countChildPassengers ==selectedTicket.getNumberPassengersChildren()){
                         btnNextActivity.setBackgroundResource(R.drawable.animation_button_next_activity);
                     }
 
@@ -83,7 +83,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
                     btnConfirm.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (countAdultPassengers < airlineTicketModel.getNumberPassengersAdults()) {
+                            if (countAdultPassengers < selectedTicket.getNumberPassengersAdults()) {
                                 if (passengerGender.length() == 0) {
                                     Toast.makeText(PassengerInformationActivity.this, "Wybierz płeć", Toast.LENGTH_SHORT).show();
                                 } else if (passengerName.length() == 0) {
@@ -96,7 +96,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
                                     addNewPassengerAdult();
                                     addPassenger_BottomSheetDialog.dismiss();
                                 }
-                            } else if (countChildPassengers < airlineTicketModel.getNumberPassengersChildren()) {
+                            } else if (countChildPassengers < selectedTicket.getNumberPassengersChildren()) {
                                 if (passengerGender.length() == 0) {
                                     Toast.makeText(PassengerInformationActivity.this, "Wybierz płeć", Toast.LENGTH_SHORT).show();
                                 } else if (passengerName.length() == 0) {
@@ -118,8 +118,8 @@ public class PassengerInformationActivity extends AppCompatActivity {
     }
 
     private void getIntentData() {
-        if (getIntent().hasExtra("AirlineTicketsModels")) {
-            airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        if (getIntent().hasExtra("SelectedTicket")) {
+            selectedTicket = getIntent().getParcelableExtra("SelectedTicket");
         } else {
             Toast.makeText(PassengerInformationActivity.this, "Brak danych.", Toast.LENGTH_SHORT).show();
         }
@@ -136,7 +136,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
         passengerInfoList.add(passengerModel);
         PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(PassengerInformationActivity.this, R.layout.new_passenger_item, passengerInfoList);
         lvPassengerList.setAdapter(adapter);
-        if(countChildPassengers==airlineTicketModel.getNumberPassengersChildren()){
+        if(countChildPassengers==selectedTicket.getNumberPassengersChildren()){
             btnNextActivity.setBackgroundResource(R.drawable.animation_button_next_activity);
         }
     }

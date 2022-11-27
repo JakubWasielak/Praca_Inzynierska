@@ -6,10 +6,9 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class AirlineTicketModel implements Parcelable {
-    String departureAirportCode;
-    String departureAirportName;
-    String arrivalAirportCode;
-    String arrivalAirportName;
+
+    AirportModel departureAirport;
+    AirportModel arrivalAirport;
     String flightDuration;
     String departureDate;
     String departureTime;
@@ -20,15 +19,13 @@ public class AirlineTicketModel implements Parcelable {
     int numberPassengersAdults;
     int numberPassengersChildren;
     boolean oneWayFlight;
-    int ticketConnecting;
+    int isConnecting;
     ArrayList<String> reservedSeatsNames;
     ArrayList<PassengerModel> passengerInformation;
 
-    public AirlineTicketModel(String departureAirportCode, String departureAirportName, String arrivalAirportCode, String arrivalAirportName, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, int ticketConnecting) {
-        this.departureAirportCode = departureAirportCode;
-        this.departureAirportName = departureAirportName;
-        this.arrivalAirportCode = arrivalAirportCode;
-        this.arrivalAirportName = arrivalAirportName;
+    public AirlineTicketModel(AirportModel departureAirport, AirportModel arrivalAirport, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, int ticketConnecting) {
+        this.departureAirport = departureAirport;
+        this.arrivalAirport = arrivalAirport;
         this.flightDuration = flightDuration;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
@@ -38,33 +35,30 @@ public class AirlineTicketModel implements Parcelable {
         this.numberPassengersAdults = numberPassengersAdults;
         this.numberPassengersChildren = numberPassengersChildren;
         this.oneWayFlight = oneWayFlight;
-        this.ticketConnecting = ticketConnecting;
+        this.isConnecting = ticketConnecting;
     }
 
-    public AirlineTicketModel(String departureAirportCode, String departureAirportName, String arrivalAirportCode, String arrivalAirportName, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, int ticketConnecting) {
-        this.departureAirportCode = departureAirportCode;
-        this.departureAirportName = departureAirportName;
-        this.arrivalAirportCode = arrivalAirportCode;
-        this.arrivalAirportName = arrivalAirportName;
-
+    public AirlineTicketModel(AirportModel departureAirport, AirportModel arrivalAirport, String flightDuration, String departureDate, String departureTime, String departureDateReturn, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, int isConnecting, ArrayList<String> reservedSeatsNames, ArrayList<PassengerModel> passengerInformation) {
+        this.departureAirport = departureAirport;
+        this.arrivalAirport = arrivalAirport;
         this.flightDuration = flightDuration;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
-
+        this.departureDateReturn = departureDateReturn;
         this.flightNumber = flightNumber;
         this.travelClass = travelClass;
         this.ticketPrice = ticketPrice;
-
         this.numberPassengersAdults = numberPassengersAdults;
         this.numberPassengersChildren = numberPassengersChildren;
-        this.ticketConnecting = ticketConnecting;
+        this.oneWayFlight = oneWayFlight;
+        this.isConnecting = isConnecting;
+        this.reservedSeatsNames = reservedSeatsNames;
+        this.passengerInformation = passengerInformation;
     }
 
     protected AirlineTicketModel(Parcel in) {
-        departureAirportCode = in.readString();
-        departureAirportName = in.readString();
-        arrivalAirportCode = in.readString();
-        arrivalAirportName = in.readString();
+        departureAirport = in.readParcelable(AirportModel.class.getClassLoader());
+        arrivalAirport = in.readParcelable(AirportModel.class.getClassLoader());
         flightDuration = in.readString();
         departureDate = in.readString();
         departureTime = in.readString();
@@ -75,7 +69,7 @@ public class AirlineTicketModel implements Parcelable {
         numberPassengersAdults = in.readInt();
         numberPassengersChildren = in.readInt();
         oneWayFlight = in.readByte() != 0;
-        ticketConnecting = in.readInt();
+        isConnecting = in.readInt();
         reservedSeatsNames = in.createStringArrayList();
         passengerInformation = in.createTypedArrayList(PassengerModel.CREATOR);
     }
@@ -92,20 +86,12 @@ public class AirlineTicketModel implements Parcelable {
         }
     };
 
-    public String getDepartureAirportCode() {
-        return departureAirportCode;
+    public AirportModel getDepartureAirport() {
+        return departureAirport;
     }
 
-    public String getDepartureAirportName() {
-        return departureAirportName;
-    }
-
-    public String getArrivalAirportCode() {
-        return arrivalAirportCode;
-    }
-
-    public String getArrivalAirportName() {
-        return arrivalAirportName;
+    public AirportModel getArrivalAirport() {
+        return arrivalAirport;
     }
 
     public String getFlightDuration() {
@@ -122,10 +108,6 @@ public class AirlineTicketModel implements Parcelable {
 
     public String getDepartureDateReturn() {
         return departureDateReturn;
-    }
-
-    public void setDepartureDateReturn(String departureDateReturn) {
-        this.departureDateReturn = departureDateReturn;
     }
 
     public String getFlightNumber() {
@@ -152,24 +134,28 @@ public class AirlineTicketModel implements Parcelable {
         return oneWayFlight;
     }
 
-    public int isTicketConnecting() {
-        return ticketConnecting;
+    public int getIsConnecting() {
+        return isConnecting;
     }
 
     public ArrayList<String> getReservedSeatsNames() {
         return reservedSeatsNames;
     }
 
+    public ArrayList<PassengerModel> getPassengerInformation() {
+        return passengerInformation;
+    }
+
+    public void setDepartureDateReturn(String departureDateReturn) {
+        this.departureDateReturn = departureDateReturn;
+    }
+
     public void setReservedSeatsNames(ArrayList<String> reservedSeatsNames) {
         this.reservedSeatsNames = reservedSeatsNames;
     }
 
-    public ArrayList<PassengerModel> getpassengerInformation() {
-        return passengerInformation;
-    }
-
-    public void setpassengerInformation(ArrayList<PassengerModel> passengerList) {
-        this.passengerInformation = passengerList;
+    public void setPassengerInformation(ArrayList<PassengerModel> passengerInformation) {
+        this.passengerInformation = passengerInformation;
     }
 
     @Override
@@ -179,10 +165,8 @@ public class AirlineTicketModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(departureAirportCode);
-        parcel.writeString(departureAirportName);
-        parcel.writeString(arrivalAirportCode);
-        parcel.writeString(arrivalAirportName);
+        parcel.writeParcelable(departureAirport, i);
+        parcel.writeParcelable(arrivalAirport, i);
         parcel.writeString(flightDuration);
         parcel.writeString(departureDate);
         parcel.writeString(departureTime);
@@ -193,7 +177,7 @@ public class AirlineTicketModel implements Parcelable {
         parcel.writeInt(numberPassengersAdults);
         parcel.writeInt(numberPassengersChildren);
         parcel.writeByte((byte) (oneWayFlight ? 1 : 0));
-        parcel.writeInt(ticketConnecting);
+        parcel.writeInt(isConnecting);
         parcel.writeStringList(reservedSeatsNames);
         parcel.writeTypedList(passengerInformation);
     }

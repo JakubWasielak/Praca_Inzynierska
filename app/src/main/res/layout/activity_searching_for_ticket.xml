@@ -7,49 +7,56 @@
     tools:context=".SearchingForTicketActivity"
     android:background="@color/white">
 
+    <LinearLayout
+        android:id="@+id/title_LinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <ImageButton
+            android:id="@+id/closeActivity_ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/animation_button_close_activity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+
+            android:fontFamily="@font/montserra_bold"
+            android:gravity="center"
+            android:text="Wyszukaj lot"
+            android:textColor="@color/mainColor"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/background_ImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/title_LinearLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/main_background"
         tools:ignore="ContentDescription,MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/closeActivity_ImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="#ffff"
-        android:onClick="closeActtivity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/animation_button_close_activity"
-        tools:ignore="ContentDescription,UsingOnClickInXml" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/opensans_bold"
-        android:gravity="center"
-        android:text="Zarezerwuj lot"
-        android:textColor="@color/mainColor"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/typeOfTravel_TabLayout"
@@ -59,19 +66,20 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:background="@color/mainColor"
         app:tabIndicator="@drawable/ic_custom_tab_indicator"
         app:tabIndicatorFullWidth="false"
         app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="#C4DFE6">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="W jedną strone" />
+            android:text="W jedną stronę" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -88,8 +96,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp" />
 </RelativeLayout>

@@ -9,17 +9,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="ScrollViewSize">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -32,13 +29,13 @@
                 app:boxStrokeWidth="1.5dp"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
-                app:startIconDrawable="@drawable/ic_flight_takeoff"
+                app:startIconDrawable="@drawable/ic_location"
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
                     android:id="@+id/OneWay_departureCountry_AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="45dp"
                     android:completionThreshold="1"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:fontFamily="@font/opensans_semibold"
@@ -55,7 +52,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:focusable="true"
                 android:hint="Dokąd"
                 android:textColorHint="@color/white"
@@ -63,13 +60,13 @@
                 app:boxStrokeWidth="1.5dp"
                 app:endIconMode="clear_text"
                 app:hintTextColor="@color/white"
-                app:startIconDrawable="@drawable/ic_flight_land"
+                app:startIconDrawable="@drawable/ic_location"
                 app:startIconTint="@color/white">
 
                 <AutoCompleteTextView
                     android:id="@+id/OneWay_arrivalCountry_AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="45dp"
                     android:completionThreshold="1"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:fontFamily="@font/opensans_semibold"
@@ -85,7 +82,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:focusable="false"
                 android:hint="Data wylotu"
                 android:textColorHint="@color/white"
@@ -98,7 +95,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/OneWay_departureDate_AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="45dp"
                     android:clickable="false"
                     android:focusable="false"
                     android:fontFamily="@font/opensans_semibold"
@@ -112,7 +109,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:focusable="false"
                 android:hint="Klasa podróży"
                 android:textColorHint="@color/white"
@@ -126,7 +123,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/OneWay_classTravel_AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="47dp"
                     android:fontFamily="@font/opensans_semibold"
                     android:inputType="none"
                     android:textColor="@color/white"
@@ -137,7 +134,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 tools:ignore="UseCompoundDrawables">
 
@@ -151,18 +148,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/opensans_bold"
+                    android:fontFamily="@font/opensans_semibold"
                     android:gravity="center"
                     android:text="Pasażerowie: "
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
                 android:orientation="horizontal"
                 tools:ignore="DisableBaselineAlignment">
@@ -199,31 +196,30 @@
 
                     <ImageButton
                         android:id="@+id/OneWay_minusOneAdult_ImageButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/ic_remove"
-                        android:gravity="center"
+                        android:gravity="fill"
                         tools:ignore="ContentDescription,NestedWeights" />
 
                     <TextView
                         android:id="@+id/OneWay_numberOfAdults_TextView"
-                        android:layout_width="0dp"
+                        android:layout_width="10dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
                         android:fontFamily="@font/montserra_bold"
                         android:gravity="center"
                         android:text="1"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <ImageButton
                         android:id="@+id/OneWay_addOneAdult_ImageButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/ic_add"
-                        android:gravity="center"
+                        android:gravity="fill"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
@@ -233,8 +229,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
                 android:orientation="horizontal"
                 tools:ignore="DisableBaselineAlignment">
@@ -271,47 +267,46 @@
 
                     <ImageButton
                         android:id="@+id/OneWay_minusOneChild_ImageButton"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/ic_remove"
-                        android:gravity="center"
+                        android:gravity="fill"
                         tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/OneWay_numberOfChildren_TextView"
-                        android:layout_width="0dp"
+                        android:layout_width="10dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
                         android:fontFamily="@font/montserra_bold"
                         android:gravity="center"
                         android:text="0"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <ImageButton
                         android:id="@+id/OneWay_addOneChild_ImageButton"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/ic_add"
-                        android:gravity="center"
+                        android:gravity="fill"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/OneWay_searchTickets_ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/animation_button_search_for_tickets"
-                tools:ignore="ContentDescription" />
         </LinearLayout>
 
     </ScrollView>
 
+    <ImageButton
+        android:id="@+id/OneWay_searchTickets_ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/animation_button_search_for_tickets"
+        tools:ignore="ContentDescription" />
 </RelativeLayout>

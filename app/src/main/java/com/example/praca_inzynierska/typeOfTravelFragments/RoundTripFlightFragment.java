@@ -21,13 +21,13 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.praca_inzynierska.AirportDataService;
+import com.example.praca_inzynierska.AirportModel;
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class RoundTripFlightFragment extends Fragment {
     private AutoCompleteTextView tvRoundTrip_departureDate;
@@ -119,9 +119,10 @@ public class RoundTripFlightFragment extends Fragment {
                     }
 
                     @Override
-                    public void onResponse(String Code) {
+                    public void onResponse(String departureAirportCode, String departureAirportName, String departureAirportCity, String departureAirportCountry) {
+                        AirportModel departureAirport = new AirportModel(departureAirportCode,departureAirportName,departureAirportCity,departureAirportCountry);
                         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                        intent.putExtra("DepartureCode", Code);
+                        intent.putExtra("DepartureAirport", departureAirport);
                         airportDataService.getArrivalCode(String.valueOf(tvRoundTrip_arrivalCountry.getText()), new AirportDataService.VolleyResponseListener() {
                             @Override
                             public void onError(String message) {
@@ -129,10 +130,11 @@ public class RoundTripFlightFragment extends Fragment {
                             }
 
                             @Override
-                            public void onResponse(String Code) {
-                                intent.putExtra("ArrivalCode", Code);
+                            public void onResponse(String arrivalAirportCode, String arrivalAirportName, String arrivalAirportCity, String arrivalAirportCountry) {
+                                AirportModel arrivalAirport = new AirportModel(arrivalAirportCode,arrivalAirportName,arrivalAirportCity,arrivalAirportCountry);
+                                intent.putExtra("ArrivalAirport", arrivalAirport);
                                 intent.putExtra("SelectedDepartureDate", String.valueOf(tvRoundTrip_departureDate.getText()));
-                                intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvRoundTrip_classTravel.getText())));
+                                intent.putExtra("TravelClass", String.valueOf(tvRoundTrip_classTravel.getText()));
                                 intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
                                 intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
                                 intent.putExtra("OneWayFlight", false);
@@ -202,17 +204,4 @@ public class RoundTripFlightFragment extends Fragment {
             }
         });
     }
-
-    private String setTravelClass(String TravelClass) {
-        String SelectedTravelClass = "";
-        if (Objects.equals(TravelClass, "ekonomiczna")) {
-            SelectedTravelClass = "economy";
-        } else if (Objects.equals(TravelClass, "biznesowa")) {
-            SelectedTravelClass = "business";
-        } else if (Objects.equals(TravelClass, "pierwsza")) {
-            SelectedTravelClass = "first";
-        }
-        return SelectedTravelClass;
-    }
-
 }

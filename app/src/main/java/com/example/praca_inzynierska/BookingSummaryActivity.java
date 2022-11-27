@@ -32,7 +32,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
     private TextView tvTicketPrice;
     private ListView lvPassengerInformation;
 
-    private AirlineTicketModel airlineTicketModel;
+    private AirlineTicketModel selectedTicket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,55 +71,56 @@ public class BookingSummaryActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                if (airlineTicketModel.isOneWayFlight()) {
+                if (selectedTicket.isOneWayFlight()) {
                     Intent intent = new Intent(BookingSummaryActivity.this, MainActivity.class);
                     FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
-                    flyingApplicationDatabaseHelper.addNewTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
-                            airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
-                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime(), airlineTicketModel.getFlightNumber()
-                            , airlineTicketModel.getTravelClass(),
-                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengersAdults(), airlineTicketModel.getNumberPassengersChildren(), airlineTicketModel.isTicketConnecting());
-                    int Id = flyingApplicationDatabaseHelper.getNextTickedID();
-                    for (int i = 0; i < airlineTicketModel.getpassengerInformation().size(); i++) {
-                        flyingApplicationDatabaseHelper.addNewPassager(airlineTicketModel.getpassengerInformation().get(i).getName(), airlineTicketModel.getpassengerInformation().get(i).getLastName(),
-                                airlineTicketModel.getpassengerInformation().get(i).getAge(), airlineTicketModel.getpassengerInformation().get(i).getGender(), airlineTicketModel.getReservedSeatsNames().get(i), Id);
-                    }
+                    flyingApplicationDatabaseHelper.addTicket(selectedTicket.getDepartureAirport(),selectedTicket.getArrivalAirport(),selectedTicket.getDepartureDate(),
+                            selectedTicket.getDepartureTime(),selectedTicket.getFlightDuration(),selectedTicket.getFlightNumber(),selectedTicket.getTravelClass(),
+                            selectedTicket.getTicketPrice(),selectedTicket.getIsConnecting());
 
+                    for (int i = 0; i < selectedTicket.getPassengerInformation().size(); i++) {
+                        if(selectedTicket.getPassengerInformation().get(i).isAdult()){
+                            flyingApplicationDatabaseHelper.addPassenger(selectedTicket.getPassengerInformation().get(i).getName(), selectedTicket.getPassengerInformation().get(i).getLastName(),
+                                    selectedTicket.getPassengerInformation().get(i).getAge(), selectedTicket.getPassengerInformation().get(i).getGender(), selectedTicket.getReservedSeatsNames().get(i),1);
+                        }else if(!selectedTicket.getPassengerInformation().get(i).isAdult()){
+                            flyingApplicationDatabaseHelper.addPassenger(selectedTicket.getPassengerInformation().get(i).getName(), selectedTicket.getPassengerInformation().get(i).getLastName(),
+                                    selectedTicket.getPassengerInformation().get(i).getAge(), selectedTicket.getPassengerInformation().get(i).getGender(), selectedTicket.getReservedSeatsNames().get(i),0);
+                        }
+                    }
                     startActivity(intent);
 
                 } else {
+
                     Intent intent = new Intent(BookingSummaryActivity.this, SearchResultsActivity.class);
                     FlyingApplicationDatabaseHelper flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(BookingSummaryActivity.this);
-                    flyingApplicationDatabaseHelper.addNewTicket(airlineTicketModel.getDepartureAirportCode(), airlineTicketModel.getDepartureAirportName(),
-                            airlineTicketModel.getArrivalAirportCode(), airlineTicketModel.getArrivalAirportName(),
-                            airlineTicketModel.getFlightDuration(), airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime(), airlineTicketModel.getFlightNumber()
-                            , airlineTicketModel.getTravelClass(),
-                            airlineTicketModel.getTicketPrice(), airlineTicketModel.getNumberPassengersAdults(), airlineTicketModel.getNumberPassengersChildren(), airlineTicketModel.isTicketConnecting());
+                    flyingApplicationDatabaseHelper.addTicket(selectedTicket.getDepartureAirport(),selectedTicket.getArrivalAirport(),selectedTicket.getDepartureDate(),
+                            selectedTicket.getDepartureTime(),selectedTicket.getFlightDuration(),selectedTicket.getFlightNumber(),selectedTicket.getTravelClass(),
+                            selectedTicket.getTicketPrice(),selectedTicket.getIsConnecting());
 
-                    int Id = flyingApplicationDatabaseHelper.getNextTickedID();
-                    for (int i = 0; i < airlineTicketModel.getpassengerInformation().size(); i++) {
-                        flyingApplicationDatabaseHelper.addNewPassager(airlineTicketModel.getpassengerInformation().get(i).getName(), airlineTicketModel.getpassengerInformation().get(i).getLastName(),
-                                airlineTicketModel.getpassengerInformation().get(i).getAge(), airlineTicketModel.getpassengerInformation().get(i).getGender(), airlineTicketModel.getReservedSeatsNames().get(i), Id);
+                    for (int i = 0; i < selectedTicket.getPassengerInformation().size(); i++) {
+                        if(selectedTicket.getPassengerInformation().get(i).isAdult()){
+                            flyingApplicationDatabaseHelper.addPassenger(selectedTicket.getPassengerInformation().get(i).getName(), selectedTicket.getPassengerInformation().get(i).getLastName(), selectedTicket.getPassengerInformation().get(i).getAge(), selectedTicket.getPassengerInformation().get(i).getGender(), selectedTicket.getReservedSeatsNames().get(i),1);
+                        }else if(!selectedTicket.getPassengerInformation().get(i).isAdult()){
+                            flyingApplicationDatabaseHelper.addPassenger(selectedTicket.getPassengerInformation().get(i).getName(), selectedTicket.getPassengerInformation().get(i).getLastName(), selectedTicket.getPassengerInformation().get(i).getAge(), selectedTicket.getPassengerInformation().get(i).getGender(), selectedTicket.getReservedSeatsNames().get(i),0);
+                        }
                     }
 
-                    intent.putExtra("DepartureCode", airlineTicketModel.getArrivalAirportCode());
-                    intent.putExtra("ArrivalCode", airlineTicketModel.getDepartureAirportCode());
-                    intent.putExtra("SelectedDepartureDate", airlineTicketModel.getDepartureDateReturn());
-                    intent.putExtra("TravelClass", airlineTicketModel.getTravelClass());
-                    intent.putExtra("NumberPassengersAdults", airlineTicketModel.getNumberPassengersAdults());
-                    intent.putExtra("NumberPassengersChildren", airlineTicketModel.getNumberPassengersChildren());
+                    intent.putExtra("DepartureAirport", selectedTicket.getArrivalAirport());
+                    intent.putExtra("ArrivalAirport", selectedTicket.getDepartureAirport());
+                    intent.putExtra("SelectedDepartureDate", selectedTicket.getDepartureDateReturn());
+                    intent.putExtra("TravelClass", selectedTicket.getTravelClass());
+                    intent.putExtra("NumberPassengersAdults", selectedTicket.getNumberPassengersAdults());
+                    intent.putExtra("NumberPassengersChildren", selectedTicket.getNumberPassengersChildren());
                     intent.putExtra("OneWayFlight", true);
-
                     startActivity(intent);
-
                 }
             }
         });
     }
 
     private void getIntentData() {
-        if (getIntent().hasExtra("AirlineTicketsModels")) {
-            airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        if (getIntent().hasExtra("SelectedTicket")) {
+            selectedTicket = getIntent().getParcelableExtra("SelectedTicket");
             setFlightInformation();
         } else {
             Toast.makeText(BookingSummaryActivity.this, "Brak danych.", Toast.LENGTH_SHORT).show();
@@ -128,21 +129,21 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void setFlightInformation() {
-        tvDepCode.setText(airlineTicketModel.getDepartureAirportCode());
-        tvDepCity.setText(airlineTicketModel.getDepartureAirportName());
-        tvFlightDuration.setText(airlineTicketModel.getFlightDuration());
-        tvArrCode.setText(airlineTicketModel.getArrivalAirportCode());
-        tvArrCity.setText(airlineTicketModel.getArrivalAirportName());
-        tvDepDate.setText(airlineTicketModel.getDepartureDate());
-        tvTravelClass.setText(airlineTicketModel.getTravelClass());
-        tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
-        tvDepTime.setText(airlineTicketModel.getDepartureTime());
-        tvNumberPassengers.setText(String.valueOf(airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren()));
-        tvSeatNumber.setText(String.valueOf(airlineTicketModel.getReservedSeatsNames()));
+        tvDepCode.setText(selectedTicket.getDepartureAirport().getAirportCode());
+        tvDepCity.setText(selectedTicket.getDepartureAirport().getAirportCity());
+        tvFlightDuration.setText(selectedTicket.getFlightDuration());
+        tvArrCode.setText(selectedTicket.getArrivalAirport().getAirportCode());
+        tvArrCity.setText(selectedTicket.getArrivalAirport().getAirportCity());
+        tvDepDate.setText(selectedTicket.getDepartureDate());
+        tvTravelClass.setText(selectedTicket.getTravelClass());
+        tvFlightNumber.setText(selectedTicket.getFlightNumber());
+        tvDepTime.setText(selectedTicket.getDepartureTime());
+        tvNumberPassengers.setText(String.valueOf(selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren()));
+        tvSeatNumber.setText(String.valueOf(selectedTicket.getReservedSeatsNames()));
         DecimalFormat formatter = new DecimalFormat("#0.00");
-        String PriceTicket = formatter.format(airlineTicketModel.getTicketPrice() * (airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren())) + " zł";
+        String PriceTicket = formatter.format(selectedTicket.getTicketPrice() * (selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren())) + " zł";
         tvTicketPrice.setText(PriceTicket);
-        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, airlineTicketModel.getpassengerInformation());
+        PassengerDetailsListAdapter adapter = new PassengerDetailsListAdapter(BookingSummaryActivity.this, R.layout.new_passenger_item, selectedTicket.getPassengerInformation());
         lvPassengerInformation.setAdapter(adapter);
     }
 

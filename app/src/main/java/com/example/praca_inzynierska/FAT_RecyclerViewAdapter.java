@@ -33,17 +33,17 @@ public class FAT_RecyclerViewAdapter extends RecyclerView.Adapter<FAT_RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull FAT_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.tvDepartureAirportCode.setText(foundAirlineTicketsModels.get(position).getDepartureAirportCode());
-        holder.tvDepartureAirportName.setText(foundAirlineTicketsModels.get(position).getDepartureAirportName());
-        holder.tvArrivalAirportCode.setText(foundAirlineTicketsModels.get(position).getArrivalAirportCode());
-        holder.tvArrivalAirportName.setText(foundAirlineTicketsModels.get(position).getArrivalAirportName());
+        holder.tvDepartureAirportCode.setText(foundAirlineTicketsModels.get(position).getDepartureAirport().getAirportCode());
+        holder.tvDepartureAirportName.setText(foundAirlineTicketsModels.get(position).getDepartureAirport().getAirportCity());
+        holder.tvArrivalAirportCode.setText(foundAirlineTicketsModels.get(position).getArrivalAirport().getAirportCode());
+        holder.tvArrivalAirportName.setText(foundAirlineTicketsModels.get(position).getArrivalAirport().getAirportCity());
         holder.tvFlightDuration.setText(foundAirlineTicketsModels.get(position).getFlightDuration());
         holder.tvDepartureDateAndTime.setText(String.format("%s, %s", foundAirlineTicketsModels.get(position).getDepartureDate(), foundAirlineTicketsModels.get(position).getDepartureTime()));
         holder.tvFlightNumber.setText(foundAirlineTicketsModels.get(position).getFlightNumber());
         DecimalFormat formatter = new DecimalFormat("#0.00");
         String PriceTicket = formatter.format(foundAirlineTicketsModels.get(position).getTicketPrice())+" zł";
 
-        if(foundAirlineTicketsModels.get(position).isTicketConnecting()==1){
+        if(foundAirlineTicketsModels.get(position).getIsConnecting()==1){
             holder.icConnectingTicket.setVisibility(View.VISIBLE);
         }
 

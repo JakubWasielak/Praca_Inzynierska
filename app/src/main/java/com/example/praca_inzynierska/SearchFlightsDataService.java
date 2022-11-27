@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class SearchFlightsDataService {
     Context context;
-    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMzRiNTA3NjU1MWM1ODk2ZWIxMGE4MzVkMDlmZDE4ODIxNGRkMmVhOTgxMDFjYzUxOGMyOWE5MjIwMzNjNjcyOGRmNzI5ZjAyZDZhYTYzMGEiLCJpYXQiOjE2NjcyMjc5MTcsIm5iZiI6MTY2NzIyNzkxNywiZXhwIjoxNjk4NzYzOTE3LCJzdWIiOiIxNjU1NCIsInNjb3BlcyI6W119.KvFZdK5HzZ-d3iG8TNnVtM2ugGYKTRErYYTqoboLc-jpzly22y_HyGn_-5Z0JUbFzWwRTDZRu-BZwG1Cbw-JJg";
+    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMDMyYWM1MTMxYTRjZWVjOGUxYmQzMWNlYzIzYmNjMGFlZTZiMTEwZDRjMjE3ZTc0MDM0MjE4OTBiOWYxNjU0NDBkMTRhNTgxZWU5NDUxMDQiLCJpYXQiOjE2Njk1NTc2MTEsIm5iZiI6MTY2OTU1NzYxMSwiZXhwIjoxNzAxMDkzNjExLCJzdWIiOiIxOTAxMyIsInNjb3BlcyI6W119.ZuOv_ct-cJ86rcCnQl9ckcI0_KBDuiLVYMWVDrvrhnIQtUDtX8SsEVa_gGedP3IN_eO-ykRSijCIEXp_zRm-cw";
 
 
     public SearchFlightsDataService(Context context) {
@@ -29,9 +29,10 @@ public class SearchFlightsDataService {
         void onResponse(ArrayList<AirlineTicketModel> airlineTicketModel);
     }
 
-    public void getCheapestTickets(String origin, String destination, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
-        ArrayList<AirlineTicketModel> airlineTicketModel = new ArrayList<>();
-        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + origin + "&destination=" + destination + "&departureDate=" + departureDate;
+    public void getCheapestTickets(AirportModel departureAirport, AirportModel arrivalAirport, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
+
+        ArrayList<AirlineTicketModel> ticketsFoundList = new ArrayList<>();
+        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + departureAirport.getAirportCode() + "&destination=" + arrivalAirport.getAirportCode()  + "&departureDate=" + departureDate;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -39,31 +40,22 @@ public class SearchFlightsDataService {
                 try {
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("buckets").getJSONObject(2).getJSONArray("items");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        String departureCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("displayCode");
-                        String departureName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("city");
-                        String arrivalCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("displayCode");
-                        String arrivalName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("city");
                         String flightDuration = setFlightDuration(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("durationInMinutes"));
                         String departureDate = setDepartureDate(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
                         String departureTime = setDepartureTime(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
                         String flightNumber = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments").getJSONObject(0).getString("flightNumber");
                         double ticketPrice = Double.parseDouble(jsonArray.getJSONObject(i).getJSONObject("price").getString("raw"));
-                        JSONArray segments =jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments");
+                        JSONArray segments = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("segments");
                         int ticketConnecting;
                         if(segments.length() > 1){
                             ticketConnecting=1;
                         }else{
                             ticketConnecting=0;
                         }
-
-
-                        AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
-                                flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);
-
-                        airlineTicketModel.add(ticket);
-
+                        AirlineTicketModel foundTicket = new AirlineTicketModel(departureAirport,arrivalAirport,flightDuration,departureDate,departureTime,flightNumber,travelClass,ticketPrice,numberPassengersAdults,numberPassengersChildren,oneWayFlight,ticketConnecting);
+                        ticketsFoundList.add(foundTicket);
                     }
-                    volleyResponseListener.onResponse(airlineTicketModel);
+                    volleyResponseListener.onResponse(ticketsFoundList);
                 } catch (JSONException e) {
                     volleyResponseListener.onError("Error.");
                 }
@@ -77,9 +69,9 @@ public class SearchFlightsDataService {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    public void getFastestTickets(String origin, String destination, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
-        ArrayList<AirlineTicketModel> airlineTicketModel = new ArrayList<>();
-        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + origin + "&destination=" + destination + "&departureDate=" + departureDate;
+    public void getFastestTickets(AirportModel departureAirport, AirportModel arrivalAirport, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
+        ArrayList<AirlineTicketModel> ticketsFoundList = new ArrayList<>();
+        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + departureAirport.getAirportCode() + "&destination=" + arrivalAirport.getAirportCode() + "&departureDate=" + departureDate;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -87,10 +79,6 @@ public class SearchFlightsDataService {
                 try {
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("buckets").getJSONObject(1).getJSONArray("items");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        String departureCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("displayCode");
-                        String departureName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("city");
-                        String arrivalCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("displayCode");
-                        String arrivalName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("city");
                         String flightDuration = setFlightDuration(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("durationInMinutes"));
                         String departureDate = setDepartureDate(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
                         String departureTime = setDepartureTime(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
@@ -104,13 +92,11 @@ public class SearchFlightsDataService {
                             ticketConnecting=0;
                         }
 
-                        AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
-                                flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);
-
-                        airlineTicketModel.add(ticket);
+                        AirlineTicketModel foundTicket = new AirlineTicketModel(departureAirport,arrivalAirport,flightDuration,departureDate,departureTime,flightNumber,travelClass,ticketPrice,numberPassengersAdults,numberPassengersChildren,oneWayFlight,ticketConnecting);
+                        ticketsFoundList.add(foundTicket);
 
                     }
-                    volleyResponseListener.onResponse(airlineTicketModel);
+                    volleyResponseListener.onResponse(ticketsFoundList);
                 } catch (JSONException e) {
                     volleyResponseListener.onError("Error.");
                 }
@@ -124,9 +110,9 @@ public class SearchFlightsDataService {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    public void getBestTickets(String origin, String destination, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
-        ArrayList<AirlineTicketModel> airlineTicketModel = new ArrayList<>();
-        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + origin + "&destination=" + destination + "&departureDate=" + departureDate;
+    public void getBestTickets(AirportModel departureAirport, AirportModel arrivalAirport, String departureDate, String travelClass, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, VolleyResponseListener volleyResponseListener) {
+        ArrayList<AirlineTicketModel> ticketsFoundList = new ArrayList<>();
+        String url = "https://app.goflightlabs.com/search-best-flights?access_key=" + access_key + "&adults=1" + "&origin=" + departureAirport.getAirportCode() + "&destination=" + arrivalAirport.getAirportCode() + "&departureDate=" + departureDate;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -151,13 +137,11 @@ public class SearchFlightsDataService {
                             ticketConnecting=0;
                         }
 
-                        AirlineTicketModel ticket = new AirlineTicketModel(departureCode, departureName, arrivalCode, arrivalName,
-                                flightDuration, departureDate, departureTime, flightNumber, travelClass, ticketPrice, numberPassengersAdults, numberPassengersChildren, oneWayFlight,ticketConnecting);
-
-                        airlineTicketModel.add(ticket);
+                        AirlineTicketModel foundTicket = new AirlineTicketModel(departureAirport,arrivalAirport,flightDuration,departureDate,departureTime,flightNumber,travelClass,ticketPrice,numberPassengersAdults,numberPassengersChildren,oneWayFlight,ticketConnecting);
+                        ticketsFoundList.add(foundTicket);
 
                     }
-                    volleyResponseListener.onResponse(airlineTicketModel);
+                    volleyResponseListener.onResponse(ticketsFoundList);
                 } catch (JSONException e) {
                     volleyResponseListener.onError("Error.");
                 }

@@ -15,9 +15,6 @@
             android:name=".PassengerInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdatePassengerInformationActivity"
-            android:exported="false" />
-        <activity
             android:name=".TicketInformationActivity"
             android:exported="false" />
         <activity

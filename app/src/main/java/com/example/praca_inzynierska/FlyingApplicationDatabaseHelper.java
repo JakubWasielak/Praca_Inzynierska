@@ -21,71 +21,186 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query_tickets = "CREATE TABLE Tickets (Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "Departure_airport_code TEXT, \n" +
-                "Departure_airport_name TEXT, \n" +
-                "Arrival_airport_code TEXT, \n" +
-                "Arrival_airport_name TEXT,\n" +
-                "Flight_duration TEXT, \n" +
-                "Departure_date DATE, \n" +
-                "Departure_time TIME, \n" +
-                "Flight_number TEXT,\n" +
-                "Class_travel TEXT,\n" +
-                "Price DOUBLE,\n" +
-                "Number_adults_passengers INTEGER,\n" +
-                "Number_children_passengers INTEGER,\n" +
-                "Ticket_connecting BOOLEAN);";
+        String query_tableAirports="CREATE TABLE Airports (" +
+                "Airport_Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                "Code TEXT NOT NULL," +
+                "Name TEXT NOT NULL," +
+                "City TEXT NOT NULL," +
+                "Country TEXT NOT NULL);";
+
+        String query_tablePassengers="CREATE TABLE Passengers (" +
+                "Passenger_Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                "Name TEXT NOT NULL," +
+                "Last_name TEXT NOT NULL," +
+                "Age INTEGER NOT NULL," +
+                "Gender TEXT NOT NULL," +
+                "Seat_number TEXT NOT NULL," +
+                "IsAdult INTEGER NOT NULL," +
+                "Ticket_Id INTEGER NOT NULL," +
+                "FOREIGN KEY(Ticket_Id) REFERENCES Tickets(Ticket_Id));";
+
+        String query_tableTickets="CREATE TABLE Tickets (" +
+                "Ticket_Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                "Departure_airport_Id INTEGER NOT NULL," +
+                "Arrival_airport_Id INTEGER NOT NULL," +
+                "Departure_date TEXT NOT NULL," +
+                "Departure_time TEXT NOT NULL," +
+                "Flight_duration TEXT NOT NULL," +
+                "Flight_number TEXT NOT NULL," +
+                "Travel_class_Id INTEGER NOT NULL," +
+                "Price REAL NOT NULL," +
+                "isConnecting INTEGER NOT NULL,"+
+                "FOREIGN KEY(Travel_class_Id) REFERENCES Travel_Class(Class_Id)," +
+                "FOREIGN KEY(Departure_airport_Id) REFERENCES Airports(Airport_Id)," +
+                "FOREIGN KEY(Arrival_airport_Id) REFERENCES Airports(Airport_Id));";
+
+        String query_tableTravel_Class="CREATE TABLE Travel_Class (" +
+                "Class_Id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                "Name TEXT NOT NULL);";
+
+        String query_tableTravel_Values1= "INSERT INTO Travel_Class (\"Class_Id\", \"Name\") VALUES ('1', 'ekonomiczna');";
+        String query_tableTravel_Values2 = "INSERT INTO Travel_Class (\"Class_Id\", \"Name\") VALUES ('2', 'biznesowa'); ";
+        String query_tableTravel_Values3 = "INSERT INTO Travel_Class (\"Class_Id\", \"Name\") VALUES ('3', 'pierwsza');";
 
 
-        String query_passengers = "CREATE TABLE Passenger ( Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "Name TEXT,\n" +
-                "Last_name TEXT, \n" +
-                "Age  INTEGER,\n" +
-                "Gender TEXT,\n" +
-                "Seat TEXT,\n" +
-                "Ticked_id  INTEGER,\n" +
-                "FOREIGN KEY(Ticked_id) REFERENCES Tickets(Id));";
-
-        db.execSQL(query_tickets);
-        db.execSQL(query_passengers);
+        db.execSQL(query_tableAirports);
+        db.execSQL(query_tablePassengers);
+        db.execSQL(query_tableTickets);
+        db.execSQL(query_tableTravel_Class);
+        db.execSQL(query_tableTravel_Values1);
+        db.execSQL(query_tableTravel_Values2);
+        db.execSQL(query_tableTravel_Values3);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS Airports");
+        db.execSQL("DROP TABLE IF EXISTS Passengers");
         db.execSQL("DROP TABLE IF EXISTS Tickets");
-        db.execSQL("DROP TABLE IF EXISTS Passenger");
+        db.execSQL("DROP TABLE IF EXISTS Travel_Class");
         onCreate(db);
     }
 
-    Cursor readAllTickets() {
-        String query = "SELECT * FROM Tickets";
+    public Cursor getUserTickets(){
+        String query = "SELECT t.Ticket_Id, a1.City AS DepartureCity, a1.Code AS DepartureCode, a2.City AS ArrivalCity, a2.Code AS ArrivalCode, Departure_date, Departure_time, Flight_duration, Flight_number, tc.Name, Price, isConnecting" +
+        " FROM Tickets t"+
+        " JOIN Airports a1 ON a1.Airport_Id = t.Departure_airport_Id" +
+        " JOIN Airports a2 ON a2.Airport_Id = t.Arrival_airport_Id" +
+        " JOIN Travel_Class tc ON tc.Class_Id = t.Travel_class_Id";
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = null;
         if (db != null) {
             cursor = db.rawQuery(query, null);
         }
-
         return cursor;
     }
 
-    public void addNewTicket(String departureCode, String departureName, String arrivalCode, String arrivalName, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double price, int NumberPassengersAdults, int NumberPassengersChildren, int TicketConnecting) {
+    public Cursor getSelectedTickets(int ticketId){
+        String query = "SELECT t.Departure_date, t.Departure_time, t.Flight_duration, t.Flight_number, t.Price, t.isConnecting," +
+                "a1.Code, a1.Name, a1.City, a1.Country," +
+                "a2.Code, a2.Name, a2.City, a2.Country," +
+                "tc.Name" +
+                " FROM Tickets t" +
+                " JOIN Airports a1 ON a1.Airport_Id = t.Departure_airport_Id" +
+                " JOIN Airports a2 ON a2.Airport_Id = t.Arrival_airport_Id" +
+                " JOIN Travel_Class tc ON tc.Class_Id = t.Travel_class_Id" +
+                " WHERE t.Ticket_Id="+ticketId;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+
+    public int getNumberAdultPassengers(int TicketId){
+        String query = "SELECT count(*) FROM Passengers WHERE IsAdult=1 AND Ticket_Id="+TicketId;
+        int count = 0;
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public int getNumberChildrenPassengers(int TicketId){
+        String query = "SELECT count(*) FROM Passengers WHERE IsAdult=0 AND Ticket_Id="+TicketId;
+        int count = 0;
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public int setAirport(String airportCode, String airportName, String airportCity, String airportCountry ){
+        String query="SELECT Airport_Id FROM Airports WHERE Code='"+airportCode+"'";
+        int airportId = 0;
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            airportId = cursor.getInt(0);
+        }else{
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("Code", airportCode);
+            cv.put("Name", airportName);
+            cv.put("City", airportCity);
+            cv.put("Country", airportCountry);
+            long result = db.insert("Airports", null, cv);
+            if (result == -1) {
+                Toast.makeText(context, "Nie udało się dodać lotniska.", Toast.LENGTH_SHORT).show();
+            }else{
+                cursor = getReadableDatabase().rawQuery(query, null);
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    airportId = cursor.getInt(0);
+                }
+            }
+        }
+        cursor.close();
+        return airportId;
+    }
+
+    public int setTravelClass(String travelClassName){
+        String query="SELECT Class_Id FROM Travel_Class WHERE Name='"+travelClassName+"'";
+        int travelClassId=0;
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            travelClassId = cursor.getInt(0);
+        }
+        cursor.close();
+        return travelClassId;
+    }
+
+    public void addTicket(AirportModel departureAirport, AirportModel arrivalAirport, String departureDate,String departureTime, String flightDuration,  String flightNumber, String travelClass, double price, int TicketConnecting) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put("Departure_airport_code", departureCode);
-        cv.put("Departure_airport_name", departureName);
-        cv.put("Arrival_airport_code", arrivalCode);
-        cv.put("Arrival_airport_name", arrivalName);
-        cv.put("Flight_duration", flightDuration);
-        cv.put("Departure_date", departureDate);
-        cv.put("Departure_time", departureTime);
-        cv.put("Flight_number", flightNumber);
-        cv.put("Class_travel", travelClass);
-        cv.put("Price", price);
-        cv.put("Number_adults_passengers", NumberPassengersAdults);
-        cv.put("Number_children_passengers", NumberPassengersChildren);
-        cv.put("Ticket_connecting", TicketConnecting);
+        cv.put("Departure_airport_Id",setAirport(departureAirport.getAirportCode(),departureAirport.getAirportName(),departureAirport.getAirportCity(),departureAirport.getAirportCountry()));
+        cv.put("Arrival_airport_Id",setAirport(arrivalAirport.getAirportCode(),arrivalAirport.getAirportName(),arrivalAirport.getAirportCity(),arrivalAirport.getAirportCountry()));
+
+        cv.put("Departure_date",departureDate);
+        cv.put("Departure_time",departureTime);
+
+        cv.put("Flight_duration",flightDuration);
+        cv.put("Flight_number",flightNumber);
+
+        cv.put("Travel_class_Id",setTravelClass(travelClass));
+
+        cv.put("Price",price);
+        cv.put("isConnecting",TicketConnecting);
 
         long result = db.insert("Tickets", null, cv);
         if (result == -1) {
@@ -93,22 +208,39 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    void deleteSelectedTicket(int Id) {
+    public void addPassenger(String passengerName, String passengerLastName, int passengerAge, String passengerGender, String passengerSeat,int passengerIsAdult){
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete("Tickets", "ID="+Id, null);
+        ContentValues cv = new ContentValues();
+        cv.put("Name", passengerName);
+        cv.put("Last_name", passengerLastName);
+        cv.put("Age", passengerAge);
+        cv.put("Gender", passengerGender);
+        cv.put("Seat_number", passengerSeat);
+        cv.put("IsAdult", passengerIsAdult);
+        cv.put("Ticket_Id", getLastTicketId());
+        long result = db.insert("Passengers", null, cv);
         if (result == -1) {
-            Toast.makeText(context, "Nie udało się usunąć biletu.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Usunęto bilet.", Toast.LENGTH_SHORT).show();
-            deleteSelectedPassenger(Id);
+            Toast.makeText(context, "Nie udało się dodać pasażera.", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public int getLastTicketId(){
+        String query="SELECT Count(Ticket_Id) from Tickets";
+        int TicketId=0;
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            TicketId = cursor.getInt(0);
+        }else {
+            TicketId=1;
+        }
+        cursor.close();
+        return TicketId;
+    }
 
-    Cursor readAllPassengers(int Ticked_id) {
-        String query = "SELECT * FROM Passenger WHERE Ticked_id=" + Ticked_id;
+    public Cursor getPassengersFromTicket(int ticketId){
+        String query = "SELECT * FROM Passengers WHERE Ticket_Id=" + ticketId;
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = null;
         if (db != null) {
             cursor = db.rawQuery(query, null);
@@ -116,80 +248,39 @@ public class FlyingApplicationDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void addNewPassager(String name, String lastName, int age, String gender, String seat, int tickedID) {
+    public void removeTicket(int ticketId ){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put("Name", name);
-        cv.put("Last_name", lastName);
-        cv.put("Age", age);
-        cv.put("Gender", gender);
-        cv.put("Seat", seat);
-        cv.put("Ticked_id", tickedID);
-        long result = db.insert("Passenger", null, cv);
+        long result = db.delete("Tickets", "Ticket_Id="+ticketId, null);
         if (result == -1) {
-            Toast.makeText(context, "Nie udało się dodać pasażera.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Nie udało się usunąć biletu.", Toast.LENGTH_SHORT).show();
+        } else {
+            db.execSQL("DELETE FROM Passengers WHERE Ticket_Id="+ ticketId+";");
         }
     }
 
-    void deleteSelectedPassenger(int tickedID) {
+    public void removePassenger(int passengerId){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM Passenger WHERE Id="+ tickedID+";");
+        long result = db.delete("Passengers", "Passenger_Id="+passengerId, null);
+        if (result == -1) {
+            Toast.makeText(context, "Nie udało się usunąć pasażera.", Toast.LENGTH_SHORT).show();
+        } else {
 
-    }
-
-    void deleteAllPassengers(int tickedID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM Passenger WHERE Ticked_id="+ tickedID+";");
-    }
-
-    public int getTickedIDFromPassenger(int passengerID){
-        int tikedID=0;
-        String query = "SELECT Ticked_id FROM Passenger WHERE Id="+passengerID;
-        Cursor cursor = getReadableDatabase().rawQuery(query, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            tikedID = cursor.getInt(0);
         }
-        cursor.close();
-        System.out.println("klasa baza");
-        System.out.println(tikedID);
-        return tikedID;
-
     }
 
-    public int getNextTickedID() {
-        String query = "SELECT Count(Id) from Tickets";
-        int tikedID = 0;
-        Cursor cursor = getReadableDatabase().rawQuery(query, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            tikedID = cursor.getInt(0);
-        }
-        cursor.close();
-        return tikedID;
-    }
-
-    void updateSelectedTicket(int tickedID, int numberAdultsPassengers) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE Tickets SET Number_adults_passengers ="+ numberAdultsPassengers +" WHERE Id = "+tickedID+";");
-
-    }
-    void updatePassenger(String passengerID, String passengerName, String passengerLastName,int passengerAge, String passengerGender) {
+    public void updatePassenger(String passengerId, String passengerName, String passengerLastName, int passengerAge, String passengerGender, String passengerSeat,int passengerIsAdult, int passengerTicketId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("Name", passengerName);
         cv.put("Last_name", passengerLastName);
         cv.put("Age", passengerAge);
         cv.put("Gender", passengerGender);
-
-        long result = db.update("Passenger", cv, "id=?", new String[]{passengerID});
+        cv.put("Seat_number", passengerSeat);
+        cv.put("IsAdult", passengerIsAdult);
+        cv.put("Ticket_Id", passengerTicketId);
+        long result = db.update("Passengers", cv, "Passenger_Id=?", new String[]{passengerId});
         if(result == -1){
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.praca_inzynierska;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -21,6 +22,13 @@ public class SearchingForTicketActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_searching_for_ticket);
         initTypeOfTravelView();
+        ImageButton btnCloseActivity = findViewById(R.id.closeActivity_ImageView);
+        btnCloseActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initTypeOfTravelView() {
@@ -53,9 +61,5 @@ public class SearchingForTicketActivity extends AppCompatActivity {
                 mTypeOfTravel_TabLayout.getTabAt(position).select();
             }
         });
-    }
-
-    public void closeActtivity(View view) {
-        finish();
     }
 }

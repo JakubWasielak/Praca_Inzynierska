@@ -34,11 +34,9 @@ public class SeatingChoiceActivity extends AppCompatActivity {
 
     private int selectedSeats = 0;
     private final String[] seatNumberNames = {"A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4", "E1", "E2", "E3", "E4", "F1", "F2", "F3", "F4", "G1", "G2", "G3", "G4"};
-
     private final int[] seatsID = {R.id.A1, R.id.A2, R.id.A3, R.id.A4, R.id.B1, R.id.B2, R.id.B3, R.id.B4, R.id.C1, R.id.C2, R.id.C3, R.id.C4, R.id.D1, R.id.D2, R.id.D3, R.id.D4, R.id.E1, R.id.E2, R.id.E3, R.id.E4, R.id.F1, R.id.F2, R.id.F3, R.id.F4, R.id.G1, R.id.G2, R.id.G3, R.id.G4};
-
     private ArrayList<String> reservedSeatsNames;
-    private AirlineTicketModel airlineTicketModel;
+    private AirlineTicketModel selectedTicket;
     private GridLayout seatMap_GridLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,25 +63,23 @@ public class SeatingChoiceActivity extends AppCompatActivity {
 
         getIntentData();
 
-        setReservedSeats(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren()));
-        setSeatReservation(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren()));
+        setReservedSeats(seatMap_GridLayout, (selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren()));
+        setSeatReservation(seatMap_GridLayout, (selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren()));
 
         ImageButton btnOpenNextActivity = findViewById(R.id.goToPassengerDetailsActivity_ImageButton);
         btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(reservedSeatsNames.size());
-                System.out.println(selectedSeats);
                 if (reservedSeatsNames.size() == 0) {
                     automaticallySelectedDialog();
                 } else {
                     reservedSeatsNames.size();
-                    if (reservedSeatsNames.size() < airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren()) {
+                    if (reservedSeatsNames.size() < selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren()) {
                         Toast.makeText(SeatingChoiceActivity.this, "Wybierz miejsce.", Toast.LENGTH_SHORT).show();
-                    } else if (reservedSeatsNames.size() == (airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren())) {
+                    } else if (reservedSeatsNames.size() == (selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren())) {
                         Intent intent = new Intent(SeatingChoiceActivity.this, PassengerInformationActivity.class);
-                        airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
-                        intent.putExtra("AirlineTicketsModels", airlineTicketModel);
+                        selectedTicket.setReservedSeatsNames(reservedSeatsNames);
+                        intent.putExtra("SelectedTicket", selectedTicket);
                         startActivity(intent);
                     }
                 }
@@ -101,8 +97,8 @@ public class SeatingChoiceActivity extends AppCompatActivity {
     }
 
     private void getIntentData() {
-        if (getIntent().hasExtra("AirlineTicketsModels")) {
-            airlineTicketModel = getIntent().getParcelableExtra("AirlineTicketsModels");
+        if (getIntent().hasExtra("SelectedTicket")) {
+            selectedTicket = getIntent().getParcelableExtra("SelectedTicket");
             setFlightInformation();
         } else {
             Toast.makeText(SeatingChoiceActivity.this, "Brak danych.", Toast.LENGTH_SHORT).show();
@@ -111,15 +107,15 @@ public class SeatingChoiceActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void setFlightInformation(){
-        tvDepartureAirportCode.setText(airlineTicketModel.getDepartureAirportCode());
-        tvDepartureAirportName.setText(airlineTicketModel.getDepartureAirportName());
-        tvArrivalAirportCode.setText(airlineTicketModel.getArrivalAirportCode());
-        tvArrivalAirportName.setText(airlineTicketModel.getArrivalAirportName());
-        tvFlightDuration.setText(airlineTicketModel.getFlightDuration());
-        tvDepartureDateAndTime.setText(String.format("%s, %s", airlineTicketModel.getDepartureDate(), airlineTicketModel.getDepartureTime()));
-        tvFlightNumber.setText(airlineTicketModel.getFlightNumber());
-        tvNumberOfPassengers.setText(String.valueOf((airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren())));
-        tvTravelClass.setText("Klasa: " + airlineTicketModel.getTravelClass());
+        tvDepartureAirportCode.setText(selectedTicket.getDepartureAirport().airportCode);
+        tvDepartureAirportName.setText(selectedTicket.getDepartureAirport().airportCity);
+        tvArrivalAirportCode.setText(selectedTicket.getArrivalAirport().getAirportCode());
+        tvArrivalAirportName.setText(selectedTicket.getArrivalAirport().getAirportCity());
+        tvFlightDuration.setText(selectedTicket.getFlightDuration());
+        tvDepartureDateAndTime.setText(String.format("%s, %s", selectedTicket.getDepartureDate(), selectedTicket.getDepartureTime()));
+        tvFlightNumber.setText(selectedTicket.getFlightNumber());
+        tvNumberOfPassengers.setText(String.valueOf((selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren())));
+        tvTravelClass.setText("Klasa: " + selectedTicket.getTravelClass());
     }
 
     private void setReservedSeats(GridLayout gridLayout, int numberOfPassengers) {
@@ -215,10 +211,10 @@ public class SeatingChoiceActivity extends AppCompatActivity {
         builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                setAutomaticallyReservedSeats(seatMap_GridLayout, (airlineTicketModel.getNumberPassengersAdults() + airlineTicketModel.getNumberPassengersChildren()));
+                setAutomaticallyReservedSeats(seatMap_GridLayout, (selectedTicket.getNumberPassengersAdults() + selectedTicket.getNumberPassengersChildren()));
                 Intent intent = new Intent(SeatingChoiceActivity.this, PassengerInformationActivity.class);
-                airlineTicketModel.setReservedSeatsNames(reservedSeatsNames);
-                intent.putExtra("AirlineTicketsModels", airlineTicketModel);
+                selectedTicket.setReservedSeatsNames(reservedSeatsNames);
+                intent.putExtra("SelectedTicket", selectedTicket);
                 startActivity(intent);
 
             }

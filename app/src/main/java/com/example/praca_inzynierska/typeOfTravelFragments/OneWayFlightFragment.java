@@ -21,18 +21,18 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.praca_inzynierska.AirportDataService;
+import com.example.praca_inzynierska.AirportModel;
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.SearchResultsActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class OneWayFlightFragment extends Fragment {
     private AutoCompleteTextView tvOneWay_departureDate;
     private AutoCompleteTextView tvOneWay_classTravel;
-    private LocalDate OneWay_selectedDepartureDate;
+    private LocalDate LocalDateOneWay_selectedDepartureDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -106,28 +106,30 @@ public class OneWayFlightFragment extends Fragment {
         btnOneWay_OpenNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 airportDataService.getDepartureCode(String.valueOf(tvOneWay_departureCountry.getText()), new AirportDataService.VolleyResponseListener() {
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Nie znaleziono lotniska.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onResponse(String Code) {
+                    public void onResponse(String departureAirportCode, String departureAirportName, String departureAirportCity, String departureAirportCountry) {
+                        AirportModel departureAirport = new AirportModel(departureAirportCode,departureAirportName,departureAirportCity,departureAirportCountry);
                         Intent intent = new Intent(getActivity(), SearchResultsActivity.class);
-                        intent.putExtra("DepartureCode", Code);
+                        intent.putExtra("DepartureAirport", departureAirport);
+
                         airportDataService.getArrivalCode(String.valueOf(tvOneWay_arrivalCountry.getText()), new AirportDataService.VolleyResponseListener() {
                             @Override
                             public void onError(String message) {
-                                Toast.makeText(getActivity(), "Błąd.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Nie znaleziono lotniska.", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void onResponse(String Code) {
-                                intent.putExtra("ArrivalCode", Code);
+                            public void onResponse(String arrivalAirportCode, String arrivalAirportName, String arrivalAirportCity, String arrivalAirportCountry) {
+                                AirportModel arrivalAirport = new AirportModel(arrivalAirportCode,arrivalAirportName,arrivalAirportCity,arrivalAirportCountry);
+                                intent.putExtra("ArrivalAirport", arrivalAirport);
                                 intent.putExtra("SelectedDepartureDate", String.valueOf(tvOneWay_departureDate.getText()));
-                                intent.putExtra("TravelClass", setTravelClass(String.valueOf(tvOneWay_classTravel.getText())));
+                                intent.putExtra("TravelClass", String.valueOf(tvOneWay_classTravel.getText()));
                                 intent.putExtra("NumberPassengersAdults", Integer.parseInt((String) tvNumberOfAdults.getText()));
                                 intent.putExtra("NumberPassengersChildren", Integer.parseInt((String) tvNumberOfChildren.getText()));
                                 intent.putExtra("OneWayFlight", true);
@@ -157,10 +159,10 @@ public class OneWayFlightFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        OneWay_selectedDepartureDate = LocalDate.of(year, month + 1, dayOfMonth);
+                        LocalDateOneWay_selectedDepartureDate = LocalDate.of(year, month + 1, dayOfMonth);
 
-                        if (OneWay_selectedDepartureDate.isAfter(todayDate) || OneWay_selectedDepartureDate.isEqual(todayDate)) {
-                            String formattedDate = OneWay_selectedDepartureDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        if (LocalDateOneWay_selectedDepartureDate.isAfter(todayDate) || LocalDateOneWay_selectedDepartureDate.isEqual(todayDate)) {
+                            String formattedDate = LocalDateOneWay_selectedDepartureDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                             tvOneWay_departureDate.setText(formattedDate);
                         }
                     }
@@ -170,17 +172,4 @@ public class OneWayFlightFragment extends Fragment {
             }
         });
     }
-
-    private String setTravelClass(String TravelClass) {
-        String SelectedTravelClass = "";
-        if (Objects.equals(TravelClass, "ekonomiczna")) {
-            SelectedTravelClass = "economy";
-        } else if (Objects.equals(TravelClass, "biznesowa")) {
-            SelectedTravelClass = "business";
-        } else if (Objects.equals(TravelClass, "pierwsza")) {
-            SelectedTravelClass = "first";
-        }
-        return SelectedTravelClass;
-    }
-
 }

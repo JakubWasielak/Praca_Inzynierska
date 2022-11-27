@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.praca_inzynierska.AirlineTicketModel;
+import com.example.praca_inzynierska.AirportModel;
 import com.example.praca_inzynierska.FAT_RecyclerViewAdapter;
 import com.example.praca_inzynierska.R;
 import com.example.praca_inzynierska.RecyclerViewInterface;
@@ -28,7 +29,7 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
     private ImageButton btnOpenNextActivity;
 
     private boolean oneWayFlight;
-    private String departureCode, arrivalCode;
+    private AirportModel departureAirport,arrivalAirport;
     private String selectedDepartureDate, selectedDepartureDateReturn, travelClass;
     private int numberPassengersAdults, numberPassengersChildren;
     private int selectedPosition;
@@ -45,41 +46,39 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
         getIntentData();
 
         if (!oneWayFlight) {
-            searchFlightsDataService.getFastestTickets(departureCode, arrivalCode, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, false, new SearchFlightsDataService.VolleyResponseListener() {
+            searchFlightsDataService.getFastestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, false, new SearchFlightsDataService.VolleyResponseListener() {
                 @Override
                 public void onError(String message) {
                     Toast.makeText(getActivity(), "Error.", Toast.LENGTH_SHORT).show();
                 }
                 @Override
-                public void onResponse(ArrayList<AirlineTicketModel> airlineTicketModel) {
-                    ArrayList<AirlineTicketModel> TicketModel = new ArrayList<>();
-                    for (int i = 0; i < airlineTicketModel.size(); i++) {
-                        TicketModel.add(new AirlineTicketModel(
-                                airlineTicketModel.get(i).getDepartureAirportCode(),
-                                airlineTicketModel.get(i).getDepartureAirportName(),
-                                airlineTicketModel.get(i).getArrivalAirportCode(),
-                                airlineTicketModel.get(i).getArrivalAirportName(),
-                                airlineTicketModel.get(i).getFlightDuration(),
-                                airlineTicketModel.get(i).getDepartureDate(),
-                                airlineTicketModel.get(i).getDepartureTime(),
-                                airlineTicketModel.get(i).getFlightNumber(),
-                                airlineTicketModel.get(i).getTravelClass(),
-                                airlineTicketModel.get(i).getTicketPrice(),
-                                airlineTicketModel.get(i).getNumberPassengersAdults(),
-                                airlineTicketModel.get(i).getNumberPassengersChildren(),
-                                airlineTicketModel.get(i).isOneWayFlight(),
-                                airlineTicketModel.get(i).isTicketConnecting()));
+                public void onResponse(ArrayList<AirlineTicketModel> ticketsFoundList) {
+                    ArrayList<AirlineTicketModel> TicketsList = new ArrayList<>();
+                    for (int i = 0; i < ticketsFoundList.size(); i++) {
+                        TicketsList.add(new AirlineTicketModel(
+                                ticketsFoundList.get(i).getDepartureAirport(),
+                                ticketsFoundList.get(i).getArrivalAirport(),
+                                ticketsFoundList.get(i).getFlightDuration(),
+                                ticketsFoundList.get(i).getDepartureDate(),
+                                ticketsFoundList.get(i).getDepartureTime(),
+                                ticketsFoundList.get(i).getFlightNumber(),
+                                ticketsFoundList.get(i).getTravelClass(),
+                                ticketsFoundList.get(i).getTicketPrice(),
+                                ticketsFoundList.get(i).getNumberPassengersAdults(),
+                                ticketsFoundList.get(i).getNumberPassengersChildren(),
+                                ticketsFoundList.get(i).isOneWayFlight(),
+                                ticketsFoundList.get(i).getIsConnecting()));
                     }
                     rvFastestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketModel, FastestTicketSearchResultsFragment.this);
+                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, FastestTicketSearchResultsFragment.this);
                     rvFastestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
 
                     btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), SeatingChoiceActivity.class);
-                            TicketModel.get(selectedPosition).setDepartureDateReturn(selectedDepartureDateReturn);
-                            intent.putExtra("AirlineTicketsModels", TicketModel.get(selectedPosition));
+                            TicketsList.get(selectedPosition).setDepartureDateReturn(selectedDepartureDateReturn);
+                            intent.putExtra("SelectedTicket", TicketsList.get(selectedPosition));
                             startActivity(intent);
                         }
                     });
@@ -87,40 +86,38 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
             });
 
         } else {
-            searchFlightsDataService.getFastestTickets(departureCode, arrivalCode, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, true, new SearchFlightsDataService.VolleyResponseListener() {
+            searchFlightsDataService.getFastestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, true, new SearchFlightsDataService.VolleyResponseListener() {
                 @Override
                 public void onError(String message) {
                     Toast.makeText(getActivity(), "Error.", Toast.LENGTH_SHORT).show();
                 }
                 @Override
-                public void onResponse(ArrayList<AirlineTicketModel> airlineTicketModel) {
-                    ArrayList<AirlineTicketModel> TicketModel = new ArrayList<>();
-                    for (int i = 0; i < airlineTicketModel.size(); i++) {
-                        TicketModel.add(new AirlineTicketModel(
-                                airlineTicketModel.get(i).getDepartureAirportCode(),
-                                airlineTicketModel.get(i).getDepartureAirportName(),
-                                airlineTicketModel.get(i).getArrivalAirportCode(),
-                                airlineTicketModel.get(i).getArrivalAirportName(),
-                                airlineTicketModel.get(i).getFlightDuration(),
-                                airlineTicketModel.get(i).getDepartureDate(),
-                                airlineTicketModel.get(i).getDepartureTime(),
-                                airlineTicketModel.get(i).getFlightNumber(),
-                                airlineTicketModel.get(i).getTravelClass(),
-                                airlineTicketModel.get(i).getTicketPrice(),
-                                airlineTicketModel.get(i).getNumberPassengersAdults(),
-                                airlineTicketModel.get(i).getNumberPassengersChildren(),
-                                airlineTicketModel.get(i).isOneWayFlight(),
-                                airlineTicketModel.get(i).isTicketConnecting()));
+                public void onResponse(ArrayList<AirlineTicketModel> ticketsFoundList) {
+                    ArrayList<AirlineTicketModel> TicketsList = new ArrayList<>();
+                    for (int i = 0; i < ticketsFoundList.size(); i++) {
+                        TicketsList.add(new AirlineTicketModel(
+                                ticketsFoundList.get(i).getDepartureAirport(),
+                                ticketsFoundList.get(i).getArrivalAirport(),
+                                ticketsFoundList.get(i).getFlightDuration(),
+                                ticketsFoundList.get(i).getDepartureDate(),
+                                ticketsFoundList.get(i).getDepartureTime(),
+                                ticketsFoundList.get(i).getFlightNumber(),
+                                ticketsFoundList.get(i).getTravelClass(),
+                                ticketsFoundList.get(i).getTicketPrice(),
+                                ticketsFoundList.get(i).getNumberPassengersAdults(),
+                                ticketsFoundList.get(i).getNumberPassengersChildren(),
+                                ticketsFoundList.get(i).isOneWayFlight(),
+                                ticketsFoundList.get(i).getIsConnecting()));
                     }
                     rvFastestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketModel, FastestTicketSearchResultsFragment.this);
+                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, FastestTicketSearchResultsFragment.this);
                     rvFastestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
 
                     btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), SeatingChoiceActivity.class);
-                            intent.putExtra("AirlineTicketsModels", TicketModel.get(selectedPosition));
+                            intent.putExtra("SelectedTicket", TicketsList.get(selectedPosition));
                             startActivity(intent);
                         }
                     });
@@ -133,8 +130,8 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
 
     private void getIntentData() {
         if (getActivity().getIntent().hasExtra("OneWayFlight")
-                && getActivity().getIntent().hasExtra("DepartureCode")
-                && getActivity().getIntent().hasExtra("ArrivalCode")
+                && getActivity().getIntent().hasExtra("departureAirport")
+                && getActivity().getIntent().hasExtra("arrivalAirport")
                 && getActivity().getIntent().hasExtra("SelectedDepartureDate")
                 && getActivity().getIntent().hasExtra("TravelClass")
                 && getActivity().getIntent().hasExtra("NumberPassengersAdults")
@@ -143,8 +140,8 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
                 selectedDepartureDateReturn = getActivity().getIntent().getStringExtra("SelectedDepartureDateReturn");
             } else {
                 oneWayFlight = getActivity().getIntent().getExtras().getBoolean("OneWayFlight");
-                departureCode = getActivity().getIntent().getStringExtra("DepartureCode");
-                arrivalCode = getActivity().getIntent().getStringExtra("ArrivalCode");
+                departureAirport = getActivity().getIntent().getParcelableExtra("departureAirport");
+                arrivalAirport = getActivity().getIntent().getParcelableExtra("arrivalAirport");
                 selectedDepartureDate = getActivity().getIntent().getStringExtra("SelectedDepartureDate");
                 travelClass = getActivity().getIntent().getStringExtra("TravelClass");
                 numberPassengersAdults = getActivity().getIntent().getIntExtra("NumberPassengersAdults", 0);
