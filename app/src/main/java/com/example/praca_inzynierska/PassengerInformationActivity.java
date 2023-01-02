@@ -73,7 +73,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
 
                     if(countAdultPassengers<selectedTicket.getNumberPassengersAdults()){
                         passengerIsAdult.setText("Dorosły");
-                    }else if(countAdultPassengers==3){
+                    }else if(countAdultPassengers==selectedTicket.getNumberPassengersAdults()){
                         passengerIsAdult.setText("Dziecko");
                     }else if(countChildPassengers ==selectedTicket.getNumberPassengersChildren()){
                         btnNextActivity.setBackgroundResource(R.drawable.animation_button_next_activity);

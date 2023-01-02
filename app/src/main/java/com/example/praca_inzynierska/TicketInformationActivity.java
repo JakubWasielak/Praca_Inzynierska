@@ -154,9 +154,13 @@ public class TicketInformationActivity extends AppCompatActivity {
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(TicketInformationActivity.this);
                     if(Integer.parseInt(String.valueOf(tvNumberPassengers.getText())) > 1){
-                        flyingApplicationDatabaseHelper.removePassenger((Integer) viewHolder.itemView.getTag());
+                        flyingApplicationDatabaseHelper.removePassenger((Integer) viewHolder. itemView.getTag());
+                        loadPassengersDataFromArrays(ticketModel_TicketID);
+                        setTicketInformation(ticketModel);
                         int numberPassengers=flyingApplicationDatabaseHelper.getNumberAdultPassengers(ticketModel_TicketID)+flyingApplicationDatabaseHelper.getNumberChildrenPassengers(ticketModel_TicketID);
+                        DecimalFormat formatter = new DecimalFormat("#0.00");
                         tvNumberPassengers.setText(String.valueOf(numberPassengers));
+                        tvTicketPrice.setText(formatter.format(ticketModel.getTicketPrice() * numberPassengers));
                         Toast.makeText(TicketInformationActivity.this, "Usunięto pasażera!", Toast.LENGTH_SHORT).show();
                         removePassenger();
                         loadPassengersDataFromArrays(ticketModel_TicketID);

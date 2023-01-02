@@ -216,7 +216,6 @@ public class SeatingChoiceActivity extends AppCompatActivity {
                 selectedTicket.setReservedSeatsNames(reservedSeatsNames);
                 intent.putExtra("SelectedTicket", selectedTicket);
                 startActivity(intent);
-
             }
         });
         builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {

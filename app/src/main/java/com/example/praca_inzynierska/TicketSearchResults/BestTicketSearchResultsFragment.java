@@ -45,112 +45,67 @@ public class BestTicketSearchResultsFragment extends Fragment implements Recycle
 
         getIntentData();
 
-        if (!oneWayFlight) {
-            searchFlightsDataService.getBestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, false, new SearchFlightsDataService.VolleyResponseListener() {
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(getActivity(), "Error.", Toast.LENGTH_SHORT).show();
+        searchFlightsDataService.getBestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, oneWayFlight, new SearchFlightsDataService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getActivity(), "Nie znaleziono połączeń.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(ArrayList<AirlineTicketModel> ticketsFoundList) {
+                ArrayList<AirlineTicketModel> TicketsList = new ArrayList<>();
+                for (int i = 0; i < ticketsFoundList.size(); i++) {
+                    TicketsList.add(new AirlineTicketModel(
+                            ticketsFoundList.get(i).getDepartureAirport(),
+                            ticketsFoundList.get(i).getArrivalAirport(),
+                            ticketsFoundList.get(i).getFlightDuration(),
+                            ticketsFoundList.get(i).getDepartureDate(),
+                            ticketsFoundList.get(i).getDepartureTime(),
+                            ticketsFoundList.get(i).getFlightNumber(),
+                            ticketsFoundList.get(i).getTravelClass(),
+                            ticketsFoundList.get(i).getTicketPrice(),
+                            ticketsFoundList.get(i).getNumberPassengersAdults(),
+                            ticketsFoundList.get(i).getNumberPassengersChildren(),
+                            ticketsFoundList.get(i).isOneWayFlight(),
+                            ticketsFoundList.get(i).getIsConnecting()));
                 }
+                rvBestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
+                FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, BestTicketSearchResultsFragment.this);
+                rvBestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
 
-                @Override
-                public void onResponse(ArrayList<AirlineTicketModel> ticketsFoundList) {
-                    ArrayList<AirlineTicketModel> TicketsList = new ArrayList<>();
-                    for (int i = 0; i < ticketsFoundList.size(); i++) {
-                        TicketsList.add(new AirlineTicketModel(
-                                ticketsFoundList.get(i).getDepartureAirport(),
-                                ticketsFoundList.get(i).getArrivalAirport(),
-                                ticketsFoundList.get(i).getFlightDuration(),
-                                ticketsFoundList.get(i).getDepartureDate(),
-                                ticketsFoundList.get(i).getDepartureTime(),
-                                ticketsFoundList.get(i).getFlightNumber(),
-                                ticketsFoundList.get(i).getTravelClass(),
-                                ticketsFoundList.get(i).getTicketPrice(),
-                                ticketsFoundList.get(i).getNumberPassengersAdults(),
-                                ticketsFoundList.get(i).getNumberPassengersChildren(),
-                                ticketsFoundList.get(i).isOneWayFlight(),
-                                ticketsFoundList.get(i).getIsConnecting()));
-                    }
-                    rvBestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, BestTicketSearchResultsFragment.this);
-                    rvBestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
-
-                    btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), SeatingChoiceActivity.class);
+                btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), SeatingChoiceActivity.class);
+                        if(!oneWayFlight){
                             TicketsList.get(selectedPosition).setDepartureDateReturn(selectedDepartureDateReturn);
-                            intent.putExtra("SelectedTicket", TicketsList.get(selectedPosition));
-                            startActivity(intent);
                         }
-                    });
-                }
-            });
-
-        } else {
-            searchFlightsDataService.getBestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, true, new SearchFlightsDataService.VolleyResponseListener() {
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(getActivity(), "Error.", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onResponse(ArrayList<AirlineTicketModel> ticketsFoundList) {
-                    ArrayList<AirlineTicketModel> TicketsList = new ArrayList<>();
-                    for (int i = 0; i < ticketsFoundList.size(); i++) {
-                        TicketsList.add(new AirlineTicketModel(
-                                ticketsFoundList.get(i).getDepartureAirport(),
-                                ticketsFoundList.get(i).getArrivalAirport(),
-                                ticketsFoundList.get(i).getFlightDuration(),
-                                ticketsFoundList.get(i).getDepartureDate(),
-                                ticketsFoundList.get(i).getDepartureTime(),
-                                ticketsFoundList.get(i).getFlightNumber(),
-                                ticketsFoundList.get(i).getTravelClass(),
-                                ticketsFoundList.get(i).getTicketPrice(),
-                                ticketsFoundList.get(i).getNumberPassengersAdults(),
-                                ticketsFoundList.get(i).getNumberPassengersChildren(),
-                                ticketsFoundList.get(i).isOneWayFlight(),
-                                ticketsFoundList.get(i).getIsConnecting()));
+                        intent.putExtra("SelectedTicket", TicketsList.get(selectedPosition));
+                        startActivity(intent);
                     }
-                    rvBestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, BestTicketSearchResultsFragment.this);
-                    rvBestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
+                });
+            }
+        });
 
-                    btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), SeatingChoiceActivity.class);
-                            intent.putExtra("SelectedTicket", TicketsList.get(selectedPosition));
-                            startActivity(intent);
-                        }
-                    });
-                }
-            });
-        }
         return view;
     }
 
     private void getIntentData() {
-        if (getActivity().getIntent().hasExtra("OneWayFlight")
-                && getActivity().getIntent().hasExtra("departureAirport")
-                && getActivity().getIntent().hasExtra("arrivalAirport")
-                && getActivity().getIntent().hasExtra("SelectedDepartureDate")
-                && getActivity().getIntent().hasExtra("TravelClass")
-                && getActivity().getIntent().hasExtra("NumberPassengersAdults")
-                && getActivity().getIntent().hasExtra("NumberPassengersChildren")) {
+        if (getActivity().getIntent().hasExtra("DepartureAirport") && getActivity().getIntent().hasExtra("ArrivalAirport") && getActivity().getIntent().hasExtra("SelectedDepartureDate") && getActivity().getIntent().hasExtra("TravelClass") && getActivity().getIntent().hasExtra("NumberPassengersAdults") && getActivity().getIntent().hasExtra("NumberPassengersChildren") && getActivity().getIntent().hasExtra("OneWayFlight")) {
+            departureAirport = getActivity().getIntent().getParcelableExtra("DepartureAirport");
+            arrivalAirport = getActivity().getIntent().getParcelableExtra("ArrivalAirport");
+            selectedDepartureDate = getActivity().getIntent().getStringExtra("SelectedDepartureDate");
+            travelClass = getActivity().getIntent().getStringExtra("TravelClass");
+            numberPassengersAdults = getActivity().getIntent().getIntExtra("NumberPassengersAdults", 0);
+            numberPassengersChildren = getActivity().getIntent().getIntExtra("NumberPassengersChildren", 0);
+            oneWayFlight = getActivity().getIntent().getExtras().getBoolean("OneWayFlight");
             if (getActivity().getIntent().hasExtra("SelectedDepartureDateReturn")) {
                 selectedDepartureDateReturn = getActivity().getIntent().getStringExtra("SelectedDepartureDateReturn");
-            } else {
-                oneWayFlight = getActivity().getIntent().getExtras().getBoolean("OneWayFlight");
-                departureAirport = getActivity().getIntent().getParcelableExtra("departureAirport");
-                arrivalAirport = getActivity().getIntent().getParcelableExtra("arrivalAirport");
-                selectedDepartureDate = getActivity().getIntent().getStringExtra("SelectedDepartureDate");
-                travelClass = getActivity().getIntent().getStringExtra("TravelClass");
-                numberPassengersAdults = getActivity().getIntent().getIntExtra("NumberPassengersAdults", 0);
-                numberPassengersChildren = getActivity().getIntent().getIntExtra("NumberPassengersChildren", 0);
             }
         } else {
             Toast.makeText(getActivity(), "Brak danych.", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override

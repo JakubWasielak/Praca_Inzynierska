@@ -22,18 +22,10 @@ public class UserTicketsAdapter extends RecyclerView.Adapter<UserTicketsAdapter.
     private final ArrayList<String> ticket_depName;
     private final ArrayList<String> ticket_arrCode;
     private final ArrayList<String> ticket_arrName;
-
     private final ArrayList<String> ticket_flightDuration;
     private final ArrayList<String> ticket_departureDate;
     private final ArrayList<String> ticket_departureTime;
-
     private final ArrayList<String> ticket_flightNumber;
-    private final ArrayList<String> ticket_travelClass;
-    private final ArrayList<Double> ticket_price;
-
-    private final ArrayList<Integer> ticket_adults_passengers;
-    private final ArrayList<Integer> ticket_children_passengers;
-    private final ArrayList<Integer> ticket_isConnecting;
 
     public UserTicketsAdapter(Context context, ArrayList<Integer> ticket_id, ArrayList<String> ticket_depCode, ArrayList<String> ticket_depName, ArrayList<String> ticket_arrCode, ArrayList<String> ticket_arrName, ArrayList<String> ticket_flightDuration, ArrayList<String> ticket_departureDate, ArrayList<String> ticket_departureTime, ArrayList<String> ticket_flightNumber, ArrayList<String> ticket_travelClass, ArrayList<Double> ticket_price, ArrayList<Integer> ticket_adults_passengers, ArrayList<Integer> ticket_children_passengers, ArrayList<Integer> ticket_isConnecting) {
         this.context = context;
@@ -46,11 +38,6 @@ public class UserTicketsAdapter extends RecyclerView.Adapter<UserTicketsAdapter.
         this.ticket_departureDate = ticket_departureDate;
         this.ticket_departureTime = ticket_departureTime;
         this.ticket_flightNumber = ticket_flightNumber;
-        this.ticket_travelClass = ticket_travelClass;
-        this.ticket_price = ticket_price;
-        this.ticket_adults_passengers = ticket_adults_passengers;
-        this.ticket_children_passengers = ticket_children_passengers;
-        this.ticket_isConnecting = ticket_isConnecting;
     }
 
     @NonNull

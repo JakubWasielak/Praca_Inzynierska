@@ -23,7 +23,10 @@ public class AirlineTicketModel implements Parcelable {
     ArrayList<String> reservedSeatsNames;
     ArrayList<PassengerModel> passengerInformation;
 
-    public AirlineTicketModel(AirportModel departureAirport, AirportModel arrivalAirport, String flightDuration, String departureDate, String departureTime, String flightNumber, String travelClass, double ticketPrice, int numberPassengersAdults, int numberPassengersChildren, boolean oneWayFlight, int ticketConnecting) {
+    public AirlineTicketModel(AirportModel departureAirport, AirportModel arrivalAirport, String flightDuration,
+                              String departureDate, String departureTime, String flightNumber, String travelClass,
+                              double ticketPrice, int numberPassengersAdults, int numberPassengersChildren,
+                              boolean oneWayFlight, int ticketConnecting) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.flightDuration = flightDuration;
