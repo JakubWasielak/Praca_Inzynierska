@@ -1,5 +1,7 @@
 package com.example.praca_inzynierska;
 
+import static com.example.praca_inzynierska.R.layout.passenger_details_sheet_dialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +23,7 @@ import java.util.Objects;
 public class PassengerInformationActivity extends AppCompatActivity {
     private ListView lvPassengerList;
     private ImageButton btnNextActivity;
+    private ImageButton btnPreviousActivity; // passengerDetails_goToPreviousActivity_ImageButton;
     private AutoCompleteTextView passengerIsAdult;
     private AutoCompleteTextView passengerGender;
     private TextInputEditText passengerName;
@@ -48,6 +51,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
 
         lvPassengerList = findViewById(R.id.passengerInfo_passengerList_ListView);
         btnNextActivity = findViewById(R.id.passengerInfo_nextActivity_ImageButton);
+        btnPreviousActivity = findViewById(R.id.passengerDetails_goToPreviousActivity_ImageButton);
 
         btnNextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +64,7 @@ public class PassengerInformationActivity extends AppCompatActivity {
                 }else {
                     BottomSheetDialog addPassenger_BottomSheetDialog = new BottomSheetDialog(PassengerInformationActivity.this);
                     addPassenger_BottomSheetDialog.setCanceledOnTouchOutside(false);
-                    addPassenger_BottomSheetDialog.setContentView(R.layout.passenger_details_sheet_dialog);
+                    addPassenger_BottomSheetDialog.setContentView(passenger_details_sheet_dialog);
                     addPassenger_BottomSheetDialog.show();
 
                     passengerIsAdult = addPassenger_BottomSheetDialog.findViewById(R.id.addPassenger_isAdult_AutoCompleteTextView);
@@ -113,6 +117,13 @@ public class PassengerInformationActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        btnPreviousActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

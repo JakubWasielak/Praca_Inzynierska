@@ -61,17 +61,6 @@ public class MainActivity extends AppCompatActivity {
         btnAddTicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flyingApplicationDatabaseHelper = new FlyingApplicationDatabaseHelper(MainActivity.this);
-                AirportModel airportModel1 = new AirportModel("WAW","Warsaw Chopin","Warsaw","Poland");
-                AirportModel airportModel2 = new AirportModel("BER","Berlin Brandenburg","Berlin","Germany");
-                flyingApplicationDatabaseHelper.addTicket(airportModel1,airportModel2,"2022-11-30","17:00","2h:30m","2000","ekonomiczna",170.00,0);
-                flyingApplicationDatabaseHelper.addPassenger("Adam","Nowak",33,"Mężczyzna","A1",1);
-                flyingApplicationDatabaseHelper.addPassenger("Jan","Kowalski",40,"Mężczyzna","A2",1);
-
-
-
-
-
                 Intent intent = new Intent(MainActivity.this, SearchingForTicketActivity.class);
                 startActivity(intent);
             }
