@@ -18,6 +18,40 @@
             android:layout_height="wrap_content" />
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/fastestTicketLoading_ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminateTint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/fastestTicketLoadingError_LinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_no_tickets_found"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nie znaleziono połączenia."
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensans_semibold"/>
+    </LinearLayout>
+
     <ImageButton
         android:id="@+id/btnFastestOpenNexttActivity_ImageButton"
         android:layout_width="wrap_content"

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -28,12 +30,13 @@ import java.util.ArrayList;
 public class BestTicketSearchResultsFragment extends Fragment implements RecyclerViewInterface {
     private RecyclerView rvBestTicketsFound;
     private ImageButton btnOpenNextActivity;
-
     private boolean oneWayFlight;
     private AirportModel departureAirport,arrivalAirport;
     private String selectedDepartureDate, selectedDepartureDateReturn, travelClass;
     private int numberPassengersAdults, numberPassengersChildren;
     private int selectedPosition;
+    private ProgressBar progressBar;
+    private LinearLayout ticketLoadingErrorInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,13 +45,16 @@ public class BestTicketSearchResultsFragment extends Fragment implements Recycle
         final SearchFlightsDataService searchFlightsDataService = new SearchFlightsDataService(getActivity());
         rvBestTicketsFound = view.findViewById(R.id.foundBestFlights_RecyclerView);
         btnOpenNextActivity = view.findViewById(R.id.btnBestOpenNextActivity_ImageButton);
+        progressBar = view.findViewById(R.id.bestTicketLoading_ProgressBar);
+        ticketLoadingErrorInfo = view.findViewById(R.id.bestTicketLoadingError_LinearLayout);
 
         getIntentData();
 
         searchFlightsDataService.getBestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, oneWayFlight, new SearchFlightsDataService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                Toast.makeText(getActivity(), "Nie znaleziono połączeń.", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                ticketLoadingErrorInfo.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -69,10 +75,10 @@ public class BestTicketSearchResultsFragment extends Fragment implements Recycle
                             ticketsFoundList.get(i).isOneWayFlight(),
                             ticketsFoundList.get(i).getIsConnecting()));
                 }
+                progressBar.setVisibility(View.GONE);
                 rvBestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
                 FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, BestTicketSearchResultsFragment.this);
                 rvBestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);
-
                 btnOpenNextActivity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

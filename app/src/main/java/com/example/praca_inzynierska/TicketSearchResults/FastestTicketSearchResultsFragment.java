@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -27,12 +29,13 @@ import java.util.ArrayList;
 public class FastestTicketSearchResultsFragment extends Fragment implements RecyclerViewInterface {
     private RecyclerView rvFastestTicketsFound;
     private ImageButton btnOpenNextActivity;
-
     private boolean oneWayFlight;
     private AirportModel departureAirport, arrivalAirport;
     private String selectedDepartureDate, selectedDepartureDateReturn, travelClass;
     private int numberPassengersAdults, numberPassengersChildren;
     private int selectedPosition;
+    private ProgressBar progressBar;
+    private LinearLayout ticketLoadingErrorInfo;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -43,12 +46,15 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
 
         rvFastestTicketsFound = view.findViewById(R.id.foundFastestFlights_RecyclerView);
         btnOpenNextActivity = view.findViewById(R.id.btnFastestOpenNexttActivity_ImageButton);
+        progressBar = view.findViewById(R.id.fastestTicketLoading_ProgressBar);
+        ticketLoadingErrorInfo = view.findViewById(R.id.fastestTicketLoadingError_LinearLayout);
 
         getIntentData();
         searchFlightsDataService.getFastestTickets(departureAirport, arrivalAirport, selectedDepartureDate, travelClass, numberPassengersAdults, numberPassengersChildren, oneWayFlight, new SearchFlightsDataService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                Toast.makeText(getActivity(), "Nie znaleziono połączeń.", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                ticketLoadingErrorInfo.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -69,6 +75,7 @@ public class FastestTicketSearchResultsFragment extends Fragment implements Recy
                             ticketsFoundList.get(i).isOneWayFlight(),
                             ticketsFoundList.get(i).getIsConnecting()));
                 }
+                progressBar.setVisibility(View.GONE);
                 rvFastestTicketsFound.setLayoutManager(new LinearLayoutManager(getActivity()));
                 FAT_RecyclerViewAdapter FAT_RecyclerViewAdapter = new FAT_RecyclerViewAdapter(getActivity(), TicketsList, FastestTicketSearchResultsFragment.this);
                 rvFastestTicketsFound.setAdapter(FAT_RecyclerViewAdapter);

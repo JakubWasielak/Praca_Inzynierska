@@ -20,7 +20,7 @@ public class AirportDataService {
     String arrivalAirportName;
     String arrivalAirportCity;
     String arrivalAirportCountry;
-    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMDMyYWM1MTMxYTRjZWVjOGUxYmQzMWNlYzIzYmNjMGFlZTZiMTEwZDRjMjE3ZTc0MDM0MjE4OTBiOWYxNjU0NDBkMTRhNTgxZWU5NDUxMDQiLCJpYXQiOjE2Njk1NTc2MTEsIm5iZiI6MTY2OTU1NzYxMSwiZXhwIjoxNzAxMDkzNjExLCJzdWIiOiIxOTAxMyIsInNjb3BlcyI6W119.ZuOv_ct-cJ86rcCnQl9ckcI0_KBDuiLVYMWVDrvrhnIQtUDtX8SsEVa_gGedP3IN_eO-ykRSijCIEXp_zRm-cw";
+    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMGE4N2Y1NDRhY2M2ZDUyOWY5MmY1NjEwZTU3YTMzODM1NDE1OTQ1MjI5NjFkNTZjNmMzYWFmZTE5NGM2NjYwNTRlNDYwNGNmNWJlYTZiZjEiLCJpYXQiOjE2NjcwNjg1MjgsIm5iZiI6MTY2NzA2ODUyOCwiZXhwIjoxNjk4NjA0NTI4LCJzdWIiOiIxNjQ3NCIsInNjb3BlcyI6W119.SR6i0lqjeBCKEFgsHKHMH3d44UAcc2TV7toHMj155uCuBisxjlpdzFD3UTDJbdI6OYgpaYQ7UBEGxLYOfCGVlQ";
 
     public AirportDataService(Context context) {
         this.context = context;

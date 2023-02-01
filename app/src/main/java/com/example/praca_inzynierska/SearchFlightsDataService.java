@@ -1,7 +1,6 @@
 package com.example.praca_inzynierska;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public class SearchFlightsDataService {
     Context context;
-    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMDMyYWM1MTMxYTRjZWVjOGUxYmQzMWNlYzIzYmNjMGFlZTZiMTEwZDRjMjE3ZTc0MDM0MjE4OTBiOWYxNjU0NDBkMTRhNTgxZWU5NDUxMDQiLCJpYXQiOjE2Njk1NTc2MTEsIm5iZiI6MTY2OTU1NzYxMSwiZXhwIjoxNzAxMDkzNjExLCJzdWIiOiIxOTAxMyIsInNjb3BlcyI6W119.ZuOv_ct-cJ86rcCnQl9ckcI0_KBDuiLVYMWVDrvrhnIQtUDtX8SsEVa_gGedP3IN_eO-ykRSijCIEXp_zRm-cw";
+    String access_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMGE4N2Y1NDRhY2M2ZDUyOWY5MmY1NjEwZTU3YTMzODM1NDE1OTQ1MjI5NjFkNTZjNmMzYWFmZTE5NGM2NjYwNTRlNDYwNGNmNWJlYTZiZjEiLCJpYXQiOjE2NjcwNjg1MjgsIm5iZiI6MTY2NzA2ODUyOCwiZXhwIjoxNjk4NjA0NTI4LCJzdWIiOiIxNjQ3NCIsInNjb3BlcyI6W119.SR6i0lqjeBCKEFgsHKHMH3d44UAcc2TV7toHMj155uCuBisxjlpdzFD3UTDJbdI6OYgpaYQ7UBEGxLYOfCGVlQ";
 
 
     public SearchFlightsDataService(Context context) {
@@ -63,7 +62,7 @@ public class SearchFlightsDataService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Nie udało się znaleźć połączenia.", Toast.LENGTH_SHORT).show();
+                volleyResponseListener.onError("Error.");
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
@@ -91,10 +90,8 @@ public class SearchFlightsDataService {
                         }else{
                             ticketConnecting=0;
                         }
-
                         AirlineTicketModel foundTicket = new AirlineTicketModel(departureAirport,arrivalAirport,flightDuration,departureDate,departureTime,flightNumber,travelClass,ticketPrice,numberPassengersAdults,numberPassengersChildren,oneWayFlight,ticketConnecting);
                         ticketsFoundList.add(foundTicket);
-
                     }
                     volleyResponseListener.onResponse(ticketsFoundList);
                 } catch (JSONException e) {
@@ -104,7 +101,7 @@ public class SearchFlightsDataService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Nie udało się znaleźć połączenia.", Toast.LENGTH_SHORT).show();
+                volleyResponseListener.onError("Error.");
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
@@ -120,10 +117,6 @@ public class SearchFlightsDataService {
                 try {
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("buckets").getJSONObject(0).getJSONArray("items");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        String departureCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("displayCode");
-                        String departureName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("origin").getString("city");
-                        String arrivalCode = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("displayCode");
-                        String arrivalName = jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("destination").getString("city");
                         String flightDuration = setFlightDuration(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("durationInMinutes"));
                         String departureDate = setDepartureDate(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
                         String departureTime = setDepartureTime(jsonArray.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("departure"));
@@ -136,10 +129,8 @@ public class SearchFlightsDataService {
                         }else{
                             ticketConnecting=0;
                         }
-
                         AirlineTicketModel foundTicket = new AirlineTicketModel(departureAirport,arrivalAirport,flightDuration,departureDate,departureTime,flightNumber,travelClass,ticketPrice,numberPassengersAdults,numberPassengersChildren,oneWayFlight,ticketConnecting);
                         ticketsFoundList.add(foundTicket);
-
                     }
                     volleyResponseListener.onResponse(ticketsFoundList);
                 } catch (JSONException e) {
@@ -149,12 +140,11 @@ public class SearchFlightsDataService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Nie udało się znaleźć połączenia.", Toast.LENGTH_SHORT).show();
+                volleyResponseListener.onError("Error.");
             }
         });
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
-
 
     private String setDepartureTime(String departureDate) {
         String[] departureTimeSplit = departureDate.split("T");
@@ -173,6 +163,4 @@ public class SearchFlightsDataService {
         int minutes = (duration % 60);
         return hours + "h " + minutes + "m";
     }
-
-
 }
